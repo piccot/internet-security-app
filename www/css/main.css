@@ -12,6 +12,27 @@ html,body{
 .scroll-holder{
 	width:100%;
 	height:94%;
-	background-color:yellow;
+	background-color:#B7B4B4;
+	
 	overflow:scroll;
+}
+
+.gameCard{
+	display: inline-block;
+	background-color: black;
+	position: relative;
+	box-shadow: 10px 10px 5px #888888;
+}
+
+.gameCard img {
+	width: 100%;
+    height: 85%;
+
+}
+
+.gameCard div {
+	width: 100%;
+    height: 15%;    
+    background-color: black;
+	
 }

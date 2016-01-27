@@ -12,6 +12,6 @@ html,body{
 .scroll-holder{
 	width:100%;
 	height:94%;
-	background-color:yellow;
+	background-color:#A4A4A4;
 	overflow:scroll;
 }
