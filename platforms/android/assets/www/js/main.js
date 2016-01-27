@@ -5,23 +5,17 @@ function createCards(){
 	for (i=0;i<6;i++){
 		var div = document.createElement("div");
 	
-		var upperImg = document.createElement("img");
-		upperImg.style.width= '100%'
-		upperImg.style.height = '85%'
+		var upperImg = document.createElement("img");		
 		upperImg.src = 'splashscreens/whack.png'
 		div.appendChild(upperImg)
-		var lowerDiv = document.createElement("div");
-		lowerDiv.style.width = '100%'
-		lowerDiv.style.height = '15%'
-		lowerDiv.style.position = 'relative';		
-		lowerDiv.style.backgroundColor = 'green'
+		
+		
+		var lowerDiv = document.createElement("div");		
 		div.appendChild(lowerDiv);
 		
 		div.style.width= width + 'px';
-		div.style.height= height +'px';
-		div.style.backgroundColor = 'black';
-		div.style.position = 'relative';
-		div.style.display = 'inline-block';
+		div.style.height= height +'px';		
+		div.className = 'gameCard'		
 		div.style.top = (container.offsetHeight - height)/2 + 'px'
 		div.style.left = width * .075 *(i+1) + 'px'
 		container.appendChild(div)
