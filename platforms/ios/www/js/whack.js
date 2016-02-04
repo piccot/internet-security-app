@@ -105,13 +105,13 @@ function clickHandler(e){
 				if(e.touches[i].pageX >= moleArr[j].x && e.touches[i].pageX <= moleArr[j].x +moleArr[j].width && e.touches[i].pageY >= moleArr[j].y && e.touches[i].pageY <= moleArr[j].y + moleArr[j].height){
 					if(moleArr[j].mole.targetType == moleArr[j].mole.currentType){
 						score = score + Math.floor(moleArr[j].mole.delay/10)
-                                                hitSound.play()
-                                                moleArr[j].mole = new hit();
-                                        }else{
-						lives--;
-                                                missSound.play()
-                                                  moleArr[j].mole = new miss();
-                                        }
+						hitSound.play()
+						moleArr[j].mole = new hit();
+					}else{
+						timer = timer - (15000) * Math.abs(moleArr[j].mole.targetType - moleArr[j].mole.currentType)
+						missSound.play()
+						moleArr[j].mole = new miss();
+					}
 					//moleArr[j].mole = null
 				}
 			}
