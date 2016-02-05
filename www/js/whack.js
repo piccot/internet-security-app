@@ -94,7 +94,7 @@ var lastTime;
 function update(){
 	timer = timer - (Date.now() - lastTime)
 	if(timer <= 0 || lives <=0){
-		alert('Final Score: ' + score)
+		window.location.href = 'whack_final.html?score=' + score
 		timer = 120000;
 		lives = 3;
 		score = 0;
