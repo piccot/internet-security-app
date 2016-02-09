@@ -182,6 +182,22 @@ module.exports = [
         "clobbers": [
             "window.FileTransfer"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-screen-orientation/www/screenorientation.js",
+        "id": "cordova-plugin-screen-orientation.screenorientation",
+        "pluginId": "cordova-plugin-screen-orientation",
+        "clobbers": [
+            "cordova.plugins.screenorientation"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-screen-orientation/www/screenorientation.ios.js",
+        "id": "cordova-plugin-screen-orientation.screenorientation.ios",
+        "pluginId": "cordova-plugin-screen-orientation",
+        "merges": [
+            "cordova.plugins.screenorientation"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -189,7 +205,8 @@ module.exports.metadata =
 {
     "cordova-plugin-whitelist": "1.2.0",
     "cordova-plugin-file": "4.1.1-dev",
-    "cordova-plugin-file-transfer": "1.5.1-dev"
+    "cordova-plugin-file-transfer": "1.5.1-dev",
+    "cordova-plugin-screen-orientation": "1.4.0"
 }
 // BOTTOM OF METADATA
 });

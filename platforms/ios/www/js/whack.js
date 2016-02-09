@@ -94,7 +94,7 @@ var lastTime;
 function update(){
 	timer = timer - (Date.now() - lastTime)
 	if(timer <= 0 || lives <=0){
-		window.location.href = 'whack_final.html?score=' + score
+		alert('Final Score: ' + score)
 		timer = 120000;
 		lives = 3;
 		score = 0;
@@ -133,14 +133,15 @@ function touchEnd(e){
             if(e.changedTouches[i].pageX >= wheel.x && e.changedTouches[i].pageX < wheel.x + wheel.width/3 && e.changedTouches[i].pageY >= wheel.y + wheel.height/3 && e.changedTouches[i].pageY <= wheel.y + wheel.height){
               colorSelect = 3; // red
               console.log("red")
-            }
-            if(e.changedTouches[i].pageX >= wheel.x + wheel.width/3 && e.changedTouches[i].pageX < wheel.x + wheel.width - wheel.width/3  && e.changedTouches[i].pageY >= wheel.y && e.changedTouches[i].pageY <= wheel.y + wheel.height/3){
+            }else if(e.changedTouches[i].pageX >= wheel.x + wheel.width/3 && e.changedTouches[i].pageX < wheel.x + wheel.width - wheel.width/3  && e.changedTouches[i].pageY >= wheel.y && e.changedTouches[i].pageY <= wheel.y + wheel.height/3){
               colorSelect = 2; //  yellow
               console.log("yellow")
-            }
-            if(e.changedTouches[i].pageX >= wheel.x + wheel.width - wheel.width/3 && e.changedTouches[i].pageX < wheel.x + wheel.width&& e.changedTouches[i].pageY >= wheel.y + wheel.height/3 && e.changedTouches[i].pageY <= wheel.y + wheel.height){
+            }else if(e.changedTouches[i].pageX >= wheel.x + wheel.width - wheel.width/3 && e.changedTouches[i].pageX < wheel.x + wheel.width&& e.changedTouches[i].pageY >= wheel.y + wheel.height/3 && e.changedTouches[i].pageY <= wheel.y + wheel.height){
               colorSelect = 1; // green
               console.log("green")
+            }else{
+              wheel = null;
+              return
             }
 		        if(moleArr[wheel.attachedTo].mole.targetType == colorSelect){
 				score = score + Math.floor(moleArr[wheel.attachedTo].mole.delay/10)
