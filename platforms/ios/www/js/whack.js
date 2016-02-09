@@ -31,6 +31,8 @@ var start_timer = 120000;
 var timer = start_timer;
 var bgImage = new Image();
 bgImage.src = 'assets/img/grass.jpg';
+var lifeBarImage = new Image();
+lifeBarImage.src = 'assets/img/life_bar.png'
 function moleHole(x,y){
 	this.x = x;
 	this.y=y;
@@ -163,6 +165,11 @@ function render(){
         ctx.drawImage(bgImage,0,0,window.innerWidth,window.innerHeight)
         ctx.strokeText(score,40,40);
         ctx.fillText(score,40,40);
+
+        ctx.drawImage()
+        ctx.drawImage()
+
+
         ctx.font = "11pt Ariel";
 	for(i=0; i < 6; i++){
                 ctx.drawImage(moleArr[i].img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)

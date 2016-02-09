@@ -22,8 +22,8 @@ var app = {
 		canvas = document.createElement("canvas");
 		ctx = canvas.getContext("2d");
 		window.screen.lockOrientation('landscape')
-		canvas.width = window.innerWidth;
-		canvas.height = window.innerHeight;
+		canvas.width = window.innerHeight;
+		canvas.height = window.innerWidth;
 		document.body.appendChild(canvas)
         addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
 		addEventListener("touchstart",touchStart);
