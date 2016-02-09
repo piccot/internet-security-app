@@ -27,7 +27,8 @@ var baseDelay = 5000
 var hitMissDelay = 2000
 var score = 0;
 var lives =3;
-var timer = 120000
+var start_timer = 120000;
+var timer = start_timer;
 var bgImage = new Image();
 bgImage.src = 'assets/img/grass.jpg';
 function moleHole(x,y){
@@ -157,11 +158,12 @@ function touchEnd(e){
 }
 function render(){	
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.font = "11pt Ariel";
+        ctx.font = "24pt Ariel"
         ctx.textAlign="center";
         ctx.drawImage(bgImage,0,0,window.innerWidth,window.innerHeight)
-        ctx.strokeText("Score: " + score,40,40);
-        ctx.fillText("Score: " + score,40,40);
+        ctx.strokeText(score,40,40);
+        ctx.fillText(score,40,40);
+        ctx.font = "11pt Ariel";
 	for(i=0; i < 6; i++){
                 ctx.drawImage(moleArr[i].img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
                 if (moleArr[i].mole){
