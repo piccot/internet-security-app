@@ -37,6 +37,8 @@ var app = {
 app.initialize();
 var virus_red_image = new Image();
 virus_red_image.src = 'assets/img/virus_red.png';
+var hitSound = new Audio("assets/audio/hit.wav")
+var missSound = new Audio("assets/audio/miss.wav")
 var virus_arr = [];
 function virus(x,y,dx,dy,id){
 	this.x = x;
@@ -78,8 +80,10 @@ function editObjects(dt){
 		var current = virus_arr[i];
 		current.x = current.x + current.dx * dt;
 		current.y = current.y + current.dy * dt;
-		if (current.x > window.innerWidth || current.x < 0 || current.y > window.innerHeight || current.y < 0)
+		if (current.x > window.innerWidth || current.x < 0 || current.y > window.innerHeight || current.y < 0){
 			virus_arr.splice(i,1);
+			hitSound.play()
+		}
 		
 	}
 	console.log('test')
@@ -142,6 +146,7 @@ function touchStart(e){
 			for(j=0;j<virus_arr.length;j++){
 				if(e.touches[i].pageX >= virus_arr[j].x && e.touches[i].pageX <= virus_arr[j].x +virus_arr[j].width && e.touches[i].pageY >= virus_arr[j].y && e.touches[i].pageY <= virus_arr[j].y + virus_arr[j].height){
 					virus_arr.splice(j,1);
+					missSound.play()
 				}
 			}
 		}
