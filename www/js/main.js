@@ -26,6 +26,6 @@ function createCard(splash,home,i){
 }
 
 createCard('whack.png','whack.html',0);
-createCard('whack.png','whack.html',1);
+createCard('whack.png','virus.html',1);
 createCard('whack.png','whack.html',2);
 createCard('whack.png','whack.html',3);

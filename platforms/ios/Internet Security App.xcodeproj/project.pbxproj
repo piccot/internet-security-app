@@ -43,6 +43,7 @@
 		BD75026960604A339B4483E9 /* CDVLocalFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6205E0802247C2842B1764 /* CDVLocalFilesystem.m */; };
 		977EAC776D814AE1976F2FBE /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 438E2EFBB0B4491299EA953F /* CDVAssetLibraryFilesystem.m */; };
 		C617F84777C747E4BFAA26E0 /* CDVFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 52BBB66443334957B656123F /* CDVFileTransfer.m */; };
+		87650D7CAC9A4CDCBE961BFC /* YoikScreenOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F37DBFC8ADF47EE9B1B97A8 /* YoikScreenOrientation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +115,8 @@
 		3B098C89166449528DE07058 /* CDVAssetLibraryFilesystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVAssetLibraryFilesystem.h"; path = "cordova-plugin-file/CDVAssetLibraryFilesystem.h"; sourceTree = "<group>"; fileEncoding = 4; };
 		52BBB66443334957B656123F /* CDVFileTransfer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVFileTransfer.m"; path = "cordova-plugin-file-transfer/CDVFileTransfer.m"; sourceTree = "<group>"; fileEncoding = 4; };
 		017EA13D96A24A5AA2575871 /* CDVFileTransfer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVFileTransfer.h"; path = "cordova-plugin-file-transfer/CDVFileTransfer.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		1F37DBFC8ADF47EE9B1B97A8 /* YoikScreenOrientation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "YoikScreenOrientation.m"; path = "cordova-plugin-screen-orientation/YoikScreenOrientation.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		7B2BDC7E19F14D1CB4FC9180 /* YoikScreenOrientation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "YoikScreenOrientation.h"; path = "cordova-plugin-screen-orientation/YoikScreenOrientation.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +223,8 @@
 				3B098C89166449528DE07058 /* CDVAssetLibraryFilesystem.h */,
 				52BBB66443334957B656123F /* CDVFileTransfer.m */,
 				017EA13D96A24A5AA2575871 /* CDVFileTransfer.h */,
+				1F37DBFC8ADF47EE9B1B97A8 /* YoikScreenOrientation.m */,
+				7B2BDC7E19F14D1CB4FC9180 /* YoikScreenOrientation.h */,
 			);
 			name = Plugins;
 			path = "Internet Security App/Plugins";
@@ -408,6 +413,7 @@
 				BD75026960604A339B4483E9 /* CDVLocalFilesystem.m in Sources */,
 				977EAC776D814AE1976F2FBE /* CDVAssetLibraryFilesystem.m in Sources */,
 				C617F84777C747E4BFAA26E0 /* CDVFileTransfer.m in Sources */,
+				87650D7CAC9A4CDCBE961BFC /* YoikScreenOrientation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

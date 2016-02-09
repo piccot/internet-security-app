@@ -13,7 +13,10 @@ var app = {
     },
 
     onDeviceReady: function() {
-		addEventListener("touchstart",clickHandler);
+                     addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
+
+		addEventListener("touchstart",touchStart);
+		addEventListener("touchend",touchEnd);
         jsonObject = JSON.parse('[{"Password":"password123","Type": 3},{"Password":"I<3Horses","Type": 3},{"Password":"JknsD3@anmAiLfknsma!","Type": 3},{ "Password":"HappyDays","Type": 3},{"Password":"TheBestPassword","Type": 3},{"Password":"TheBestPassword","Type": 3},{"Password":"TheWorstPassword","Type": 3},{"Password":"2@Atak","Type": 2},{"Password":"24pples2D4y","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"2BorNot2B_ThatIsThe?","Type": 1},{"Password":"4Score&7yrsAgo","Type": 1}]');
 		lastTime = Date.now()
 		main();	
@@ -40,12 +43,11 @@ function moleHole(x,y){
 
 function mole(password,type){
         var moleImage = new Image();
-        moleImage.src = 'assets/img/mole_red.png';
+        moleImage.src = 'assets/img/mole.png';
         this.img = moleImage;
 	this.password = password;
 	this.targetType = type;
 	this.delay = baseDelay;
-	this.currentType = 3
 
 }
 
@@ -66,6 +68,17 @@ function miss(){
         this.currentType = -1;
 }
 
+var wheel = null;
+function colorWheel(x,y,mole){
+        this.width = window.innerWidth/2;
+        this.height = window.innerHeight/4;
+	this.x=x - this.width/2;
+	this.y=y - this.height/2;
+        var wheelImage = new Image();
+        wheelImage.src = 'assets/img/wheel.png'
+        this.img = wheelImage;
+        this.attachedTo = mole;
+}
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
@@ -90,50 +103,74 @@ function update(){
 	}
 	editObjects(Date.now() - lastTime)
 }
-var xOffset = 0;
-function calculateXOffset(string){
-        return string.length * 4;
-}
 var hitSound = new Audio("assets/audio/hit.wav")
 var missSound = new Audio("assets/audio/miss.wav")
-function clickHandler(e){
+function touchStart(e){
 	
 	
 	
 		for(i=0;i<e.touches.length;i++){
 			for(j=0;j<6;j++){
-				if(e.touches[i].pageX >= moleArr[j].x && e.touches[i].pageX <= moleArr[j].x +moleArr[j].width && e.touches[i].pageY >= moleArr[j].y && e.touches[i].pageY <= moleArr[j].y + moleArr[j].height){
-					if(moleArr[j].mole.targetType == moleArr[j].mole.currentType){
-						score = score + Math.floor(moleArr[j].mole.delay/10)
-						hitSound.play()
-						moleArr[j].mole = new hit();
-					}else{
-						timer = timer - (15000) * Math.abs(moleArr[j].mole.targetType - moleArr[j].mole.currentType)
-						missSound.play()
-						moleArr[j].mole = new miss();
-					}
-					//moleArr[j].mole = null
+				if(e.touches[i].pageX >= moleArr[j].x && e.touches[i].pageX <= moleArr[j].x +moleArr[j].width && e.touches[i].pageY >= moleArr[j].y && e.touches[i].pageY <= moleArr[j].y + moleArr[j].height && moleArr[j].mole){
+                                  wheel = new colorWheel(e.touches[i].pageX,e.touches[i].pageY, j);
 				}
 			}
 		}
 	
 
 }
+function touchEnd(e){
+        console.log(e.changedTouches[0].pageX, e.changedTouches[0].pageY)
+        if(wheel === null){return}
+        if(moleArr[wheel.attachedTo].mole === null){
+          wheel = null;
+          return;
+        }
+        console.log(wheel.x)
+        console.log(wheel.width)
+        var colorSelect;
+	for(i=0;i<e.changedTouches.length;i++){
+            if(e.changedTouches[i].pageX >= wheel.x && e.changedTouches[i].pageX < wheel.x + wheel.width/3 && e.changedTouches[i].pageY >= wheel.y + wheel.height/3 && e.changedTouches[i].pageY <= wheel.y + wheel.height){
+              colorSelect = 3; // red
+              console.log("red")
+            }else if(e.changedTouches[i].pageX >= wheel.x + wheel.width/3 && e.changedTouches[i].pageX < wheel.x + wheel.width - wheel.width/3  && e.changedTouches[i].pageY >= wheel.y && e.changedTouches[i].pageY <= wheel.y + wheel.height/3){
+              colorSelect = 2; //  yellow
+              console.log("yellow")
+            }else if(e.changedTouches[i].pageX >= wheel.x + wheel.width - wheel.width/3 && e.changedTouches[i].pageX < wheel.x + wheel.width&& e.changedTouches[i].pageY >= wheel.y + wheel.height/3 && e.changedTouches[i].pageY <= wheel.y + wheel.height){
+              colorSelect = 1; // green
+              console.log("green")
+            }else{
+              wheel = null;
+              return
+            }
+		        if(moleArr[wheel.attachedTo].mole.targetType == colorSelect){
+				score = score + Math.floor(moleArr[wheel.attachedTo].mole.delay/10)
+                                hitSound.play()
+                                moleArr[wheel.attachedTo].mole = new hit();
+                        }else{
+			        lives--;
+                                missSound.play()
+                                moleArr[wheel.attachedTo].mole = new miss();
+                        }
+        }
+       wheel = null; 
+}
 function render(){	
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.font = "16px Helvetica";
-        ctx.fillStyle = "white";
-        ctx.strokeStyle = "black";
+        ctx.font = "11pt Ariel";
+        ctx.textAlign="center";
         ctx.drawImage(bgImage,0,0,window.innerWidth,window.innerHeight)
-        ctx.strokeText("Score: " + score,10,40);
-        ctx.fillText("Score: " + score,10,40);
+        ctx.strokeText("Score: " + score,40,40);
+        ctx.fillText("Score: " + score,40,40);
 	for(i=0; i < 6; i++){
                 ctx.drawImage(moleArr[i].img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
                 if (moleArr[i].mole){
-                    xOffset = calculateXOffset(moleArr[i].mole.password)
                     ctx.drawImage(moleArr[i].mole.img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
-                    ctx.strokeText(moleArr[i].mole.password,moleArr[i].x + moleArr[i].width/2 - xOffset,moleArr[i].y + moleArr[i].height/3)
-                    ctx.fillText(moleArr[i].mole.password,moleArr[i].x + moleArr[i].width/2 - xOffset,moleArr[i].y + moleArr[i].height/3)
+                    ctx.strokeText(moleArr[i].mole.password,moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/3)
+                    ctx.fillText(moleArr[i].mole.password,moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/3)
+                    if (wheel) {
+                            ctx.drawImage(wheel.img,wheel.x,wheel.y,wheel.width,wheel.height);
+                    }
                 }
 	}
 	
@@ -156,21 +193,7 @@ function editObjects(dt){
 			moleArr[i].mole.delay = moleArr[i].mole.delay - dt
 			
 			if(moleArr[i].mole.delay <= 0){
-			if(moleArr[i].mole.currentType == 3){
-				var moleImage = new Image();
-				moleImage.src = 'assets/img/mole_yellow.png';
-				moleArr[i].mole.img  = moleImage;
-				moleArr[i].mole.currentType = 2;
-				moleArr[i].mole.delay = baseDelay;
-			} else if (moleArr[i].mole.currentType == 2){
-				var moleImage = new Image();
-				moleImage.src = 'assets/img/mole_green.png';
-				moleArr[i].mole.img  = moleImage;
-				moleArr[i].mole.currentType = 1;
-				moleArr[i].mole.delay = baseDelay;
-			} else {
 				moleArr[i].mole = null;
-			
 			}
 		}
 		}
@@ -178,7 +201,7 @@ function editObjects(dt){
 			
 	}
 
-}
+//}
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
