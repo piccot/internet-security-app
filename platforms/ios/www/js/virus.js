@@ -2,7 +2,8 @@ window.onerror = function(msg, url, linenumber) {
     alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
     return true;
 }
-alert(window.screen.lockOrientation)
+var canvas;
+var ctx;
 var app = {
 
   
@@ -17,230 +18,81 @@ var app = {
 		
     },
 
-    onDeviceReady: function() {
-                     addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
-
+    onDeviceReady: function() {	
+		canvas = document.createElement("canvas");
+		ctx = canvas.getContext("2d");
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		document.body.appendChild(canvas)
+        addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
 		addEventListener("touchstart",touchStart);
 		addEventListener("touchend",touchEnd);
+		window.screen.lockOrientation('landscape')
         jsonObject = JSON.parse('[{"Password":"password123","Type": 3},{"Password":"I<3Horses","Type": 3},{"Password":"JknsD3@anmAiLfknsma!","Type": 3},{ "Password":"HappyDays","Type": 3},{"Password":"TheBestPassword","Type": 3},{"Password":"TheBestPassword","Type": 3},{"Password":"TheWorstPassword","Type": 3},{"Password":"2@Atak","Type": 2},{"Password":"24pples2D4y","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"2BorNot2B_ThatIsThe?","Type": 1},{"Password":"4Score&7yrsAgo","Type": 1}]');
 		lastTime = Date.now()
-		main();	
+		virus_arr.push(new virus(0,0,1))
+		main();
     },
 
 };
-
-
-var baseDelay = 5000
-var hitMissDelay = 2000
-var score = 0;
-var lives =3;
-var timer = 120000
-var bgImage = new Image();
-bgImage.src = 'assets/img/grass.jpg';
-function moleHole(x,y){
+app.initialize();
+var virus_red_image = new Image();
+virus_red_image.src = 'assets/img/virus_red.png';
+var virus_arr = [];
+function virus(x,y,id){
 	this.x = x;
 	this.y=y;
-        this.width = window.innerWidth/2;
-        this.height = window.innerHeight/4;
-	var holeImage = new Image();
-	holeImage.src = 'assets/img/mole_hole.png';
-	this.img = holeImage;
-	this.mole = null;
+	this.id = id;
+    this.width = window.innerWidth/20;
+    this.height = this.width;	
+	this.img = virus_red_image;
+	this.dx = window.innerWidth/2000;
+	this.dy = window.innerHeight/2000;
 }
 
-function mole(password,type){
-        var moleImage = new Image();
-        moleImage.src = 'assets/img/mole.png';
-        this.img = moleImage;
-	this.password = password;
-	this.targetType = type;
-	this.delay = baseDelay;
-
-}
-
-function hit(){
-        var hitImage = new Image();
-        hitImage.src = 'assets/img/hit.png';
-        this.img = hitImage; 
-        this.password = '';
-        this.delay = hitMissDelay;
-        this.currentType = -1;
-}
-function miss(){
-        var missImage = new Image();
-        missImage.src = 'assets/img/miss.png';
-        this.img = missImage; 
-        this.password = '';
-        this.delay = hitMissDelay;
-        this.currentType = -1;
-}
-
-var wheel = null;
-function colorWheel(x,y,mole){
-        this.width = window.innerWidth/2;
-        this.height = window.innerHeight/4;
-	this.x=x - this.width/2;
-	this.y=y - this.height/2;
-        var wheelImage = new Image();
-        wheelImage.src = 'assets/img/wheel.png'
-        this.img = wheelImage;
-        this.attachedTo = mole;
-}
-var canvas = document.createElement("canvas");
-var ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-document.body.appendChild(canvas)
-
-var moleArr = []
-
-for (i = 0; i < 2; i++)
-	for(j=0;j <3;j++)
-                moleArr.push(new moleHole(i*(window.innerWidth/2),(j*3+1)*(window.innerHeight/10)))
-var lastTime;
-function update(){
-	timer = timer - (Date.now() - lastTime)
-	if(timer <= 0 || lives <=0){
-		alert('Final Score: ' + score)
-		timer = 120000;
-		lives = 3;
-		score = 0;
-		for(j=0;j<6;j++)
-			moleArr[j].mole = null
-	}
-	editObjects(Date.now() - lastTime)
-}
-var hitSound = new Audio("assets/audio/hit.wav")
-var missSound = new Audio("assets/audio/miss.wav")
-function touchStart(e){
-	
-	
-	
-		for(i=0;i<e.touches.length;i++){
-			for(j=0;j<6;j++){
-				if(e.touches[i].pageX >= moleArr[j].x && e.touches[i].pageX <= moleArr[j].x +moleArr[j].width && e.touches[i].pageY >= moleArr[j].y && e.touches[i].pageY <= moleArr[j].y + moleArr[j].height && moleArr[j].mole){
-                                  wheel = new colorWheel(e.touches[i].pageX,e.touches[i].pageY, j);
-				}
-			}
-		}
-	
-
-}
-function touchEnd(e){
-        console.log(e.changedTouches[0].pageX, e.changedTouches[0].pageY)
-        if(wheel === null){return}
-        if(moleArr[wheel.attachedTo].mole === null){
-          wheel = null;
-          return;
-        }
-        console.log(wheel.x)
-        console.log(wheel.width)
-        var colorSelect;
-	for(i=0;i<e.changedTouches.length;i++){
-            if(e.changedTouches[i].pageX >= wheel.x && e.changedTouches[i].pageX < wheel.x + wheel.width/3 && e.changedTouches[i].pageY >= wheel.y + wheel.height/3 && e.changedTouches[i].pageY <= wheel.y + wheel.height){
-              colorSelect = 3; // red
-              console.log("red")
-            }else if(e.changedTouches[i].pageX >= wheel.x + wheel.width/3 && e.changedTouches[i].pageX < wheel.x + wheel.width - wheel.width/3  && e.changedTouches[i].pageY >= wheel.y && e.changedTouches[i].pageY <= wheel.y + wheel.height/3){
-              colorSelect = 2; //  yellow
-              console.log("yellow")
-            }else if(e.changedTouches[i].pageX >= wheel.x + wheel.width - wheel.width/3 && e.changedTouches[i].pageX < wheel.x + wheel.width&& e.changedTouches[i].pageY >= wheel.y + wheel.height/3 && e.changedTouches[i].pageY <= wheel.y + wheel.height){
-              colorSelect = 1; // green
-              console.log("green")
-            }else{
-              wheel = null;
-              return
-            }
-		        if(moleArr[wheel.attachedTo].mole.targetType == colorSelect){
-				score = score + Math.floor(moleArr[wheel.attachedTo].mole.delay/10)
-                                hitSound.play()
-                                moleArr[wheel.attachedTo].mole = new hit();
-                        }else{
-			        lives--;
-                                missSound.play()
-                                moleArr[wheel.attachedTo].mole = new miss();
-                        }
-        }
-       wheel = null; 
-}
-function render(){	
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.font = "11pt Ariel";
-        ctx.textAlign="center";
-        ctx.drawImage(bgImage,0,0,window.innerWidth,window.innerHeight)
-        ctx.strokeText("Score: " + score,40,40);
-        ctx.fillText("Score: " + score,40,40);
-	for(i=0; i < 6; i++){
-                ctx.drawImage(moleArr[i].img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
-                if (moleArr[i].mole){
-                    ctx.drawImage(moleArr[i].mole.img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
-                    ctx.strokeText(moleArr[i].mole.password,moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/3)
-                    ctx.fillText(moleArr[i].mole.password,moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/3)
-                    if (wheel) {
-                            ctx.drawImage(wheel.img,wheel.x,wheel.y,wheel.width,wheel.height);
-                    }
-                }
-	}
-	
-}
-
+var lastTime = Date.now();
 function main (){
-        update()
+    update()
 	lastTime = Date.now()
 	render()
 	requestAnimationFrame(main)
 }
-var millisecondsPerMole = 4500;
+
+function update(){
+	editObjects(Date.now() - lastTime);
+}
+
+function render(){
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	for(var i = 0; i < virus_arr.length; i++){
+		var current = virus_arr[i];
+		ctx.drawImage(current.img,current.x,current.y,current.width,current.height)
+                  
+	
+	}
+}
+
 function editObjects(dt){
-	for (i=0;i<6;i++){
-		if (Math.random() < (1/millisecondsPerMole)*dt && moleArr[i].mole == null){
-			var random = getRandomInt(0,jsonObject.length -1)
-			moleArr[i].mole = new mole(jsonObject[random].Password,jsonObject[random].Type)
-		}
-		if(moleArr[i].mole != null){
-			moleArr[i].mole.delay = moleArr[i].mole.delay - dt
-			
-			if(moleArr[i].mole.delay <= 0){
-				moleArr[i].mole = null;
-			}
-		}
-		}
-				
-			
+	for(var i = 0; i < virus_arr.length; i++){
+		var current = virus_arr[i];
+		current.x = current.x + current.dx * dt;
+		current.y = current.y + current.dy * dt;
 	}
 
-//}
-
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function loadJSONData(){
-var xmlhttp;
-var jsonObject;
-
-// code for IE7+, Firefox, Chrome, Opera, Safari
-if (window.XMLHttpRequest)
-{
-    xmlhttp=new XMLHttpRequest();
-}
-// code for IE6, IE5
-else
-{
-    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-}
-
-xmlhttp.onreadystatechange=function()
-{
-    if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-        jsonObject = JSON.parse(xmlhttp.responseText);
-        alert(jsonObject[0].Password);                     
-    }
-}
-
-xmlhttp.open("GET","gamedata/whack.json",true);
-xmlhttp.send();
+function touchStart(e){
 
 }
+function touchEnd(e){
+        console.log(e.changedTouches[0].pageX, e.changedTouches[0].pageY)        
+}
 
-app.onDeviceReady();
+function virusIndex(id){
+	for(var i = 0; i < virus_arr.length; i++){
+		if (virus_arr[i].id == id)
+			return i;
+	}
+	return -1;
+
+}

@@ -45,7 +45,7 @@ screenOrientation.setOrientation = function(orientation) {
     console.log('setOrientation not supported on device');
 };
 
-function addScreenOrientationApi(screenObject) {
+function addScreenOrientationApi(screenObject) {	
     if (screenObject.unlockOrientation || screenObject.lockOrientation) {
         return;
     }
