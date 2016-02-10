@@ -166,11 +166,11 @@ function render(){
         ctx.font = "24pt Ariel"
         ctx.textAlign="center";
         ctx.drawImage(bgImage,0,0,window.innerWidth,window.innerHeight)
-        ctx.strokeText(score,40,40);
-        ctx.fillText(score,40,40);
+        ctx.strokeText(score,40,45);
+        ctx.fillText(score,40,45);
 
-        ctx.drawImage(timeImage, 100, 15, (window.innerWidth - 110) * timePercentage, 50)
-        ctx.drawImage(timeBarImage, 100, 15, window.innerWidth - 110, 50)
+        ctx.drawImage(timeImage, 100, 20, (window.innerWidth - 110) * timePercentage, 25)
+        ctx.drawImage(timeBarImage, 100, 20, window.innerWidth - 110, 25)
 
 
         ctx.font = "11pt Ariel";
