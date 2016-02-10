@@ -26,13 +26,16 @@ var app = {
 var baseDelay = 5000
 var hitMissDelay = 2000
 var score = 0;
-var lives =3;
-var start_timer = 120000;
-var timer = start_timer;
+var startTimer = 30000;
+var timer = startTimer;
 var bgImage = new Image();
 bgImage.src = 'assets/img/grass.jpg';
-var lifeBarImage = new Image();
-lifeBarImage.src = 'assets/img/life_bar.png'
+var timeBarImage = new Image();
+timeBarImage.src = 'assets/img/time_bar.png'
+var timeImage = new Image();
+timeImage.src = 'assets/img/time.png'
+var timePercentage = 1;
+
 function moleHole(x,y){
 	this.x = x;
 	this.y=y;
@@ -96,10 +99,10 @@ for (i = 0; i < 2; i++)
 var lastTime;
 function update(){
 	timer = timer - (Date.now() - lastTime)
-	if(timer <= 0 || lives <=0){
-		alert('Final Score: ' + score)
-		timer = 120000;
-		lives = 3;
+        timePercentage = timer/startTimer
+	if(timer <= 0){
+                window.location.href = 'whack_final.html?score=' + score
+		timer = 30000;
 		score = 0;
 		for(j=0;j<6;j++)
 			moleArr[j].mole = null
@@ -151,7 +154,7 @@ function touchEnd(e){
                                 hitSound.play()
                                 moleArr[wheel.attachedTo].mole = new hit();
                         }else{
-			        lives--;
+                                timer = timer - 2000
                                 missSound.play()
                                 moleArr[wheel.attachedTo].mole = new miss();
                         }
@@ -163,11 +166,11 @@ function render(){
         ctx.font = "24pt Ariel"
         ctx.textAlign="center";
         ctx.drawImage(bgImage,0,0,window.innerWidth,window.innerHeight)
-        ctx.strokeText(score,40,40);
-        ctx.fillText(score,40,40);
+        ctx.strokeText(score,40,45);
+        ctx.fillText(score,40,45);
 
-        ctx.drawImage()
-        ctx.drawImage()
+        ctx.drawImage(timeImage, 100, 20, (window.innerWidth - 110) * timePercentage, 25)
+        ctx.drawImage(timeBarImage, 100, 20, window.innerWidth - 110, 25)
 
 
         ctx.font = "11pt Ariel";
