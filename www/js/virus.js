@@ -28,9 +28,9 @@ var app = {
     onDeviceReady: function() {	
 		canvas = document.createElement("canvas");
 		ctx = canvas.getContext("2d");
-		window.screen.lockOrientation('landscape')
-		canvas.height = window.innerWidth;
-		canvas.width = window.innerHeight;
+		// window.screen.lockOrientation('landscape')
+		canvas.height = window.innerHeight;
+		canvas.width = window.innerWidth;
 		document.body.appendChild(canvas)
         addEventListener('touchmove', touchMove);
 		addEventListener("touchstart",touchStart);
@@ -110,17 +110,11 @@ function render(){
 		ctx.drawImage(current.img,current.x,current.y,current.width,current.height)
     
 	}
-<<<<<<< HEAD
-
 	ctx.drawImage(data_bucket_image,bucket.x,bucket.y,bucket.size,bucket.size)
 	ctx.drawImage(av_arr[av_counter],av_button.x,av_button.y,av_button.size,av_button.size)
 	ctx.strokeText(totalTime,40,45);
     ctx.fillText(totalTime,40,45);
 	if (held)
-=======
-	ctx.drawImage(data_bucket_image,bucket.x,bucket.y,bucket.size,bucket.size)
-	 if (held)
->>>>>>> origin/master
 		ctx.drawImage(held.img,held.x,held.y,held.width,held.height)
 }
 var currentID = 0;
@@ -139,10 +133,6 @@ function editObjects(dt){
 				totalTime = totalTime + base_penalty * av_counter;
 			}
 			virus_arr.splice(i,1);
-<<<<<<< HEAD
-			
-=======
->>>>>>> origin/master
 		}
 		
 	}
@@ -230,12 +220,7 @@ function touchEnd(e){
 		
 		if (held.x + held.width/2 >= bucket.x && held.x + held.width/2 <= bucket.x + bucket.size && held.y >= bucket.y && held.y <= bucket.y + bucket.size){
 			score ++;
-<<<<<<< HEAD
 			hitSound.play();
-=======
-			hitSound.play()
-		
->>>>>>> origin/master
 		}
 		else
 			virus_arr.push(held);
@@ -243,11 +228,7 @@ function touchEnd(e){
 	}
 }
 function touchMove(e){
-<<<<<<< HEAD
-	e.preventDefault();
-=======
         e.preventDefault();
->>>>>>> origin/master
 	if (held){
 		held.x = e.touches[0].pageX - held.width/2;
 		held.y = e.touches[0].pageY - held.height/2;
