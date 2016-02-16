@@ -35,7 +35,6 @@ var app = {
         addEventListener('touchmove', touchMove);
 		addEventListener("touchstart",touchStart);
 		addEventListener("touchend",touchEnd);
-        jsonObject = JSON.parse('[{"Password":"password123","Type": 3},{"Password":"I<3Horses","Type": 3},{"Password":"JknsD3@anmAiLfknsma!","Type": 3},{ "Password":"HappyDays","Type": 3},{"Password":"TheBestPassword","Type": 3},{"Password":"TheBestPassword","Type": 3},{"Password":"TheWorstPassword","Type": 3},{"Password":"2@Atak","Type": 2},{"Password":"24pples2D4y","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"2BorNot2B_ThatIsThe?","Type": 1},{"Password":"4Score&7yrsAgo","Type": 1}]');
 		lastTime = Date.now()
 		main();
 		bucket = new bucket();
@@ -111,12 +110,17 @@ function render(){
 		ctx.drawImage(current.img,current.x,current.y,current.width,current.height)
     
 	}
+<<<<<<< HEAD
 
 	ctx.drawImage(data_bucket_image,bucket.x,bucket.y,bucket.size,bucket.size)
 	ctx.drawImage(av_arr[av_counter],av_button.x,av_button.y,av_button.size,av_button.size)
 	ctx.strokeText(totalTime,40,45);
     ctx.fillText(totalTime,40,45);
 	if (held)
+=======
+	ctx.drawImage(data_bucket_image,bucket.x,bucket.y,bucket.size,bucket.size)
+	 if (held)
+>>>>>>> origin/master
 		ctx.drawImage(held.img,held.x,held.y,held.width,held.height)
 }
 var currentID = 0;
@@ -135,7 +139,10 @@ function editObjects(dt){
 				totalTime = totalTime + base_penalty * av_counter;
 			}
 			virus_arr.splice(i,1);
+<<<<<<< HEAD
 			
+=======
+>>>>>>> origin/master
 		}
 		
 	}
@@ -223,7 +230,12 @@ function touchEnd(e){
 		
 		if (held.x + held.width/2 >= bucket.x && held.x + held.width/2 <= bucket.x + bucket.size && held.y >= bucket.y && held.y <= bucket.y + bucket.size){
 			score ++;
+<<<<<<< HEAD
 			hitSound.play();
+=======
+			hitSound.play()
+		
+>>>>>>> origin/master
 		}
 		else
 			virus_arr.push(held);
@@ -231,7 +243,11 @@ function touchEnd(e){
 	}
 }
 function touchMove(e){
+<<<<<<< HEAD
 	e.preventDefault();
+=======
+        e.preventDefault();
+>>>>>>> origin/master
 	if (held){
 		held.x = e.touches[0].pageX - held.width/2;
 		held.y = e.touches[0].pageY - held.height/2;
