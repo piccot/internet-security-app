@@ -10,6 +10,7 @@ var av_counter = 0;
 var base_penalty = 5000;
 var av_speed_mod = .1;
 var av_size_mod = -.1;
+var win_score = 64;
 var totalTime = 0;
 var app = {
 
@@ -28,9 +29,9 @@ var app = {
     onDeviceReady: function() {	
 		canvas = document.createElement("canvas");
 		ctx = canvas.getContext("2d");
-		// window.screen.lockOrientation('landscape')
-		canvas.height = window.innerHeight;
-		canvas.width = window.innerWidth;
+		window.screen.lockOrientation('landscape')
+		canvas.height = window.innerWidth;
+		canvas.width = window.innerHeight;
 		document.body.appendChild(canvas)
         addEventListener('touchmove', touchMove);
 		addEventListener("touchstart",touchStart);
@@ -40,7 +41,7 @@ var app = {
 		bucket = new bucket();
 		av_button = new av_button();
 		ctx.font = "24pt Ariel"
-        ctx.textAlign="center";
+        ctx.textAlign="left";
     },
 
 };
@@ -60,6 +61,7 @@ for(i = 0; i < 6; i ++){
 }
 var hitSound = new Audio("assets/audio/hit.wav")
 var missSound = new Audio("assets/audio/miss.wav")
+var notificationSound = new Audio("assets/audio/notification.wav")
 var virus_arr = [];
 function virus(x,y,dx,dy,id,type,mod){
 	this.x = x;
@@ -89,7 +91,7 @@ function av_button(){
 }
 var lastTime = Date.now();
 function main (){
-	if (score == 5){
+	if (score == win_score){
 		alert('win');
 		score = 0;
 	}
@@ -112,8 +114,8 @@ function render(){
 	}
 	ctx.drawImage(data_bucket_image,bucket.x,bucket.y,bucket.size,bucket.size)
 	ctx.drawImage(av_arr[av_counter],av_button.x,av_button.y,av_button.size,av_button.size)
-	ctx.strokeText(totalTime,40,45);
-    ctx.fillText(totalTime,40,45);
+	ctx.strokeText((Math.floor(totalTime/10)/100).toFixed(2),10,45);
+    ctx.fillText((Math.floor(totalTime/10)/100).toFixed(2),10,45);
 	if (held)
 		ctx.drawImage(held.img,held.x,held.y,held.width,held.height)
 }
@@ -212,6 +214,7 @@ function touchStart(e){
 			}
 			if (e.touches[i].pageX >= av_button.x && e.touches[i].pageX <= av_button.x +av_button.size && e.touches[i].pageY >= av_button.y && e.touches[i].pageY <= av_button.y + av_button.size){
 				av_counter = 0;
+				notificationSound.play();
 			}
 		}
 }
