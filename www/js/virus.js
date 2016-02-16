@@ -140,7 +140,7 @@ function editObjects(dt){
 	}
 	if (Math.random() < (1/millisecondsPerUpdate) * dt && av_counter < 5){
 		av_counter++;
-	
+		notificationSound.play();
 	}
 	if (Math.random() < (1/millisecondsPerVirus)*dt){
 		var rnd = getRandomInt(0,3);
@@ -214,7 +214,6 @@ function touchStart(e){
 			}
 			if (e.touches[i].pageX >= av_button.x && e.touches[i].pageX <= av_button.x +av_button.size && e.touches[i].pageY >= av_button.y && e.touches[i].pageY <= av_button.y + av_button.size){
 				av_counter = 0;
-				notificationSound.play();
 			}
 		}
 }
