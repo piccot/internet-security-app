@@ -17,7 +17,7 @@
  under the License.
  */
 //
-// Prefix header for all source files of the 'Whack-A-Password' target in the 'Whack-A-Password' project
+// Prefix header for all source files of the 'Internet Security App' target in the 'Internet Security App' project
 //
 
 #ifdef __OBJC__
