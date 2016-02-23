@@ -26,17 +26,17 @@
         }
     },
     "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
         "cordova-plugin-file": {
-            "PACKAGE_NAME": "io.internetsecurityapp"
+            "PACKAGE_NAME": "io.cordova.hellocordova"
         },
         "cordova-plugin-file-transfer": {
-            "PACKAGE_NAME": "io.internetsecurityapp"
-        },
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "io.internetsecurityapp"
+            "PACKAGE_NAME": "io.cordova.hellocordova"
         },
         "cordova-plugin-screen-orientation": {
-            "PACKAGE_NAME": "io.internetsecurityapp"
+            "PACKAGE_NAME": "io.cordova.hellocordova"
         }
     },
     "dependent_plugins": {},
@@ -240,5 +240,11 @@
                 "cordova.plugins.screenorientation"
             ]
         }
-    ]
+    ],
+    "plugin_metadata": {
+        "cordova-plugin-whitelist": "1.2.0",
+        "cordova-plugin-file": "4.1.1-dev",
+        "cordova-plugin-file-transfer": "1.5.1-dev",
+        "cordova-plugin-screen-orientation": "1.4.0"
+    }
 }

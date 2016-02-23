@@ -30,7 +30,7 @@ var app = {
     onDeviceReady: function() {	
 		canvas = document.createElement("canvas");
 		ctx = canvas.getContext("2d");
-		window.screen.lockOrientation('portrait')
+		window.screen.lockOrientation('landscape')
 		canvas.height = window.innerWidth;
 		canvas.width = window.innerHeight;
 		document.body.appendChild(canvas)

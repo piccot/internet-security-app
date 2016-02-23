@@ -27,9 +27,8 @@
     },
     "cordova-plugin-screen-orientation": {
         "source": {
-            "type": "git",
-            "url": "https://github.com/yoik/cordova-yoik-screenorientation.git",
-            "subdir": "."
+            "type": "registry",
+            "id": "cordova-plugin-screen-orientation"
         },
         "is_top_level": true,
         "variables": {}

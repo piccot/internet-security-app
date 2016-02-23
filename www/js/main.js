@@ -27,5 +27,5 @@ function createCard(splash,home,i){
 
 createCard('whack.png','whack.html',0);
 createCard('virus.png','virus.html',1);
-createCard('placeholder.png','mail.html',2);
+createCard('placeholder.png','whack.html',2);
 createCard('placeholder.png','whack.html',3);
