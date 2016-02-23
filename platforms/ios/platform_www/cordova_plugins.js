@@ -202,11 +202,6 @@ module.exports = [
 ];
 module.exports.metadata = 
 // TOP OF METADATA
-{
-    "cordova-plugin-whitelist": "1.2.0",
-    "cordova-plugin-file": "4.1.1-dev",
-    "cordova-plugin-file-transfer": "1.5.1-dev",
-    "cordova-plugin-screen-orientation": "1.4.0"
-}
+{}
 // BOTTOM OF METADATA
 });

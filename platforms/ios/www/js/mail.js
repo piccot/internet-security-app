@@ -4,7 +4,6 @@ var app = {
     initialize: function() {
         this.bindEvents();
 			
-		//loadJSONData()
 	},
 
     bindEvents: function() {
@@ -17,6 +16,7 @@ var app = {
 
 		addEventListener("touchstart",touchStart);
 		addEventListener("touchend",touchEnd);
+                jsonObject = JSON.parse('[{"Mail":"Good email example","Type": 0},{"Mail":"Bad email example","Type": 1},{"Mail":"Spam email example","Type":2}]');
 		lastTime = Date.now()
 		main();	
     },
@@ -29,7 +29,7 @@ var bgImage = new Image();
 bgImage.src = 'assets/img/sky.jpg';
 var speed = 5;
 
-function mail(pos){
+function mail(pos, text, type){
 	this.x = pos * window.innerWidth/3;
 	this.y = 0;
         this.width = window.innerWidth/3;
@@ -37,6 +37,8 @@ function mail(pos){
 	var mailImage = new Image();
 	mailImage.src = 'assets/img/mail.png';
 	this.img = mailImage;
+        this.text = text;
+        this.type = type;
 }
 
 
@@ -44,6 +46,7 @@ var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+canvas.position = "absolute";
 document.body.appendChild(canvas)
 
 var mailArr = []
@@ -51,37 +54,44 @@ var mailArr = []
 for(i=0;i<3;i++){
         mailArr[i] = [];
 }
-console.log(mailArr)
 var lastTime;
 function update(){
-  console.log(mailArr)
 	time = time + (Date.now() - lastTime)
-          /*
-	if(time >= 30){
+	if(time >= 15000){
                 window.location.href = 'mail_final.html'
 		time = 0;
-	}*/
+	}
 	editObjects(Date.now() - lastTime)
 }
 var hitSound = new Audio("assets/audio/hit.wav")
 var missSound = new Audio("assets/audio/miss.wav")
+function test(){
+  console.log("test")
+}
 function touchStart(e){
 	
-	
-	
 		for(i=0;i<e.touches.length;i++){
-			for(j=0;j<6;j++){
-				if(e.touches[i].pageX >= moleArr[j].x && e.touches[i].pageX <= moleArr[j].x +moleArr[j].width && e.touches[i].pageY >= moleArr[j].y && e.touches[i].pageY <= moleArr[j].y + moleArr[j].height && moleArr[j].mole){
-                                  wheel = new colorWheel(e.touches[i].pageX,e.touches[i].pageY, j);
-				}
+			for(j=0;j<mailArr.length;j++){
+                                for(k=0;k<mailArr[j].length;k++){
+				        if(e.touches[i].pageX >= mailArr[j][k].x && e.touches[i].pageX <= mailArr[j][k].x + mailArr[j][k].width && e.touches[i].pageY >= mailArr[j][k].y && e.touches[i].pageY <= mailArr[j][k].y + mailArr[j][k].height){
+                                                var div = document.createElement("div");
+                                                div.width = window.innerWidth;
+                                                div.height = window.innerHeight;
+                                                div.id = "popup"
+                                                var node = document.createTextNode(mailArr[j][k].text);
+                                                div.appendChild(node);
+                                                var approve = document.createElement("div");
+                                                approve.id = "approve";
+                                                approve.onClick = function(){console.log("test")};;
+                                                div.appendChild(approve)
+                                                document.body.appendChild(div)
+				        }
+                                }
 			}
 		}
-	
-
 }
 function touchEnd(e){
-        console.log(e.changedTouches[0].pageX, e.changedTouches[0].pageY)
-        if(wheel === null){return}
+  return
         if(moleArr[wheel.attachedTo].mole === null){
           wheel = null;
           return;
@@ -144,9 +154,9 @@ var millisecondsPerMail = 4500;
 function editObjects(dt){
 	for (i=0;i<3;i++){
 		if (Math.random() < (1/millisecondsPerMail)*dt && (!mailArr[i].last() || mailArr[i].last().y >= window.innerHeight/8)){
-			mailArr[i].push(new mail(i)) 
+			var random = getRandomInt(0,jsonObject.length -1)
+			mailArr[i].push(new mail(i, jsonObject[random].Mail,jsonObject[random].Type)) 
 		}
-                /////////////////////////////////////////
                 for (j=0;j<mailArr[i].length;j++){
                         if(mailArr[i][j].y < window.innerHeight - (j+1)*window.innerHeight/8){
                                 mailArr[i][j].y = mailArr[i][j].y + speed;
