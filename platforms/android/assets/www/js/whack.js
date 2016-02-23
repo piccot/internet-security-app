@@ -150,7 +150,7 @@ function touchEnd(e){
               return
             }
 		        if(moleArr[wheel.attachedTo].mole.targetType == colorSelect){
-				score = score + Math.floor(moleArr[wheel.attachedTo].mole.delay/10)
+				score = score + Math.floor(moleArr[wheel.attachedTo].mole.delay/1000 + 1)*5
                                 hitSound.play()
                                 moleArr[wheel.attachedTo].mole = new hit();
                         }else{
