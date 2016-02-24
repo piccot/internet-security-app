@@ -28,6 +28,7 @@ var time = 0;
 var bgImage = new Image();
 bgImage.src = 'assets/img/sky.jpg';
 var speed = 5;
+var mailOpen = false;
 
 function mail(pos, text, type){
 	this.x = pos * window.innerWidth/3;
@@ -67,9 +68,11 @@ var hitSound = new Audio("assets/audio/hit.wav")
 var missSound = new Audio("assets/audio/miss.wav")
 function test(){
   console.log("test")
+  mailOpen = false;
 }
 function touchStart(e){
-	
+
+        if (mailOpen == false){
 		for(i=0;i<e.touches.length;i++){
 			for(j=0;j<mailArr.length;j++){
                                 for(k=0;k<mailArr[j].length;k++){
@@ -80,15 +83,18 @@ function touchStart(e){
                                                 div.id = "popup"
                                                 var node = document.createTextNode(mailArr[j][k].text);
                                                 div.appendChild(node);
-                                                var approve = document.createElement("div");
-                                                approve.id = "approve";
+                                                var accept = document.createElement("img");
+                                                accept.src = "assets/img/accept_button.png";
+                                                //accept.id = "accept";
                                                 approve.onClick = function(){console.log("test")};;
                                                 div.appendChild(approve)
                                                 document.body.appendChild(div)
+                                                mailOpen = true;
 				        }
                                 }
 			}
 		}
+        }
 }
 function touchEnd(e){
   return
@@ -139,6 +145,8 @@ function render(){
 }
 
 function main (){
+    console.log("in loop")
+
         update()
 	lastTime = Date.now()
 	render()

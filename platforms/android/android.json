@@ -51,6 +51,9 @@
         },
         "cordova-plugin-screen-orientation": {
             "PACKAGE_NAME": "io.internetsecurityapp"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "io.internetsecurityapp"
         }
     },
     "dependent_plugins": {},

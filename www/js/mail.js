@@ -28,6 +28,7 @@ var time = 0;
 var bgImage = new Image();
 bgImage.src = 'assets/img/sky.jpg';
 var speed = 5;
+var mailOpen = false;
 
 function mail(pos, text, type){
 	this.x = pos * window.innerWidth/3;
@@ -65,11 +66,14 @@ function update(){
 }
 var hitSound = new Audio("assets/audio/hit.wav")
 var missSound = new Audio("assets/audio/miss.wav")
-function test(){
-  console.log("test")
+function close(){
+    var popup = document.getElementById("popup");
+    popup.parentNode.removeChild(popup);
+    mailOpen = false;
 }
 function touchStart(e){
-	
+
+        if (mailOpen == false){
 		for(i=0;i<e.touches.length;i++){
 			for(j=0;j<mailArr.length;j++){
                                 for(k=0;k<mailArr[j].length;k++){
@@ -78,17 +82,21 @@ function touchStart(e){
                                                 div.width = window.innerWidth;
                                                 div.height = window.innerHeight;
                                                 div.id = "popup"
+                            
                                                 var node = document.createTextNode(mailArr[j][k].text);
                                                 div.appendChild(node);
-                                                var approve = document.createElement("div");
-                                                approve.id = "approve";
-                                                approve.onClick = function(){console.log("test")};;
-                                                div.appendChild(approve)
+                            
+                                                var accept = document.createElement("img");
+                                                accept.src = "assets/img/accept_button.png";
+                                                accept.onclick = close;
+                                                div.appendChild(accept)
                                                 document.body.appendChild(div)
+                                                mailOpen = true;
 				        }
                                 }
 			}
 		}
+        }
 }
 function touchEnd(e){
   return
@@ -139,6 +147,7 @@ function render(){
 }
 
 function main (){
+
         update()
 	lastTime = Date.now()
 	render()

@@ -38,7 +38,10 @@
     <feature name="YoikScreenOrientation">
         <param name="ios-package" value="YoikScreenOrientation" />
     </feature>
-    <preference name="orientation" value="landscape" />
+    <feature name="Console">
+        <param name="ios-package" value="CDVLogger" />
+    </feature>
+    <preference name="Orientation" value="all" />
     <allow-intent href="itms:*" />
     <allow-intent href="itms-apps:*" />
     <name>Internet Security App</name>

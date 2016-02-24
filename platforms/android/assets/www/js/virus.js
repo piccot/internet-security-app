@@ -11,7 +11,8 @@ var base_penalty = 5000;
 var av_speed_mod = .1;
 var av_size_mod = -.1;
 var win_score = 64;
-var totalTime = 0;
+var timeRemaining = 120000;
+var score_arr = [];
 var app = {
 
   
@@ -29,7 +30,7 @@ var app = {
     onDeviceReady: function() {	
 		canvas = document.createElement("canvas");
 		ctx = canvas.getContext("2d");
-		window.screen.lockOrientation('landscape')
+		window.screen.lockOrientation('portrait')
 		canvas.height = window.innerWidth;
 		canvas.width = window.innerHeight;
 		document.body.appendChild(canvas)
@@ -48,6 +49,8 @@ var app = {
 app.initialize();
 var virus_red_image = new Image();
 virus_red_image.src = 'assets/img/virus_red.png';
+var virus_red_splat_image = new Image();
+virus_red_splat_image.src = 'assets/img/virus_splat.png';
 var virus_green_image = new Image();
 virus_green_image.src = 'assets/img/virus_green.png';
 var data_bucket_image = new Image();
@@ -57,7 +60,6 @@ for(i = 0; i < 6; i ++){
 	var av_count_image = new Image();
 	av_count_image.src = 'assets/img/av_count_' + i + '.png';
 	av_arr.push(av_count_image);
-
 }
 var hitSound = new Audio("assets/audio/hit.wav")
 var missSound = new Audio("assets/audio/miss.wav")
@@ -68,7 +70,7 @@ function virus(x,y,dx,dy,id,type,mod){
 	this.y=y;
 	this.id = id;
 	this.type = type
-    this.width = (window.innerWidth/20) * (Math.pow(1+av_size_mod,mod));
+    this.width = (window.innerWidth/15) * (Math.pow(1+av_size_mod,mod));
     this.height = this.width;
 	if (type == 1 )
 		this.img = virus_green_image
@@ -77,6 +79,15 @@ function virus(x,y,dx,dy,id,type,mod){
 	this.dx = dx * (Math.pow(1+av_speed_mod,mod))
 	this.dy = dy * (Math.pow(1+av_speed_mod,mod))
 }
+function score_blob() {	
+	this.baseX = canvas.width - canvas.height * .2;
+	this.baseY = canvas.height * .99;
+	this.width = canvas.height * .2 / 4;
+	this.height = this.width;
+	this.img = virus_green_image
+
+
+}
 function bucket(){
 	this.x = canvas.width - canvas.height * .2;
 	this.y = 0;
@@ -84,16 +95,18 @@ function bucket(){
 
 }
 function av_button(){
-	this.x = canvas.width - canvas.height * .11;
+	this.x = canvas.height*.01;
 	this.y = canvas.height*.89;
 	this.size = canvas.height * .1;
 
 }
 var lastTime = Date.now();
 function main (){
-	if (score == win_score){
+	if (timeRemaining <= 0){
 		alert('win');
 		score = 0;
+		timeRemaining = 120000
+		score_arr = [];
 	}
     update()
 	lastTime = Date.now()
@@ -112,10 +125,16 @@ function render(){
 		ctx.drawImage(current.img,current.x,current.y,current.width,current.height)
     
 	}
+	for(var i = 0; i < score_arr.length; i++){
+		var current = score_arr[i];
+		ctx.drawImage(current.img,current.baseX  + current.width * (i%4),current.baseY - current.height - current.height * Math.floor(i/4),current.width,current.height)
+    
+	}
+	
 	ctx.drawImage(data_bucket_image,bucket.x,bucket.y,bucket.size,bucket.size)
 	ctx.drawImage(av_arr[av_counter],av_button.x,av_button.y,av_button.size,av_button.size)
-	ctx.strokeText((Math.floor(totalTime/10)/100).toFixed(2),10,45);
-    ctx.fillText((Math.floor(totalTime/10)/100).toFixed(2),10,45);
+	ctx.strokeText((Math.floor(timeRemaining/10)/100).toFixed(2),10,45);
+    ctx.fillText((Math.floor(timeRemaining/10)/100).toFixed(2),10,45);
 	if (held)
 		ctx.drawImage(held.img,held.x,held.y,held.width,held.height)
 }
@@ -124,7 +143,7 @@ var millisecondsPerVirus = 1000;
 var baseSpeed = 4000;
 var millisecondsPerUpdate = 10000;
 function editObjects(dt){
-	totalTime = totalTime + dt;
+	timeRemaining = timeRemaining - dt;
 	for(var i = 0; i < virus_arr.length; i++){
 		var current = virus_arr[i];
 		current.x = current.x + current.dx * dt;
@@ -132,7 +151,7 @@ function editObjects(dt){
 		if (current.x > window.innerWidth || current.x + current.width < 0 || current.y > window.innerHeight || current.y + current.height < 0){
 			if (current.type == 2){
 				missSound.play()
-				totalTime = totalTime + base_penalty * av_counter;
+				score_arr = score_arr.slice(0,score_arr.length -av_counter -1);
 			}
 			virus_arr.splice(i,1);
 		}
@@ -206,9 +225,18 @@ function touchStart(e){
 	for(i=0;i<e.touches.length;i++){
 			for(j=0;j<virus_arr.length;j++){
 				if(e.touches[i].pageX >= virus_arr[j].x && e.touches[i].pageX <= virus_arr[j].x +virus_arr[j].width && e.touches[i].pageY >= virus_arr[j].y && e.touches[i].pageY <= virus_arr[j].y + virus_arr[j].height){
-					if (virus_arr[j].type == 1)
+					if (virus_arr[j].type == 1){
 						held = virus_arr[j];
-					virus_arr.splice(j,1);
+						virus_arr.splice(j,1);
+						}
+					else{
+						virus_arr[j].img = virus_red_splat_image;
+						virus_arr[j].dx = 0;
+						virus_arr[j].dy = Math.abs(virus_arr[j].dy)
+						virus_arr[j].type = 3;
+					}
+						
+					
 					return true;
 				}
 			}
@@ -222,6 +250,7 @@ function touchEnd(e){
 		
 		if (held.x + held.width/2 >= bucket.x && held.x + held.width/2 <= bucket.x + bucket.size && held.y >= bucket.y && held.y <= bucket.y + bucket.size){
 			score ++;
+			score_arr.push(new score_blob());
 			hitSound.play();
 		}
 		else

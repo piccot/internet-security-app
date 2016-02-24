@@ -70,7 +70,7 @@ function virus(x,y,dx,dy,id,type,mod){
 	this.y=y;
 	this.id = id;
 	this.type = type
-    this.width = (window.innerWidth/20) * (Math.pow(1+av_size_mod,mod));
+    this.width = (window.innerWidth/15) * (Math.pow(1+av_size_mod,mod));
     this.height = this.width;
 	if (type == 1 )
 		this.img = virus_green_image
