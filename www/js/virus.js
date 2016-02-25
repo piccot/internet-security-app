@@ -30,9 +30,9 @@ var app = {
     onDeviceReady: function() {	
 		canvas = document.createElement("canvas");
 		ctx = canvas.getContext("2d");
-		window.screen.lockOrientation('portrait')
-		canvas.height = window.innerWidth;
-		canvas.width = window.innerHeight;
+		// window.screen.lockOrientation('portrait')
+		canvas.height = window.innerHeight;
+		canvas.width = window.innerWidth;
 		document.body.appendChild(canvas)
         addEventListener('touchmove', touchMove);
 		addEventListener("touchstart",touchStart);
