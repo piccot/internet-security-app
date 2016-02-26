@@ -70,7 +70,7 @@ function virus(x,y,dx,dy,id,type,mod){
 	this.y=y;
 	this.id = id;
 	this.type = type
-    this.width = (window.innerWidth/15) * (Math.pow(1+av_size_mod,mod));
+    this.width = (window.innerWidth/10) * (Math.pow(1+av_size_mod,mod));
     this.height = this.width;
 	if (type == 1 )
 		this.img = virus_green_image
@@ -142,8 +142,12 @@ var currentID = 0;
 var millisecondsPerVirus = 1000;
 var baseSpeed = 4000;
 var millisecondsPerUpdate = 10000;
+var av_open = false;
+var av_update = false;
+var av_update_counter = 0;
 function editObjects(dt){
 	timeRemaining = timeRemaining - dt;
+	
 	for(var i = 0; i < virus_arr.length; i++){
 		var current = virus_arr[i];
 		current.x = current.x + current.dx * dt;
@@ -157,9 +161,22 @@ function editObjects(dt){
 		}
 		
 	}
-	if (Math.random() < (1/millisecondsPerUpdate) * dt && av_counter < 5){
+	if (Math.random() < (1/millisecondsPerUpdate) * dt && av_counter < 5 && !av_update){
 		av_counter++;
 		notificationSound.play();
+	}
+	if (av_update){
+		av_update_counter = av_update_counter - dt;
+		if (av_update_counter <= 0){		
+			av_counter--;
+			if (av_counter > 0){
+				av_update_counter = 1000
+			}
+			else{
+				av_update = false;
+				closeAntiVirusPopup();			
+			}			
+		} 
 	}
 	if (Math.random() < (1/millisecondsPerVirus)*dt){
 		var rnd = getRandomInt(0,3);
@@ -241,7 +258,8 @@ function touchStart(e){
 				}
 			}
 			if (e.touches[i].pageX >= av_button.x && e.touches[i].pageX <= av_button.x +av_button.size && e.touches[i].pageY >= av_button.y && e.touches[i].pageY <= av_button.y + av_button.size){
-				av_counter = 0;
+				if (!av_open && av_counter > 0)
+					antiVirusPopup();
 			}
 		}
 }
@@ -273,7 +291,33 @@ function virusIndex(id){
 	return -1;
 
 }
-	
+function antiVirusPopup() {
+	var popup = document.createElement("div");
+	popup.className = "popup";
+	popup.style.top = getRandomInt(0,70) + '%';
+	var button = document.createElement("div");
+	button.className = "update";
+	button.innerText = "Update";
+	button.onclick=antiVirusUpdate;
+	popup.appendChild(button);
+	document.body.appendChild(popup);
+	av_open = true;
+
+}
+function closeAntiVirusPopup(){
+	var popup = document.getElementsByClassName("popup")[0];
+	popup.remove();
+	av_open = false;
+
+}
+function antiVirusUpdate(){
+	av_update_counter = 1000;
+	av_update = true;
+	var button = document.getElementsByClassName("update")[0];
+	button.innerText = "Updating...";
+	button.onclick = null;
+
+}
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
