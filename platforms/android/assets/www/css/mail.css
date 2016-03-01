@@ -97,30 +97,32 @@ h1 {
     -webkit-animation:fade 3000ms infinite;
 }
 
-#popup {
-  margin: auto;
-  position: absolute;
-  border: 1px solid black;
-  background: white;
-  height: 80%;
-  width: 100%;
-  top: 10%;
-  padding: 10px;
-  z-index: 2;
+.popup {
+    margin: auto;
+    position: absolute;
+    border: 1px solid black;
+    background: white;
+    height: 80%;
+    width: 100%;
+    top: 10%;
+    padding: 10px;
+    z-index: 2;
+    font-size:150%;
+}
+
+.mailBody{
+    position: relative;
+    padding-right:5%;
+    padding-left:5%;
+    height:100px;
+    -webkit-overflow-scrolling: touch;
+    overflow:scroll;
+}
+.buttonRow{
+    width: 33%;
 }
 
 canvas{
-  position: absolute;
-  z-index: 1;
+    position: absolute;
+    z-index: 1;
 }
-/*
-#approve {
-  position: relative;
-  top: 50%;
-  height: 10%;
-  width: 10%;
-  margin: auto;
-  border: 1px solid black;
-  background: blue;
-}
-*/
