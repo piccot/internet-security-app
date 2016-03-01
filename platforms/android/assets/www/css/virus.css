@@ -27,7 +27,27 @@ body {
     text-transform:uppercase;
     width:100%;
 }
+.popup{
+	width: 80%;
+    position: absolute;
+    height: 30%;    
+    left: 10%;
+    background-color: darkgray;
+}
+.update{
+    width: 75%;
+    position: relative;
+    left: 12.5%;
+    top: 70%;
+    height: 20%;
+    background-color: #3EFF3E;
+    box-shadow: 0px 1px 1px rgba(000,000,000,0.5), inset 1px 2px 0px rgba(255,255,255,0.4);
+    border: 1px solid #965F06;
+    border-radius: 28px;   
+    font-size: 31pt;
+}
 
+}
 /* Portrait layout (default) */
 .app {
     background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
