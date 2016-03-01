@@ -136,18 +136,17 @@ function touchEnd(e){
         console.log(wheel.width)
         var colorSelect;
 	for(i=0;i<e.changedTouches.length;i++){
-            if(e.changedTouches[i].pageX >= wheel.x && e.changedTouches[i].pageX < wheel.x + wheel.width/3 && e.changedTouches[i].pageY >= wheel.y + wheel.height/3 && e.changedTouches[i].pageY <= wheel.y + wheel.height){
-              colorSelect = 3; // red
-              console.log("red")
-            }else if(e.changedTouches[i].pageX >= wheel.x + wheel.width/3 && e.changedTouches[i].pageX < wheel.x + wheel.width - wheel.width/3  && e.changedTouches[i].pageY >= wheel.y && e.changedTouches[i].pageY <= wheel.y + wheel.height/3){
-              colorSelect = 2; //  yellow
-              console.log("yellow")
-            }else if(e.changedTouches[i].pageX >= wheel.x + wheel.width - wheel.width/3 && e.changedTouches[i].pageX < wheel.x + wheel.width&& e.changedTouches[i].pageY >= wheel.y + wheel.height/3 && e.changedTouches[i].pageY <= wheel.y + wheel.height){
-              colorSelect = 1; // green
+			var xDistance = e.changedTouches[i].pageX - (wheel.x + wheel.width/2)
+			var yDistance = e.changedTouches[i].pageY - (wheel.y + wheel.height/2)
+            if(Math.abs(xDistance) < Math.abs(yDistance)){
+              colorSelect = 2; // yellow
               console.log("green")
-            }else{
-              wheel = null;
-              return
+            }else if(xDistance > 0){
+              colorSelect = 1; //  green
+              console.log("yellow")
+            }else {
+              colorSelect = 3; // red
+              console.log("green")
             }
 		        if(moleArr[wheel.attachedTo].mole.targetType == colorSelect){
 				score = score + Math.floor(moleArr[wheel.attachedTo].mole.delay/1000 + 1)*5
@@ -189,7 +188,7 @@ function render(){
 }
 
 function main (){
-        update()
+    update()
 	lastTime = Date.now()
 	render()
 	requestAnimationFrame(main)

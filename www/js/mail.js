@@ -12,7 +12,7 @@ var app = {
     },
 
     onDeviceReady: function() {
-                addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
+                //addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
 
 		addEventListener("touchstart",touchStart);
 		addEventListener("touchend",touchEnd);
@@ -61,10 +61,16 @@ for(i=0;i<3;i++){
 var lastTime;
 function update(){
 	time = time + (Date.now() - lastTime)
-	if(time >= 15000){
-                window.location.href = 'mail_final.html'
-		time = 0;
-	}
+    
+//	if(time >= 15000){
+//                window.location.href = 'mail_final.html'
+//		time = 0;
+//	}
+    for(i=0;i<mailArr.length;i++){
+        if(mailArr[i].length > 7){
+            window.location.href = 'mail_final.html'
+        }
+    }
 	editObjects(Date.now() - lastTime)
 }
 var hitSound = new Audio("assets/audio/hit.wav")
@@ -107,7 +113,7 @@ function touchStart(e){
         if (mailOpen == false){
 		for(i=0;i<e.touches.length;i++){
 			for(j=0;j<mailArr.length;j++){
-                                for(k=0;k<mailArr[j].length;k++){
+                    for(k=0;k<mailArr[j].length;k++){
 				        if(e.touches[i].pageX >= mailArr[j][k].x && e.touches[i].pageX <= mailArr[j][k].x + mailArr[j][k].width && e.touches[i].pageY >= mailArr[j][k].y && e.touches[i].pageY <= mailArr[j][k].y + mailArr[j][k].height){
                             
                             openMail = mailArr[j][k]
@@ -147,6 +153,9 @@ function touchStart(e){
                             
                             
                                                 accept.addEventListener('touchstart', function(event){
+                                                                        event.preventDefault();
+                                                                        event.stopPropagation();
+
                                                                         trackingClick = true;
                                                                         targetElement = event.target;
                                                                         touchStartX = event.targetTouches[0].pageX;
@@ -160,6 +169,8 @@ function touchStart(e){
                                                 var reject = document.createElement("img");
                                                 reject.src = "assets/img/reject_button.png";
                                                 reject.addEventListener('touchstart', function(event){
+                                                                        event.preventDefault();
+                                                                        event.stopPropagation();
                                                                         trackingClick = true;
                                                                         targetElement = event.target;
                                                                         touchStartX = event.targetTouches[0].pageX;
@@ -173,6 +184,9 @@ function touchStart(e){
                                                 var spam = document.createElement("img");
                                                 spam.src = "assets/img/spam_button.png";
                                                 spam.addEventListener('touchstart', function(event){
+                                                                      event.preventDefault();
+                                                                      event.stopPropagation();
+
                                                                       trackingClick = true;
                                                                       targetElement = event.target;
                                                                       touchStartX = event.targetTouches[0].pageX;
@@ -187,7 +201,7 @@ function touchStart(e){
                                                 mailOpen = true;
 
                         }
-                                }
+                    }
 			}
 		}
         }

@@ -41,6 +41,7 @@
     <feature name="Console">
         <param name="ios-package" value="CDVLogger" />
     </feature>
+    <preference name="DisallowOverscroll" value="true" />
     <preference name="Orientation" value="all" />
     <allow-intent href="itms:*" />
     <allow-intent href="itms-apps:*" />

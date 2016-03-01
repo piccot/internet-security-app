@@ -12,12 +12,12 @@ var app = {
     },
 
     onDeviceReady: function() {
-                addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
+                //addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
 
 		addEventListener("touchstart",touchStart);
 		addEventListener("touchend",touchEnd);
                 jsonObject = JSON.parse('[{"Mail":"GOOD EMAIL Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc","Type": 0},{"Mail":"BAD EMAIL Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc","Type": 1},{"Mail":"SPAM EMAIL Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc","Type":2}]');
-        //jsonObject = JSON.parse('[{"Mail":"Good email example","Type": 0},{"Mail":"Bad email example","Type": 1},{"Mail":"Spam email example","Type": 2}]');
+       // jsonObject = JSON.parse('[{"Mail":"Good email example","Type": 0}]');
 
 		lastTime = Date.now()
 		main();	
@@ -61,15 +61,16 @@ for(i=0;i<3;i++){
 var lastTime;
 function update(){
 	time = time + (Date.now() - lastTime)
-//	if(time >= 20000){
+    
+//	if(time >= 15000){
 //                window.location.href = 'mail_final.html'
 //		time = 0;
 //	}
-//    for(i=0;i<mailArr.length;i++){
-//        if(mailArr[i].length > 7){
-//            window.location.href = 'mail_final.html'
-//        }
-//    }
+    for(i=0;i<mailArr.length;i++){
+        if(mailArr[i].length > 7){
+            window.location.href = 'mail_final.html'
+        }
+    }
 	editObjects(Date.now() - lastTime)
 }
 var hitSound = new Audio("assets/audio/hit.wav")
@@ -102,6 +103,7 @@ function closeMail(choice){
     mailOpen = false;
 }
 var openMail = null;
+//var mailType = 0;
 var trackingClick = false;
 var targetElement = null;
 var touchStartX = 0;
@@ -111,10 +113,11 @@ function touchStart(e){
         if (mailOpen == false){
 		for(i=0;i<e.touches.length;i++){
 			for(j=0;j<mailArr.length;j++){
-                                for(k=0;k<mailArr[j].length;k++){
+                    for(k=0;k<mailArr[j].length;k++){
 				        if(e.touches[i].pageX >= mailArr[j][k].x && e.touches[i].pageX <= mailArr[j][k].x + mailArr[j][k].width && e.touches[i].pageY >= mailArr[j][k].y && e.touches[i].pageY <= mailArr[j][k].y + mailArr[j][k].height){
                             
                             openMail = mailArr[j][k]
+
                             
                             var popup = document.createElement("div");
                             popup.className = "popup";
@@ -132,70 +135,73 @@ function touchStart(e){
                             
                             var subject = document.createElement("div");
                             subject.className = "subject";
-                            subject.innerHTML = "<b>Subject:&nbsp;</b>Some Subject";
+                            subject.innerHTML = "<b>Subject:&nbsp;</b>I love you";
                             
-                            var mailBody = document.createElement("div");
-                            mailBody.className = "mailBody";
-                            var inner = document.createElement("div");
-                            inner.className = "inner";
-
-                            var buttonRow = document.createElement("div");
-                            buttonRow.className = "buttonRow";
+//                            var body = document.createTextNode(mailArr[j][k].text);
+                            var body = document.createElement("div");
+                            body.className = "mailBody";
+                            body.innerHTML = mailArr[j][k].text;
                             
-                            var accept = document.createElement("img");
-                            accept.src = "assets/img/accept_button.png";
-                            accept.addEventListener('touchstart', function(event){
-                                                    trackingClick = true;
-                                                    targetElement = event.target;
-                                                    touchStartX = event.targetTouches[0].pageX;
-                                                    touchStartY = event.targetTouches[0].pageY;
-                                                    closeMail(0);
-                                                    return true;
-                                                    });
-                            
-                            var reject = document.createElement("img");
-                            reject.src = "assets/img/reject_button.png";
-                            reject.addEventListener('touchstart', function(event){
-                                                    trackingClick = true;
-                                                    targetElement = event.target;
-                                                    touchStartX = event.targetTouches[0].pageX;
-                                                    touchStartY = event.targetTouches[0].pageY;
-                                                    closeMail(1);
-                                                    return true;
-                                                    });
-                            
-                            var spam = document.createElement("img");
-                            spam.src = "assets/img/spam_button.png";
-                            spam.addEventListener('touchstart', function(event){
-                                                    trackingClick = true;
-                                                    targetElement = event.target;
-                                                    touchStartX = event.targetTouches[0].pageX;
-                                                    touchStartY = event.targetTouches[0].pageY;
-                                                    closeMail(2);
-                                                    return true;
-                                                    });
-                            
-//                            scrollingBody.innerHTML = "<div class='mailBody'>" + mailArr[j][k].text + "<div class='inner'></div></div>";
-                            document.body.appendChild(popup);
                             popup.appendChild(scrollingBody);
                             scrollingBody.appendChild(to);
                             scrollingBody.appendChild(from);
                             scrollingBody.appendChild(subject);
-                            scrollingBody.appendChild(mailBody);
-
-
-                            mailBody.appendChild(inner);
-                            popup.appendChild(buttonRow);
-                            buttonRow.appendChild(accept);
-                            buttonRow.appendChild(reject);
-                            buttonRow.appendChild(spam);
+                            scrollingBody.appendChild(body);
                             
-                            mailBody.innerHTML = mailArr[j][k].text;
+                                                var accept = document.createElement("img");
+                                                accept.src = "assets/img/accept_button.png";
+                            
+                            
+                                                accept.addEventListener('touchstart', function(event){
+                                                                        event.preventDefault();
+                                                                        event.stopPropagation();
 
-                            mailOpen = true;
+                                                                        trackingClick = true;
+                                                                        targetElement = event.target;
+                                                                        touchStartX = event.targetTouches[0].pageX;
+                                                                        touchStartY = event.targetTouches[0].pageY;
+                                                                        closeMail(0);
+                                                                        return true;
+
+                                                                        });
+                                                popup.appendChild(accept)
+                            
+                                                var reject = document.createElement("img");
+                                                reject.src = "assets/img/reject_button.png";
+                                                reject.addEventListener('touchstart', function(event){
+                                                                        event.preventDefault();
+                                                                        event.stopPropagation();
+                                                                        trackingClick = true;
+                                                                        targetElement = event.target;
+                                                                        touchStartX = event.targetTouches[0].pageX;
+                                                                        touchStartY = event.targetTouches[0].pageY;
+                                                                        closeMail(1);
+                                                                        return true;
+
+                                                    });
+                                                popup.appendChild(reject)
+                            
+                                                var spam = document.createElement("img");
+                                                spam.src = "assets/img/spam_button.png";
+                                                spam.addEventListener('touchstart', function(event){
+                                                                      event.preventDefault();
+                                                                      event.stopPropagation();
+
+                                                                      trackingClick = true;
+                                                                      targetElement = event.target;
+                                                                      touchStartX = event.targetTouches[0].pageX;
+                                                                      touchStartY = event.targetTouches[0].pageY;
+                                                                      closeMail(2);
+                                                                      return true;
+
+                                                    });
+                                                popup.appendChild(spam)
+                            
+                                                document.body.appendChild(popup)
+                                                mailOpen = true;
 
                         }
-                                }
+                    }
 			}
 		}
         }
