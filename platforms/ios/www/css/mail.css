@@ -110,16 +110,35 @@ h1 {
     font-size:150%;
 }
 
+.to, .from, .subject{
+    height:7%
+}
+
 .mailBody{
     position: relative;
     padding-right:5%;
     padding-left:5%;
-    height:100px;
+    height:79%;
     -webkit-overflow-scrolling: touch;
     overflow:scroll;
 }
+
+.scrollingBody{
+    height:90%;
+}
+
+.inner {
+    height: calc(100% + 1px);
+}
+
 .buttonRow{
-    width: 33%;
+    margin: auto;
+    width: 100%;
+}
+.buttonRow img{
+    
+    width:33%;
+
 }
 
 canvas{
