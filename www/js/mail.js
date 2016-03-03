@@ -29,8 +29,8 @@ var hitMissDelay = 2000
 var time = 0;
 var bgImage = new Image();
 bgImage.src = 'assets/img/sky.jpg';
-var baseSpeed = 4000;
-var delta = window.height / baseSpeed;
+var baseSpeed = 3000;
+var delta = window.innerHeight / baseSpeed;
 var mailOpen = false;
 var score = 0;
 var spam = 0;
@@ -315,8 +315,8 @@ function editObjects(dt){
                     return;
                 }
             }
-                if(mailArr[i][j].y < window.innerHeight - (j+1)*window.innerHeight/8){
-                        mailArr[i][j].y = mailArr[i][j].y + delta*dt;
+                if(mailArr[i][j].y <= window.innerHeight - (j+1)*window.innerHeight/8){
+                        mailArr[i][j].y = Math.min(mailArr[i][j].y + delta*dt,window.innerHeight - (j+1)*window.innerHeight/8);
                 }
         }
     }
