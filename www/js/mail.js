@@ -16,7 +16,7 @@ var app = {
 
 		addEventListener("touchstart",touchStart);
 		addEventListener("touchend",touchEnd);
-                jsonObject = JSON.parse('[{"Mail":"OBVIOUS GOOD EMAIL - Teach","Type": 0,"Sub": 0},{"Mail":"OBVIOUS GOOD EMAIL - Job","Type": 0,"Sub": 1},{"Mail":"OBVIOUS GOOD EMAIL - Family","Type": 0,"Sub": 2},{"Mail":"OBVIOUS GOOD EMAIL - Account","Type": 0,"Sub": 3},{"Mail":"OBVIOUS BAD EMAIL - Phishing","Type": 1,"Sub": 0},{"Mail":"OBVIOUS BAD EMAIL - Fake Account","Type": 1,"Sub": 1},{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2}]');
+                jsonObject = JSON.parse('[{"Mail":"OBVIOUS GOOD EMAIL - Teach","Type": 0,"Sub": 0},{"Mail":"OBVIOUS GOOD EMAIL - Job","Type": 0,"Sub": 1},{"Mail":"OBVIOUS GOOD EMAIL - Family","Type": 0,"Sub": 2},{"Mail":"OBVIOUS GOOD EMAIL - Account","Type": 0,"Sub": 3},{"Mail":"OBVIOUS BAD EMAIL - Phishing","Type": 1,"Sub": 0},{"Mail":"OBVIOUS BAD EMAIL - Fake Account","Type": 1,"Sub": 1},{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1}]');
        // jsonObject = JSON.parse('[{"Mail":"Good email example","Type": 0}]');
 
 		lastTime = Date.now()
@@ -36,7 +36,7 @@ mailImage.src = 'assets/img/mail.png';
 var explosionImage = new Image();
 explosionImage.src = 'assets/img/explosion.png';
 
-function mail(pos, text, type){
+function mail(pos, text, type, sub){
 	this.x = pos * window.innerWidth/3;
 	this.y = 0;
     this.width = window.innerWidth/3;
@@ -44,6 +44,7 @@ function mail(pos, text, type){
 	this.img = mailImage;
     this.text = text;
     this.type = type;
+    this.sub = sub;
     this.delay = null;
 }
 
@@ -85,6 +86,11 @@ function closeMail(choice){
                 openMail.img = explosionImage;
                 openMail.delay = 300;
             }
+            if (openMail.type == 1){ //bad mail
+                
+                openMail.img = explosionImage;
+                openMail.delay = 300;
+            }
             break;
         case 1:  //reject
             if (openMail.type == 1){ //bad mail
@@ -105,7 +111,6 @@ function closeMail(choice){
     mailOpen = false;
 }
 var openMail = null;
-//var mailType = 0;
 var trackingClick = false;
 var targetElement = null;
 var touchStartX = 0;
@@ -287,7 +292,7 @@ function editObjects(dt){
 	for (i=0;i<3;i++){
 		if (Math.random() < (1/millisecondsPerMail)*dt && (mailArr[i].length == 0 || mailArr[i].last().y >= window.innerHeight/8)){
 			var random = getRandomInt(0,jsonObject.length -1)
-			mailArr[i].push(new mail(i, jsonObject[random].Mail,jsonObject[random].Type)) 
+			mailArr[i].push(new mail(i, jsonObject[random].Mail,jsonObject[random].Type,jsonObject[random].Sub))
 		}
         for (j=0;j<mailArr[i].length;j++){
             if (mailArr[i][j].delay != null){
