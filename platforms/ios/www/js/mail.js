@@ -16,7 +16,7 @@ var app = {
 
 		addEventListener("touchstart",touchStart);
 		addEventListener("touchend",touchEnd);
-                jsonObject = JSON.parse('[{"Mail":"GOOD EMAIL Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc","Type": 0},{"Mail":"BAD EMAIL Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc","Type": 1},{"Mail":"SPAM EMAIL Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc","Type":2}]');
+                jsonObject = JSON.parse('[{"Mail":"OBVIOUS GOOD EMAIL - Teach","Type": 0,"Sub": 0},{"Mail":"OBVIOUS GOOD EMAIL - Job","Type": 0,"Sub": 1},{"Mail":"OBVIOUS GOOD EMAIL - Family","Type": 0,"Sub": 2},{"Mail":"OBVIOUS GOOD EMAIL - Account","Type": 0,"Sub": 3},{"Mail":"OBVIOUS BAD EMAIL - Phishing","Type": 1,"Sub": 0},{"Mail":"OBVIOUS BAD EMAIL - Fake Account","Type": 1,"Sub": 1},{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2}]');
        // jsonObject = JSON.parse('[{"Mail":"Good email example","Type": 0}]');
 
 		lastTime = Date.now()
@@ -33,6 +33,8 @@ var speed = 5;
 var mailOpen = false;
 var mailImage = new Image();
 mailImage.src = 'assets/img/mail.png';
+var explosionImage = new Image();
+explosionImage.src = 'assets/img/explosion.png';
 
 function mail(pos, text, type){
 	this.x = pos * window.innerWidth/3;
@@ -80,19 +82,19 @@ function closeMail(choice){
     switch (choice){
         case 0: //accept
             if (openMail.type == 0){ //good mail
-                openMail.img.src = 'assets/img/explosion.png';
+                openMail.img = explosionImage;
                 openMail.delay = 300;
             }
             break;
         case 1:  //reject
             if (openMail.type == 1){ //bad mail
-                openMail.img.src = 'assets/img/explosion.png';
+                openMail.img = explosionImage;
                 openMail.delay = 300;
             }
             break;
         case 2: //spam
             if (openMail.type == 2){ //spam mail
-                openMail.img.src = 'assets/img/explosion.png';
+                openMail.img = explosionImage;
                 openMail.delay = 300;
             }
             break;
@@ -137,7 +139,6 @@ function touchStart(e){
                             subject.className = "subject";
                             subject.innerHTML = "<b>Subject:&nbsp;</b>I love you";
                             
-//                            var body = document.createTextNode(mailArr[j][k].text);
                             var body = document.createElement("div");
                             body.className = "mailBody";
                             body.innerHTML = mailArr[j][k].text;
@@ -147,7 +148,21 @@ function touchStart(e){
                             scrollingBody.appendChild(from);
                             scrollingBody.appendChild(subject);
                             scrollingBody.appendChild(body);
+                      
+                            var buttonRow = document.createElement("div");
+                            buttonRow.className = "buttonRow";
                             
+                            var button1 = document.createElement("div");
+
+                            var button2 = document.createElement("div");
+
+                            var button3 = document.createElement("div");
+                            
+                            popup.appendChild(buttonRow);
+                            buttonRow.appendChild(button1);
+                            buttonRow.appendChild(button2);
+                            buttonRow.appendChild(button3);
+
                                                 var accept = document.createElement("img");
                                                 accept.src = "assets/img/accept_button.png";
                             
@@ -164,7 +179,7 @@ function touchStart(e){
                                                                         return true;
 
                                                                         });
-                                                popup.appendChild(accept)
+                                                button1.appendChild(accept)
                             
                                                 var reject = document.createElement("img");
                                                 reject.src = "assets/img/reject_button.png";
@@ -179,7 +194,7 @@ function touchStart(e){
                                                                         return true;
 
                                                     });
-                                                popup.appendChild(reject)
+                                                button2.appendChild(reject)
                             
                                                 var spam = document.createElement("img");
                                                 spam.src = "assets/img/spam_button.png";
@@ -195,7 +210,7 @@ function touchStart(e){
                                                                       return true;
 
                                                     });
-                                                popup.appendChild(spam)
+                                                button3.appendChild(spam)
                             
                                                 document.body.appendChild(popup)
                                                 mailOpen = true;

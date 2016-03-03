@@ -33,6 +33,8 @@ var speed = 5;
 var mailOpen = false;
 var mailImage = new Image();
 mailImage.src = 'assets/img/mail.png';
+var explosionImage = new Image();
+explosionImage.src = 'assets/img/explosion.png';
 
 function mail(pos, text, type){
 	this.x = pos * window.innerWidth/3;
@@ -80,19 +82,19 @@ function closeMail(choice){
     switch (choice){
         case 0: //accept
             if (openMail.type == 0){ //good mail
-                openMail.img.src = 'assets/img/explosion.png';
+                openMail.img = explosionImage;
                 openMail.delay = 300;
             }
             break;
         case 1:  //reject
             if (openMail.type == 1){ //bad mail
-                openMail.img.src = 'assets/img/explosion.png';
+                openMail.img = explosionImage;
                 openMail.delay = 300;
             }
             break;
         case 2: //spam
             if (openMail.type == 2){ //spam mail
-                openMail.img.src = 'assets/img/explosion.png';
+                openMail.img = explosionImage;
                 openMail.delay = 300;
             }
             break;
@@ -137,7 +139,6 @@ function touchStart(e){
                             subject.className = "subject";
                             subject.innerHTML = "<b>Subject:&nbsp;</b>I love you";
                             
-//                            var body = document.createTextNode(mailArr[j][k].text);
                             var body = document.createElement("div");
                             body.className = "mailBody";
                             body.innerHTML = mailArr[j][k].text;
@@ -147,7 +148,21 @@ function touchStart(e){
                             scrollingBody.appendChild(from);
                             scrollingBody.appendChild(subject);
                             scrollingBody.appendChild(body);
+                      
+                            var buttonRow = document.createElement("div");
+                            buttonRow.className = "buttonRow";
                             
+                            var button1 = document.createElement("div");
+
+                            var button2 = document.createElement("div");
+
+                            var button3 = document.createElement("div");
+                            
+                            popup.appendChild(buttonRow);
+                            buttonRow.appendChild(button1);
+                            buttonRow.appendChild(button2);
+                            buttonRow.appendChild(button3);
+
                                                 var accept = document.createElement("img");
                                                 accept.src = "assets/img/accept_button.png";
                             
@@ -164,7 +179,7 @@ function touchStart(e){
                                                                         return true;
 
                                                                         });
-                                                popup.appendChild(accept)
+                                                button1.appendChild(accept)
                             
                                                 var reject = document.createElement("img");
                                                 reject.src = "assets/img/reject_button.png";
@@ -179,7 +194,7 @@ function touchStart(e){
                                                                         return true;
 
                                                     });
-                                                popup.appendChild(reject)
+                                                button2.appendChild(reject)
                             
                                                 var spam = document.createElement("img");
                                                 spam.src = "assets/img/spam_button.png";
@@ -195,7 +210,7 @@ function touchStart(e){
                                                                       return true;
 
                                                     });
-                                                popup.appendChild(spam)
+                                                button3.appendChild(spam)
                             
                                                 document.body.appendChild(popup)
                                                 mailOpen = true;

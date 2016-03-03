@@ -103,9 +103,9 @@ h1 {
     border: 1px solid black;
     background: white;
     height: 80%;
-    width: 100%;
+    width: 95%;
     top: 10%;
-    padding: 10px;
+    padding:2.5%;
     z-index: 2;
     font-size:150%;
 }
@@ -129,7 +129,16 @@ h1 {
         height: calc(100% + 1px);
     }
 .buttonRow{
+    width: 100%;
+}
+.buttonRow div{
     width: 33%;
+    display: inline-block;
+}
+.buttonRow div img{
+    height: 100%;
+    margin: 0 auto;
+    display: block;
 }
 
 canvas{

@@ -142,9 +142,6 @@ var av_update_counter = 0;
 function editObjects(dt){
 	timeRemaining = timeRemaining - dt;
     if (timeRemaining <= 0){
-        //		score = 0;
-        //		timeRemaining = 30000
-        //		score_arr = [];
         window.location.href = 'virus_final.html'
     }
 	for(var i = 0; i < virus_arr.length; i++){

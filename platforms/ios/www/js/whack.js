@@ -13,16 +13,35 @@ var app = {
     },
 
     onDeviceReady: function() {
-                     addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
-
-		addEventListener("touchstart",touchStart);
-		addEventListener("touchend",touchEnd);
-        jsonObject = JSON.parse('[{"Password":"password123","Type": 3},{"Password":"I<3Horses","Type": 3},{"Password":"JknsD3@anmAiLfknsma!","Type": 3},{ "Password":"HappyDays","Type": 3},{"Password":"TheBestPassword","Type": 3},{"Password":"TheBestPassword","Type": 3},{"Password":"TheWorstPassword","Type": 3},{"Password":"2@Atak","Type": 2},{"Password":"24pples2D4y","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"2BorNot2B_ThatIsThe?","Type": 1},{"Password":"4Score&7yrsAgo","Type": 1}]');
-		lastTime = Date.now()
-		main();	
+		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
+        
+        dir.getFile("whack_results.json", {create:true}, function(file) {
+            results_file = file;
+			dir.getFile("whack_questions.json", {create:true}, function(file) {
+				questions_file = file;
+				results_file.file(function(file) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					filedata=this.result;
+					addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
+					addEventListener("touchstart",touchStart);
+					addEventListener("touchend",touchEnd);
+					jsonObject = JSON.parse('[{"Password":"password123","Type": 3, "id": 1},{"Password":"I<3Horses","Type": 3, "id": 2},{"Password":"JknsD3@anmAiLfknsma!","Type": 3, "id": 3},{ "Password":"HappyDays","Type": 3, "id": 4},{"Password":"TheBestPassword","Type": 3, "id": 5},{"Password":"TheBestPassword","Type": 3, "id": 6},{"Password":"TheWorstPassword","Type": 3, "id": 7},{"Password":"2@Atak","Type": 2, "id": 8},{"Password":"24pples2D4y","Type": 2, "id": 9},{"Password":"IWasBornIn1919191995","Type": 2, "id": 10},{"Password":"IWasBornIn1919191995","Type": 2, "id": 11},{"Password":"2BorNot2B_ThatIsThe?","Type": 1, "id": 12},{"Password":"4Score&7yrsAgo","Type": 1, "id": 13}]');
+					lastTime = Date.now()
+					main();
+				};
+				reader.readAsText(file);
+			}, fail);
+					
+			});
+        });
+	});
     },
 
 };
+var results_file
+var questions_file
+var results_arr = []
 var baseDelay = 5000
 var hitMissDelay = 2000
 var score = 0;
@@ -35,7 +54,14 @@ timeBarImage.src = 'assets/img/time_bar.png'
 var timeImage = new Image();
 timeImage.src = 'assets/img/time.png'
 var timePercentage = 1;
-
+var moleImage = new Image();
+moleImage.src = 'assets/img/mole.png';
+var hitImage = new Image();
+hitImage.src = 'assets/img/hit.png';
+var missImage = new Image();
+missImage.src = 'assets/img/miss.png';
+var wheelImage = new Image();
+wheelImage.src = 'assets/img/wheel.png'
 function moleHole(x,y){
 	this.x = x;
 	this.y=y;
@@ -47,27 +73,24 @@ function moleHole(x,y){
 	this.mole = null;
 }
 
-function mole(password,type){
-        var moleImage = new Image();
-        moleImage.src = 'assets/img/mole.png';
-        this.img = moleImage;
+function mole(password,type,password_id){
+    this.img = moleImage;
 	this.password = password;
 	this.targetType = type;
 	this.delay = baseDelay;
+	this.password_id = password_id
 
 }
 
 function hit(){
-        var hitImage = new Image();
-        hitImage.src = 'assets/img/hit.png';
+
         this.img = hitImage; 
         this.password = '';
         this.delay = hitMissDelay;
         this.currentType = -1;
 }
 function miss(){
-        var missImage = new Image();
-        missImage.src = 'assets/img/miss.png';
+       
         this.img = missImage; 
         this.password = '';
         this.delay = hitMissDelay;
@@ -80,8 +103,7 @@ function colorWheel(x,y,mole){
         this.height = window.innerHeight/4;
 	this.x=x - this.width/2;
 	this.y=y - this.height/2;
-        var wheelImage = new Image();
-        wheelImage.src = 'assets/img/wheel.png'
+
         this.img = wheelImage;
         this.attachedTo = mole;
 }
@@ -101,7 +123,8 @@ function update(){
 	timer = timer - (Date.now() - lastTime)
         timePercentage = timer/startTimer
 	if(timer <= 0){
-                window.location.href = 'whack_final.html?score=' + score
+		writeResultsToFile()
+                
 		timer = 30000;
 		score = 0;
 		for(j=0;j<6;j++)
@@ -111,6 +134,7 @@ function update(){
 }
 var hitSound = new Audio("assets/audio/hit.wav")
 var missSound = new Audio("assets/audio/miss.wav")
+
 function touchStart(e){
 	
 	
@@ -140,23 +164,22 @@ function touchEnd(e){
 			var yDistance = e.changedTouches[i].pageY - (wheel.y + wheel.height/2)
             if(Math.abs(xDistance) < Math.abs(yDistance)){
               colorSelect = 2; // yellow
-              console.log("green")
             }else if(xDistance > 0){
               colorSelect = 1; //  green
-              console.log("yellow")
             }else {
               colorSelect = 3; // red
-              console.log("green")
             }
-		        if(moleArr[wheel.attachedTo].mole.targetType == colorSelect){
+			results_arr.push({"id":moleArr[wheel.attachedTo].mole.password_id,"selected":colorSelect})
+			if(moleArr[wheel.attachedTo].mole.targetType == colorSelect){
 				score = score + Math.floor(moleArr[wheel.attachedTo].mole.delay/1000 + 1)*5
-                                hitSound.play()
-                                moleArr[wheel.attachedTo].mole = new hit();
-                        }else{
-                                timer = timer - 2000
-                                missSound.play()
-                                moleArr[wheel.attachedTo].mole = new miss();
-                        }
+				hitSound.play()
+				moleArr[wheel.attachedTo].mole = new hit();
+			}else{
+					timer = timer - 2000
+					missSound.play()
+					moleArr[wheel.attachedTo].mole = new miss();
+			}
+			
         }
        wheel = null; 
 }
@@ -198,7 +221,7 @@ function editObjects(dt){
 	for (i=0;i<6;i++){
 		if (Math.random() < (1/millisecondsPerMole)*dt && moleArr[i].mole == null){
 			var random = getRandomInt(0,jsonObject.length -1)
-			moleArr[i].mole = new mole(jsonObject[random].Password,jsonObject[random].Type)
+			moleArr[i].mole = new mole(jsonObject[random].Password,jsonObject[random].Type,jsonObject[random].id)
 		}
 		if(moleArr[i].mole != null){
 			moleArr[i].mole.delay = moleArr[i].mole.delay - dt
@@ -218,33 +241,35 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function loadJSONData(){
-var xmlhttp;
-var jsonObject;
+function writeResultsToFile(){
+	var filedata
+    results_file.file(function(file) {
+        var reader = new FileReader();
 
-// code for IE7+, Firefox, Chrome, Opera, Safari
-if (window.XMLHttpRequest)
-{
-    xmlhttp=new XMLHttpRequest();
-}
-// code for IE6, IE5
-else
-{
-    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-}
+        reader.onload = function(e) {
+			
+			filedata=this.result;
 
-xmlhttp.onreadystatechange=function()
-{
-    if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-        jsonObject = JSON.parse(xmlhttp.responseText);
-        alert(jsonObject[0].Password);                     
-    }
-}
+			var datalog = JSON.stringify(results_arr);
+			if (filedata.length > 0){
+				datalog = "," + datalog;
+			}
+			results_file.createWriter(function(fileWriter) {
+				fileWriter.seek(fileWriter.length);
+				
+				fileWriter.write(datalog);
+				window.location.href = 'whack_final.html?score=' + score
 
-xmlhttp.open("GET","gamedata/whack.json",true);
-xmlhttp.send();
+			}, fail);
+        };
+
+        reader.readAsText(file);
+    }, fail);
 
 }
+function fail(err){
+	alert(err)
+}
 
-app.onDeviceReady();
+
+app.initialize();
