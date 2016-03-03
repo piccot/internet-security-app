@@ -35,7 +35,14 @@ timeBarImage.src = 'assets/img/time_bar.png'
 var timeImage = new Image();
 timeImage.src = 'assets/img/time.png'
 var timePercentage = 1;
-
+var moleImage = new Image();
+moleImage.src = 'assets/img/mole.png';
+var hitImage = new Image();
+hitImage.src = 'assets/img/hit.png';
+var missImage = new Image();
+missImage.src = 'assets/img/miss.png';
+var wheelImage = new Image();
+wheelImage.src = 'assets/img/wheel.png'
 function moleHole(x,y){
 	this.x = x;
 	this.y=y;
@@ -48,9 +55,7 @@ function moleHole(x,y){
 }
 
 function mole(password,type){
-        var moleImage = new Image();
-        moleImage.src = 'assets/img/mole.png';
-        this.img = moleImage;
+    this.img = moleImage;
 	this.password = password;
 	this.targetType = type;
 	this.delay = baseDelay;
@@ -58,16 +63,14 @@ function mole(password,type){
 }
 
 function hit(){
-        var hitImage = new Image();
-        hitImage.src = 'assets/img/hit.png';
+
         this.img = hitImage; 
         this.password = '';
         this.delay = hitMissDelay;
         this.currentType = -1;
 }
 function miss(){
-        var missImage = new Image();
-        missImage.src = 'assets/img/miss.png';
+       
         this.img = missImage; 
         this.password = '';
         this.delay = hitMissDelay;
@@ -80,8 +83,7 @@ function colorWheel(x,y,mole){
         this.height = window.innerHeight/4;
 	this.x=x - this.width/2;
 	this.y=y - this.height/2;
-        var wheelImage = new Image();
-        wheelImage.src = 'assets/img/wheel.png'
+
         this.img = wheelImage;
         this.attachedTo = mole;
 }
