@@ -145,6 +145,8 @@ function touchStart(e){
 			for(j=0;j<6;j++){
 				if(e.touches[i].pageX >= moleArr[j].x && e.touches[i].pageX <= moleArr[j].x +moleArr[j].width && e.touches[i].pageY >= moleArr[j].y && e.touches[i].pageY <= moleArr[j].y + moleArr[j].height && moleArr[j].mole){
                                   wheel = new colorWheel(e.touches[i].pageX,e.touches[i].pageY, j);
+								  finger_x = e.touches[i].pageX
+								  finger_y = e.touches[i].pageY
 				}
 			}
 		}
@@ -211,11 +213,24 @@ function render(){
                     ctx.strokeText(moleArr[i].mole.password,moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/3)
                     ctx.fillText(moleArr[i].mole.password,moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/3)
                     if (wheel) {
-                            ctx.drawImage(wheel.img,wheel.x,wheel.y,wheel.width,wheel.height);
+                            //ctx.drawImage(wheel.img,wheel.x,wheel.y,wheel.width,wheel.height);
 							ctx.beginPath();
+							var xDistance = finger_x - (wheel.x + wheel.width/2)
+							var yDistance = finger_y - (wheel.y + wheel.height/2)
+							if(Math.abs(xDistance) < Math.abs(yDistance)){
+							  ctx.strokeStyle = "#ffff00" // yellow
+							}else if(xDistance > 0){
+							  ctx.strokeStyle = "#00ff00" //  green
+							}else {
+							  ctx.strokeStyle = "#ff0000" // red
+							}
+							
 							ctx.moveTo((wheel.x + wheel.width/2),(wheel.y + wheel.height/2));
 							ctx.lineTo(finger_x,finger_y);
+							ctx.lineWidth=10;
 							ctx.stroke();
+							ctx.strokeStyle = "#000000"
+							ctx.lineWidth=1;
                     }
                 }
 	}
