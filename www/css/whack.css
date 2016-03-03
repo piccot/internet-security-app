@@ -96,3 +96,43 @@ h1 {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
 }
+
+.popup {
+    margin: auto;
+    position: absolute;
+    border: 1px solid black;
+    background: white;
+    height: 80%;
+    width: 100%;
+    top: 10%;
+    padding: 10px;
+    z-index: 2;
+    font-size:150%;
+}
+
+.mailBody{
+    position: relative;
+    padding-right:5%;
+    padding-left:5%;
+    height:79%;
+    -webkit-overflow-scrolling: touch;
+    overflow:scroll;
+}
+.to, .from, .subject{
+    height:7%
+}
+.scrollingBody{
+        height:90%;
+    }
+
+.inner {
+        height: calc(100% + 1px);
+    }
+.buttonRow{
+    width: 33%;
+}
+
+canvas{
+    position: absolute;
+    z-index: 1;
+}

@@ -16,6 +16,7 @@
         <param name="android-package" value="net.yoik.cordova.plugins.screenorientation.YoikScreenOrientation" />
     </feature>
     <allow-intent href="market:*" />
+    <preference name="DisallowOverscroll" value="true" />
     <preference name="KeepRunning" value="false" />
     <preference name="SetFullscreen" value="True" />
     <name>Internet Security App</name>
