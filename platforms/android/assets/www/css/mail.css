@@ -114,10 +114,20 @@ h1 {
     position: relative;
     padding-right:5%;
     padding-left:5%;
-    height:100px;
+    height:79%;
     -webkit-overflow-scrolling: touch;
     overflow:scroll;
 }
+.to, .from, .subject{
+    height:7%
+}
+.scrollingBody{
+        height:90%;
+    }
+
+.inner {
+        height: calc(100% + 1px);
+    }
 .buttonRow{
     width: 33%;
 }

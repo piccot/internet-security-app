@@ -241,7 +241,7 @@ var score = 0;
 function touchStart(e){
 	for(i=0;i<e.touches.length;i++){
 			for(j=0;j<virus_arr.length;j++){
-				if(e.touches[i].pageX >= virus_arr[j].x && e.touches[i].pageX <= virus_arr[j].x +virus_arr[j].width && e.touches[i].pageY >= virus_arr[j].y && e.touches[i].pageY <= virus_arr[j].y + virus_arr[j].height){
+				if(e.touches[i].pageX >= virus_arr[j].x - virus_arr[j].width /2 && e.touches[i].pageX <= virus_arr[j].x + virus_arr[j].width *1.5 && e.touches[i].pageY >= virus_arr[j].y - virus_arr[j].height /2 && e.touches[i].pageY <= virus_arr[j].y + virus_arr[j].height *1.5){
 					if (virus_arr[j].type == 1){
 						held = virus_arr[j];
 						virus_arr.splice(j,1);
