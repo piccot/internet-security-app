@@ -41,12 +41,8 @@ function writeLog(str) {
     alert("going to log "+log);
     logOb.createWriter(function(fileWriter) {
         fileWriter.seek(fileWriter.length);
-		fileWriter.onwrite = function (e) {
-			console.log("written");
-		
-		}
-        var blob = new Blob([log], {type:'text/plain'});
-        fileWriter.write("Test Text");
+        
+        fileWriter.write(log);
 		justForTesting()
     }, fail);
 }
