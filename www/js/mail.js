@@ -40,6 +40,8 @@ var explosionImage = new Image();
 explosionImage.src = 'assets/img/explosion.png';
 var phishImage = new Image();
 phishImage.src = 'assets/img/virus_red.png';
+var fakeLockImage = new Image();
+fakeLockImage.src = 'assets/img/virus_red.png';
 
 function mail(pos, text, type, sub){
 	this.x = pos * window.innerWidth/3;
@@ -97,9 +99,11 @@ function closeMail(choice){
                     spam--;
                     openMail.img = phishImage;
                     openMail.delay = 300;
-                }else{
-                openMail.img = explosionImage;
-                openMail.delay = 300;
+                }
+                if (openMail.sub == 1){ //Fake Account
+                    score--;
+                    openMail.img = fakeLockImage;
+                    openMail.delay = 300;
                 }
             }
             break;
