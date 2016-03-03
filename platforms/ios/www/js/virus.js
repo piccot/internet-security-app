@@ -11,7 +11,7 @@ var base_penalty = 5000;
 var av_speed_mod = .1;
 var av_size_mod = -.1;
 var win_score = 64;
-var timeRemaining = 120000;
+var timeRemaining = 30000;
 var score_arr = [];
 var app = {
 
@@ -102,12 +102,6 @@ function av_button(){
 }
 var lastTime = Date.now();
 function main (){
-	if (timeRemaining <= 0){
-		alert('win');
-		score = 0;
-		timeRemaining = 120000
-		score_arr = [];
-	}
     update()
 	lastTime = Date.now()
 	render()
@@ -147,7 +141,12 @@ var av_update = false;
 var av_update_counter = 0;
 function editObjects(dt){
 	timeRemaining = timeRemaining - dt;
-	
+    if (timeRemaining <= 0){
+        //		score = 0;
+        //		timeRemaining = 30000
+        //		score_arr = [];
+        window.location.href = 'virus_final.html'
+    }
 	for(var i = 0; i < virus_arr.length; i++){
 		var current = virus_arr[i];
 		current.x = current.x + current.dx * dt;
