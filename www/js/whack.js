@@ -23,7 +23,7 @@ var app = {
 				var reader = new FileReader();
 				reader.onload = function(e) {
 					filedata=this.result;
-					addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
+					addEventListener('touchmove', touchMove);
 					addEventListener("touchstart",touchStart);
 					addEventListener("touchend",touchEnd);
 					jsonObject = JSON.parse('[{"Password":"password123","Type": 3, "id": 1},{"Password":"I<3Horses","Type": 3, "id": 2},{"Password":"JknsD3@anmAiLfknsma!","Type": 3, "id": 3},{ "Password":"HappyDays","Type": 3, "id": 4},{"Password":"TheBestPassword","Type": 3, "id": 5},{"Password":"TheBestPassword","Type": 3, "id": 6},{"Password":"TheWorstPassword","Type": 3, "id": 7},{"Password":"2@Atak","Type": 2, "id": 8},{"Password":"24pples2D4y","Type": 2, "id": 9},{"Password":"IWasBornIn1919191995","Type": 2, "id": 10},{"Password":"IWasBornIn1919191995","Type": 2, "id": 11},{"Password":"2BorNot2B_ThatIsThe?","Type": 1, "id": 12},{"Password":"4Score&7yrsAgo","Type": 1, "id": 13}]');
@@ -40,6 +40,8 @@ var app = {
 
 };
 var results_file
+var finger_x;
+var finger_y;
 var questions_file
 var results_arr = []
 var baseDelay = 5000
@@ -149,6 +151,12 @@ function touchStart(e){
 	
 
 }
+function touchMove(e){
+	for(i=0;i<e.touches.length;i++){
+		finger_x = e.touches[i].pageX;
+		finger_y = e.touches[i].pageY;
+	}
+}
 function touchEnd(e){
         console.log(e.changedTouches[0].pageX, e.changedTouches[0].pageY)
         if(wheel === null){return}
@@ -204,6 +212,10 @@ function render(){
                     ctx.fillText(moleArr[i].mole.password,moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/3)
                     if (wheel) {
                             ctx.drawImage(wheel.img,wheel.x,wheel.y,wheel.width,wheel.height);
+							ctx.beginPath();
+							ctx.moveTo((wheel.x + wheel.width/2),(wheel.y + wheel.height/2));
+							ctx.lineTo(finger_x,finger_y);
+							ctx.stroke();
                     }
                 }
 	}
