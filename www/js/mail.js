@@ -29,12 +29,17 @@ var hitMissDelay = 2000
 var time = 0;
 var bgImage = new Image();
 bgImage.src = 'assets/img/sky.jpg';
-var speed = 5;
+var baseSpeed = 4000;
+var delta = window.height / baseSpeed;
 var mailOpen = false;
+var score = 0;
+var spam = 0;
 var mailImage = new Image();
 mailImage.src = 'assets/img/mail.png';
 var explosionImage = new Image();
 explosionImage.src = 'assets/img/explosion.png';
+var phishImage = new Image();
+phishImage.src = 'assets/img/virus_red.png';
 
 function mail(pos, text, type, sub){
 	this.x = pos * window.innerWidth/3;
@@ -87,9 +92,15 @@ function closeMail(choice){
                 openMail.delay = 300;
             }
             if (openMail.type == 1){ //bad mail
-                
+                if (openMail.sub == 0){ //phish mail
+                    score--;
+                    spam--;
+                    openMail.img = phishImage;
+                    openMail.delay = 300;
+                }else{
                 openMail.img = explosionImage;
                 openMail.delay = 300;
+                }
             }
             break;
         case 1:  //reject
@@ -276,7 +287,7 @@ function render(){
 
 function main (){
 
-        update()
+    update()
 	lastTime = Date.now()
 	render()
 	requestAnimationFrame(main)
@@ -305,7 +316,7 @@ function editObjects(dt){
                 }
             }
                 if(mailArr[i][j].y < window.innerHeight - (j+1)*window.innerHeight/8){
-                        mailArr[i][j].y = mailArr[i][j].y + speed;
+                        mailArr[i][j].y = mailArr[i][j].y + delta*dt;
                 }
         }
     }
