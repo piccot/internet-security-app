@@ -31,14 +31,14 @@ var bgImage = new Image();
 bgImage.src = 'assets/img/sky.jpg';
 var speed = 5;
 var mailOpen = false;
+var mailImage = new Image();
+mailImage.src = 'assets/img/mail.png';
 
 function mail(pos, text, type){
 	this.x = pos * window.innerWidth/3;
 	this.y = 0;
     this.width = window.innerWidth/3;
     this.height = window.innerHeight/8;
-	var mailImage = new Image();
-	mailImage.src = 'assets/img/mail.png';
 	this.img = mailImage;
     this.text = text;
     this.type = type;

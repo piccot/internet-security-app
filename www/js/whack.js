@@ -17,18 +17,30 @@ var app = {
         
         dir.getFile("whack_results.json", {create:true}, function(file) {
             results_file = file;
-			addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
-			addEventListener("touchstart",touchStart);
-			addEventListener("touchend",touchEnd);
-			jsonObject = JSON.parse('[{"Password":"password123","Type": 3, "id": 1},{"Password":"I<3Horses","Type": 3, "id": 2},{"Password":"JknsD3@anmAiLfknsma!","Type": 3, "id": 3},{ "Password":"HappyDays","Type": 3, "id": 4},{"Password":"TheBestPassword","Type": 3, "id": 5},{"Password":"TheBestPassword","Type": 3, "id": 6},{"Password":"TheWorstPassword","Type": 3, "id": 7},{"Password":"2@Atak","Type": 2, "id": 8},{"Password":"24pples2D4y","Type": 2, "id": 9},{"Password":"IWasBornIn1919191995","Type": 2, "id": 10},{"Password":"IWasBornIn1919191995","Type": 2, "id": 11},{"Password":"2BorNot2B_ThatIsThe?","Type": 1, "id": 12},{"Password":"4Score&7yrsAgo","Type": 1, "id": 13}]');
-			lastTime = Date.now()
-			main();	
+			dir.getFile("whack_questions.json", {create:true}, function(file) {
+				questions_file = file;
+				results_file.file(function(file) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					filedata=this.result;
+					addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
+					addEventListener("touchstart",touchStart);
+					addEventListener("touchend",touchEnd);
+					jsonObject = JSON.parse('[{"Password":"password123","Type": 3, "id": 1},{"Password":"I<3Horses","Type": 3, "id": 2},{"Password":"JknsD3@anmAiLfknsma!","Type": 3, "id": 3},{ "Password":"HappyDays","Type": 3, "id": 4},{"Password":"TheBestPassword","Type": 3, "id": 5},{"Password":"TheBestPassword","Type": 3, "id": 6},{"Password":"TheWorstPassword","Type": 3, "id": 7},{"Password":"2@Atak","Type": 2, "id": 8},{"Password":"24pples2D4y","Type": 2, "id": 9},{"Password":"IWasBornIn1919191995","Type": 2, "id": 10},{"Password":"IWasBornIn1919191995","Type": 2, "id": 11},{"Password":"2BorNot2B_ThatIsThe?","Type": 1, "id": 12},{"Password":"4Score&7yrsAgo","Type": 1, "id": 13}]');
+					lastTime = Date.now()
+					main();
+				};
+				reader.readAsText(file);
+			}, fail);
+					
+			});
         });
 	});
     },
 
 };
 var results_file
+var questions_file
 var results_arr = []
 var baseDelay = 5000
 var hitMissDelay = 2000
@@ -112,7 +124,7 @@ function update(){
         timePercentage = timer/startTimer
 	if(timer <= 0){
 		writeResultsToFile()
-                window.location.href = 'whack_final.html?score=' + score
+                
 		timer = 30000;
 		score = 0;
 		for(j=0;j<6;j++)
@@ -229,34 +241,6 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function loadJSONData(){
-var xmlhttp;
-var jsonObject;
-
-// code for IE7+, Firefox, Chrome, Opera, Safari
-if (window.XMLHttpRequest)
-{
-    xmlhttp=new XMLHttpRequest();
-}
-// code for IE6, IE5
-else
-{
-    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-}
-
-xmlhttp.onreadystatechange=function()
-{
-    if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-        jsonObject = JSON.parse(xmlhttp.responseText);
-        alert(jsonObject[0].Password);                     
-    }
-}
-
-xmlhttp.open("GET","gamedata/whack.json",true);
-xmlhttp.send();
-
-}
 function writeResultsToFile(){
 	var filedata
     results_file.file(function(file) {
@@ -265,7 +249,7 @@ function writeResultsToFile(){
         reader.onload = function(e) {
 			
 			filedata=this.result;
-			alert(filedata);
+
 			var datalog = JSON.stringify(results_arr);
 			if (filedata.length > 0){
 				datalog = "," + datalog;
@@ -274,12 +258,17 @@ function writeResultsToFile(){
 				fileWriter.seek(fileWriter.length);
 				
 				fileWriter.write(datalog);
+				window.location.href = 'whack_final.html?score=' + score
+
 			}, fail);
         };
 
         reader.readAsText(file);
     }, fail);
 
+}
+function fail(err){
+	alert(err)
 }
 
 
