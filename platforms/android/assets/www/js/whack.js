@@ -1,3 +1,7 @@
+window.onerror = function(msg, url, linenumber) {
+    alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+    return true;
+}
 var app = {
 
   
@@ -19,14 +23,15 @@ var app = {
             results_file = file;
 			dir.getFile("whack_questions.json", {create:true}, function(file) {
 				questions_file = file;
-				results_file.file(function(file) {
+				questions_file.file(function(file) {
 				var reader = new FileReader();
 				reader.onload = function(e) {
+					alert(this.result);
 					filedata=this.result;
 					addEventListener('touchmove', touchMove);
 					addEventListener("touchstart",touchStart);
 					addEventListener("touchend",touchEnd);
-					jsonObject = JSON.parse('[{"Password":"password123","Type": 3, "id": 1},{"Password":"I<3Horses","Type": 3, "id": 2},{"Password":"JknsD3@anmAiLfknsma!","Type": 3, "id": 3},{ "Password":"HappyDays","Type": 3, "id": 4},{"Password":"TheBestPassword","Type": 3, "id": 5},{"Password":"TheBestPassword","Type": 3, "id": 6},{"Password":"TheWorstPassword","Type": 3, "id": 7},{"Password":"2@Atak","Type": 2, "id": 8},{"Password":"24pples2D4y","Type": 2, "id": 9},{"Password":"IWasBornIn1919191995","Type": 2, "id": 10},{"Password":"IWasBornIn1919191995","Type": 2, "id": 11},{"Password":"2BorNot2B_ThatIsThe?","Type": 1, "id": 12},{"Password":"4Score&7yrsAgo","Type": 1, "id": 13}]');
+					jsonObject = JSON.parse(filedata);
 					lastTime = Date.now()
 					main();
 				};
