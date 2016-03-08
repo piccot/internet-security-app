@@ -1,3 +1,37 @@
+var questions_file
+window.onerror = function(msg, url, linenumber) {
+    alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+    return true;
+}
+var app = {
+
+  
+    initialize: function() {
+        this.bindEvents();
+			
+		
+	},
+
+    bindEvents: function() {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+		
+    },
+
+    onDeviceReady: function() {
+		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
+			dir.getFile("whack_questions.json", {create:true}, function(file) {
+				questions_file = file;	
+				writeWhackQuestionsToFile();
+				createCard('whack.png','whack.html',0);
+				createCard('virus.png','virus.html',1);
+				createCard('placeholder.png','mail.html',2);
+				createCard('placeholder.png','test.html',3);
+			});
+		
+	});
+    }
+
+};
 function createCard(splash,home,i){
 	var container = document.getElementsByClassName("scroll-holder")[0]
 	var width = Math.floor(container.offsetWidth * .75)
@@ -24,8 +58,27 @@ function createCard(splash,home,i){
 	
 	
 }
+function fail(){
+	return true;
+}
+function writeWhackQuestionsToFile(){
+	var filedata
+    questions_file.file(function(file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {			
+			filedata=this.result;
+			questions_file.createWriter(function(fileWriter) {
+				fileWriter.seek(fileWriter.length);
+				if (fileWriter.length <= 0){
+					fileWriter.write('[{"Password":"password123","Type": 3, "id": 1},{"Password":"I<3Horses","Type": 3, "id": 2},{"Password":"JknsD3@anmAiLfknsma!","Type": 3, "id": 3},{ "Password":"HappyDays","Type": 3, "id": 4},{"Password":"TheBestPassword","Type": 3, "id": 5},{"Password":"TheBestPassword","Type": 3, "id": 6},{"Password":"TheWorstPassword","Type": 3, "id": 7},{"Password":"2@Atak","Type": 2, "id": 8},{"Password":"24pples2D4y","Type": 2, "id": 9},{"Password":"IWasBornIn1919191995","Type": 2, "id": 10},{"Password":"IWasBornIn1919191995","Type": 2, "id": 11},{"Password":"2BorNot2B_ThatIsThe?","Type": 1, "id": 12},{"Password":"4Score&7yrsAgo","Type": 1, "id": 13}]');
+				}
+			}, fail);
+        };
+        reader.readAsText(file);
+    }, fail);
 
-createCard('whack.png','whack.html',0);
-createCard('virus.png','virus.html',1);
-createCard('placeholder.png','mail.html',2);
-createCard('placeholder.png','test.html',3);
+}
+
+
+
+app.initialize();
