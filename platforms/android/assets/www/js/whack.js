@@ -26,7 +26,6 @@ var app = {
 				questions_file.file(function(file) {
 				var reader = new FileReader();
 				reader.onload = function(e) {
-					alert(this.result);
 					filedata=this.result;
 					addEventListener('touchmove', touchMove);
 					addEventListener("touchstart",touchStart);
