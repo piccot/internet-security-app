@@ -55,6 +55,8 @@ var virus_green_image = new Image();
 virus_green_image.src = 'assets/img/virus_green.png';
 var data_bucket_image = new Image();
 data_bucket_image.src = 'assets/img/data_bucket.png';
+var background_image = new Image();
+background_image.src = 'assets/img/internet_vortex.jpg';
 var av_arr  = [];
 for(i = 0; i < 6; i ++){
 	var av_count_image = new Image();
@@ -114,6 +116,7 @@ function update(){
 
 function render(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.drawImage(background_image,0,0,canvas.width,canvas.height)
 	for(var i = 0; i < virus_arr.length; i++){
 		var current = virus_arr[i];
 		ctx.drawImage(current.img,current.x,current.y,current.width,current.height)
@@ -127,6 +130,8 @@ function render(){
 	
 	ctx.drawImage(data_bucket_image,bucket.x,bucket.y,bucket.size,bucket.size)
 	ctx.drawImage(av_arr[av_counter],av_button.x,av_button.y,av_button.size,av_button.size)
+    ctx.fillStyle = "#FFFFFF"
+    ctx.strokeStyle = "#000000";
 	ctx.strokeText((Math.floor(timeRemaining/10)/100).toFixed(2),10,45);
     ctx.fillText((Math.floor(timeRemaining/10)/100).toFixed(2),10,45);
 	if (held)

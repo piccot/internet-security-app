@@ -1,3 +1,7 @@
+window.onerror = function(msg, url, linenumber) {
+    alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+    return true;
+}
 var app = {
 
   
@@ -19,14 +23,14 @@ var app = {
             results_file = file;
 			dir.getFile("whack_questions.json", {create:true}, function(file) {
 				questions_file = file;
-				results_file.file(function(file) {
+				questions_file.file(function(file) {
 				var reader = new FileReader();
 				reader.onload = function(e) {
 					filedata=this.result;
 					addEventListener('touchmove', touchMove);
 					addEventListener("touchstart",touchStart);
 					addEventListener("touchend",touchEnd);
-					jsonObject = JSON.parse('[{"Password":"password123","Type": 3, "id": 1},{"Password":"I<3Horses","Type": 3, "id": 2},{"Password":"JknsD3@anmAiLfknsma!","Type": 3, "id": 3},{ "Password":"HappyDays","Type": 3, "id": 4},{"Password":"TheBestPassword","Type": 3, "id": 5},{"Password":"TheBestPassword","Type": 3, "id": 6},{"Password":"TheWorstPassword","Type": 3, "id": 7},{"Password":"2@Atak","Type": 2, "id": 8},{"Password":"24pples2D4y","Type": 2, "id": 9},{"Password":"IWasBornIn1919191995","Type": 2, "id": 10},{"Password":"IWasBornIn1919191995","Type": 2, "id": 11},{"Password":"2BorNot2B_ThatIsThe?","Type": 1, "id": 12},{"Password":"4Score&7yrsAgo","Type": 1, "id": 13}]');
+					jsonObject = JSON.parse(filedata);
 					lastTime = Date.now()
 					main();
 				};
@@ -145,6 +149,8 @@ function touchStart(e){
 			for(j=0;j<6;j++){
 				if(e.touches[i].pageX >= moleArr[j].x && e.touches[i].pageX <= moleArr[j].x +moleArr[j].width && e.touches[i].pageY >= moleArr[j].y && e.touches[i].pageY <= moleArr[j].y + moleArr[j].height && moleArr[j].mole){
                                   wheel = new colorWheel(e.touches[i].pageX,e.touches[i].pageY, j);
+								  finger_x = e.touches[i].pageX
+								  finger_y = e.touches[i].pageY
 				}
 			}
 		}
@@ -211,11 +217,24 @@ function render(){
                     ctx.strokeText(moleArr[i].mole.password,moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/3)
                     ctx.fillText(moleArr[i].mole.password,moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/3)
                     if (wheel) {
-                            ctx.drawImage(wheel.img,wheel.x,wheel.y,wheel.width,wheel.height);
+                            //ctx.drawImage(wheel.img,wheel.x,wheel.y,wheel.width,wheel.height);
 							ctx.beginPath();
+							var xDistance = finger_x - (wheel.x + wheel.width/2)
+							var yDistance = finger_y - (wheel.y + wheel.height/2)
+							if(Math.abs(xDistance) < Math.abs(yDistance)){
+							  ctx.strokeStyle = "#ffff00" // yellow
+							}else if(xDistance > 0){
+							  ctx.strokeStyle = "#00ff00" //  green
+							}else {
+							  ctx.strokeStyle = "#ff0000" // red
+							}
+							
 							ctx.moveTo((wheel.x + wheel.width/2),(wheel.y + wheel.height/2));
 							ctx.lineTo(finger_x,finger_y);
+							ctx.lineWidth=10;
 							ctx.stroke();
+							ctx.strokeStyle = "#000000"
+							ctx.lineWidth=1;
                     }
                 }
 	}

@@ -130,6 +130,8 @@ function render(){
 	
 	ctx.drawImage(data_bucket_image,bucket.x,bucket.y,bucket.size,bucket.size)
 	ctx.drawImage(av_arr[av_counter],av_button.x,av_button.y,av_button.size,av_button.size)
+    ctx.fillStyle = "#FFFFFF"
+    ctx.strokeStyle = "#000000";
 	ctx.strokeText((Math.floor(timeRemaining/10)/100).toFixed(2),10,45);
     ctx.fillText((Math.floor(timeRemaining/10)/100).toFixed(2),10,45);
 	if (held)
