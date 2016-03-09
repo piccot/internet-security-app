@@ -16,7 +16,7 @@ var app = {
 
 		addEventListener("touchstart",touchStart);
 		addEventListener("touchend",touchEnd);
-                jsonObject = JSON.parse('[{"Mail":"OBVIOUS GOOD EMAIL - Teach","Type": 0,"Sub": 0},{"Mail":"OBVIOUS GOOD EMAIL - Job","Type": 0,"Sub": 1},{"Mail":"OBVIOUS GOOD EMAIL - Family","Type": 0,"Sub": 2},{"Mail":"OBVIOUS GOOD EMAIL - Account","Type": 0,"Sub": 3},{"Mail":"OBVIOUS BAD EMAIL - Phishing","Type": 1,"Sub": 0},{"Mail":"OBVIOUS BAD EMAIL - Fake Account","Type": 1,"Sub": 1},{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1}]');
+                jsonObject = JSON.parse('[{"Mail":"OBVIOUS GOOD EMAIL - Teach","Type": 0,"Sub": 0},{"Mail":"OBVIOUS GOOD EMAIL - Job","Type": 0,"Sub": 1},{"Mail":"OBVIOUS GOOD EMAIL - Family","Type": 0,"Sub": 2},{"Mail":"OBVIOUS GOOD EMAIL - Account","Type": 0,"Sub": 3},{"Mail":"OBVIOUS BAD EMAIL - Phishing","Type": 1,"Sub": 0},{"Mail":"OBVIOUS BAD EMAIL - Fake Account","Type": 1,"Sub": 1},{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1}]');
        // jsonObject = JSON.parse('[{"Mail":"Good email example","Type": 0}]');
 
 		lastTime = Date.now()
@@ -25,7 +25,7 @@ var app = {
 
 };
 var baseDelay = 5000
-var hitMissDelay = 2000
+//var hitMissDelay = 2000
 var time = 0;
 var bgImage = new Image();
 bgImage.src = 'assets/img/sky.jpg';
@@ -33,15 +33,26 @@ var baseSpeed = 3000;
 var delta = window.innerHeight / baseSpeed;
 var mailOpen = false;
 var score = 0;
-var spam = 0;
+var spamBase = 0;
+var spamFilter = 0;
 var mailImage = new Image();
 mailImage.src = 'assets/img/mail.png';
 var explosionImage = new Image();
 explosionImage.src = 'assets/img/explosion.png';
-var phishImage = new Image();
-phishImage.src = 'assets/img/virus_red.png';
-var fakeLockImage = new Image();
-fakeLockImage.src = 'assets/img/virus_red.png';
+var acceptPhishImage = new Image();
+acceptPhishImage.src = 'assets/img/accept_phish.png';
+var acceptAccountImage = new Image();
+acceptAccountImage.src = 'assets/img/accept_account.png';
+var acceptVirusImage = new Image();
+acceptVirusImage.src = 'assets/img/accept_virus.png';
+var rejectTeachImage = new Image();
+rejectTeachImage.src = 'assets/img/reject_teach.png';
+var rejectJobImage = new Image();
+rejectJobImage.src = 'assets/img/reject_job.png';
+var rejectFamilyImage = new Image();
+rejectFamilyImage.src = 'assets/img/reject_family.png';
+var rejectAccountImage = new Image();
+rejectAccountImage.src = 'assets/img/reject_account.png';
 
 function mail(pos, text, type, sub){
 	this.x = pos * window.innerWidth/3;
@@ -55,6 +66,14 @@ function mail(pos, text, type, sub){
     this.delay = null;
 }
 
+function changeSpam(diff){
+    if (spamBase + diff < 0){
+        return;
+    }
+    spamBase = spamBase + diff;
+    spamFilter = parseFloat((0.8*(spamBase/(spamBase+3))).toFixed(2))
+    
+}
 
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
@@ -90,36 +109,82 @@ function closeMail(choice){
     switch (choice){
         case 0: //accept
             if (openMail.type == 0){ //good mail
+                score++;
                 openMail.img = explosionImage;
-                openMail.delay = 300;
             }
             if (openMail.type == 1){ //bad mail
                 if (openMail.sub == 0){ //phish mail
                     score--;
-                    spam--;
-                    openMail.img = phishImage;
-                    openMail.delay = 300;
+                    changeSpam(-1);
+                    openMail.img = acceptPhishImage;
                 }
                 if (openMail.sub == 1){ //Fake Account
                     score--;
-                    openMail.img = fakeLockImage;
-                    openMail.delay = 300;
+                    openMail.img = acceptAccountImage;
                 }
+                if (openMail.sub == 2){ //Virus
+                    openMail.img = acceptVirusImage;
+                }
+            }
+            if (openMail.type == 2){ //spam mail
+                changeSpam(-1);
+                openMail.img = explosionImage;
             }
             break;
         case 1:  //reject
+            if (openMail.type == 0){ //good mail
+                score--;
+                if (openMail.sub == 0){ //teacher
+                    openMail.img = rejectTeachImage;
+                }
+                if (openMail.sub == 1){ //job
+                    openMail.img = rejectJobImage;
+                }
+                if (openMail.sub == 2){ //family
+                    openMail.img = rejectFamilyImage;
+                }
+                if (openMail.sub == 3){ //account
+                    openMail.img = rejectAccountImage;
+                }
+                
+            }
             if (openMail.type == 1){ //bad mail
+                score++;
                 openMail.img = explosionImage;
-                openMail.delay = 300;
+            }
+            if (openMail.type == 2){ //spam mail
+                openMail.img = explosionImage;
             }
             break;
         case 2: //spam
-            if (openMail.type == 2){ //spam mail
-                openMail.img = explosionImage;
-                openMail.delay = 300;
+            if (openMail.type == 0){ //good mail
+                score--;
+                changeSpam(-1);
+                if (openMail.sub == 0){ //teacher
+                    openMail.img = rejectTeachImage;
+                }
+                if (openMail.sub == 1){ //job
+                    openMail.img = rejectJobImage;
+                }
+                if (openMail.sub == 2){ //family
+                    openMail.img = rejectFamilyImage;
+                }
+                if (openMail.sub == 3){ //account
+                    openMail.img = rejectAccountImage;
+                }
             }
+            if (openMail.type == 1){ //bad mail
+                openMail.img = explosionImage;
+            }
+            if (openMail.type == 2){ //spam mail
+                score++;
+                changeSpam(1);
+                openMail.img = explosionImage;
+            }
+            
             break;
     }
+    openMail.delay = 400;
     //destroy mail
     var popup = document.getElementsByClassName("popup")[0];
     popup.parentNode.removeChild(popup);
@@ -285,7 +350,12 @@ function render(){
                         ctx.drawImage(mailArr[i][j].img,mailArr[i][j].x,mailArr[i][j].y,mailArr[i][j].width, mailArr[i][j].height)
                 }
         }
-	
+    ctx.font = "24pt Ariel"
+    ctx.textAlign="left";
+    ctx.strokeText("Score: " + score,40,45);
+    ctx.fillText("Score: " + score,40,45);
+    ctx.strokeText("Spam Filter: " + spamFilter,40,90);
+    ctx.fillText("Spam Filter: " + spamFilter,40,90);
 	
 }
 
