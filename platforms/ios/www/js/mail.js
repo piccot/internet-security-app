@@ -64,13 +64,15 @@ function mail(pos, text, type, sub){
     this.type = type;
     this.sub = sub;
     this.delay = null;
+    this.spamCheck = false;
 }
 
 function changeSpam(diff){
-    if (spamBase + diff < 0){
-        return;
+    if (spamBase + diff <= 0){
+        spamBase = 0;
+    }else{
+        spamBase = spamBase + diff;
     }
-    spamBase = spamBase + diff;
     spamFilter = parseFloat((0.8*(spamBase/(spamBase+3))).toFixed(2))
     
 }
@@ -90,11 +92,7 @@ for(i=0;i<3;i++){
 var lastTime;
 function update(){
 	time = time + (Date.now() - lastTime)
-    
-//	if(time >= 15000){
-//                window.location.href = 'mail_final.html'
-//		time = 0;
-//	}
+
     for(i=0;i<mailArr.length;i++){
         if(mailArr[i].length > 7){
             window.location.href = 'mail_final.html'
@@ -127,7 +125,7 @@ function closeMail(choice){
                 }
             }
             if (openMail.type == 2){ //spam mail
-                changeSpam(-1);
+                changeSpam(-2);
                 openMail.img = explosionImage;
             }
             break;
@@ -201,7 +199,7 @@ function touchStart(e){
 		for(i=0;i<e.touches.length;i++){
 			for(j=0;j<mailArr.length;j++){
                     for(k=0;k<mailArr[j].length;k++){
-				        if(e.touches[i].pageX >= mailArr[j][k].x && e.touches[i].pageX <= mailArr[j][k].x + mailArr[j][k].width && e.touches[i].pageY >= mailArr[j][k].y && e.touches[i].pageY <= mailArr[j][k].y + mailArr[j][k].height){
+				        if(e.touches[i].pageX >= mailArr[j][k].x && e.touches[i].pageX <= mailArr[j][k].x + mailArr[j][k].width && e.touches[i].pageY >= mailArr[j][k].y && e.touches[i].pageY <= mailArr[j][k].y + mailArr[j][k].height && mailArr[j][k].img != explosionImage){
                             
                             openMail = mailArr[j][k]
 
@@ -380,6 +378,14 @@ function editObjects(dt){
 			mailArr[i].push(new mail(i, jsonObject[random].Mail,jsonObject[random].Type,jsonObject[random].Sub))
 		}
         for (j=0;j<mailArr[i].length;j++){
+            if (mailArr[i][j].spamCheck == false){
+                var check = getRandomInt(1,100)
+                if (check/100 <= spamFilter){
+                    mailArr[i][j].img = explosionImage;
+                    mailArr[i][j].delay = 400;
+                }
+                mailArr[i][j].spamCheck = true;
+            }
             if (mailArr[i][j].delay != null){
                 mailArr[i][j].delay = mailArr[i][j].delay - dt
                 
@@ -389,9 +395,9 @@ function editObjects(dt){
                     return;
                 }
             }
-                if(mailArr[i][j].y <= window.innerHeight - (j+1)*window.innerHeight/8){
-                        mailArr[i][j].y = Math.min(mailArr[i][j].y + delta*dt,window.innerHeight - (j+1)*window.innerHeight/8);
-                }
+            if(mailArr[i][j].y <= window.innerHeight - (j+1)*window.innerHeight/8){
+                    mailArr[i][j].y = Math.min(mailArr[i][j].y + delta*dt,window.innerHeight - (j+1)*window.innerHeight/8);
+            }
         }
     }
 				
