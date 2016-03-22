@@ -69,7 +69,6 @@ function sprite(options){
     this.tickCount = 0,
     this.ticksPerFrame = options.ticksPerFrame || 0;
     this.numberOfFrames = options.numberOfFrames || 1;
-    this.loop = options.loop;
     this.x = options.x || 0;
     this.y = options.y || 0;
     this.width = options.width;
@@ -77,7 +76,6 @@ function sprite(options){
 
     
     this.render = function () {
-        //self.context.clearRect(0, 0, self.width, self.height);
 
         // Draw the animation
         self.context.drawImage(
@@ -102,8 +100,8 @@ function sprite(options){
             if (self.frameIndex < self.numberOfFrames - 1) {
                 // Go to the next frame
                 self.frameIndex += 1;
-            }else if(self.loop){
-                self.frameIndex = 0;
+            }else{
+                spriteArr.splice(spriteArr.indexOf(self),1)
             }
         }
     };
@@ -185,7 +183,6 @@ function closeMail(choice){
                                                  image: acceptVirusImage,
                                                  ticksPerFrame: 10,
                                                  numberOfFrames: 6,
-                                                 loop: true,
                                                  width: canvas.width,
                                                  height: canvas.width});
                     spriteArr.push(virusSprite);
