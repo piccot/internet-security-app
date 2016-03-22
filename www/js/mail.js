@@ -16,7 +16,8 @@ var app = {
 
 		addEventListener("touchstart",touchStart);
 		addEventListener("touchend",touchEnd);
-                jsonObject = JSON.parse('[{"Mail":"OBVIOUS GOOD EMAIL - Teach","Type": 0,"Sub": 0},{"Mail":"OBVIOUS GOOD EMAIL - Job","Type": 0,"Sub": 1},{"Mail":"OBVIOUS GOOD EMAIL - Family","Type": 0,"Sub": 2},{"Mail":"OBVIOUS GOOD EMAIL - Account","Type": 0,"Sub": 3},{"Mail":"OBVIOUS BAD EMAIL - Phishing","Type": 1,"Sub": 0},{"Mail":"OBVIOUS BAD EMAIL - Fake Account","Type": 1,"Sub": 1},{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1}]');
+                jsonObject = JSON.parse('[{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1}]');
+//                jsonObject = JSON.parse('[{"Mail":"OBVIOUS GOOD EMAIL - Teach","Type": 0,"Sub": 0},{"Mail":"OBVIOUS GOOD EMAIL - Job","Type": 0,"Sub": 1},{"Mail":"OBVIOUS GOOD EMAIL - Family","Type": 0,"Sub": 2},{"Mail":"OBVIOUS GOOD EMAIL - Account","Type": 0,"Sub": 3},{"Mail":"OBVIOUS BAD EMAIL - Phishing","Type": 1,"Sub": 0},{"Mail":"OBVIOUS BAD EMAIL - Fake Account","Type": 1,"Sub": 1},{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1}]');
        // jsonObject = JSON.parse('[{"Mail":"Good email example","Type": 0}]');
 
 		lastTime = Date.now()
@@ -53,6 +54,61 @@ var rejectFamilyImage = new Image();
 rejectFamilyImage.src = 'assets/img/reject_family.png';
 var rejectAccountImage = new Image();
 rejectAccountImage.src = 'assets/img/reject_account.png';
+
+var spriteArr = [];
+
+function sprite(options){
+    
+    var self = this;
+    
+    this.context = options.context;
+    this.imgWidth = options.image.width;
+    this.imgHeight = options.image.height;
+    this.img = options.image;
+    this.frameIndex = 0,
+    this.tickCount = 0,
+    this.ticksPerFrame = options.ticksPerFrame || 0;
+    this.numberOfFrames = options.numberOfFrames || 1;
+    this.loop = options.loop;
+    this.x = options.x || 0;
+    this.y = options.y || 0;
+    this.width = options.width;
+    this.height = options.height;
+
+    
+    this.render = function () {
+        //self.context.clearRect(0, 0, self.width, self.height);
+
+        // Draw the animation
+        self.context.drawImage(
+            self.img,
+            self.frameIndex * self.imgWidth / self.numberOfFrames,
+            0,
+            self.imgWidth / self.numberOfFrames,
+            self.imgHeight,
+            self.x,
+            self.y,
+            self.width,
+            self.height);
+    };
+    
+    this.update = function () {
+        self.tickCount += 1;
+        
+        if (self.tickCount > self.ticksPerFrame) {
+            
+            self.tickCount = 0;
+            // If the current frame index is in range
+            if (self.frameIndex < self.numberOfFrames - 1) {
+                // Go to the next frame
+                self.frameIndex += 1;
+            }else if(self.loop){
+                self.frameIndex = 0;
+            }
+        }
+    };
+}
+
 
 function mail(pos, text, type, sub){
 	this.x = pos * window.innerWidth/3;
@@ -99,6 +155,9 @@ function update(){
         }
     }
 	editObjects(Date.now() - lastTime)
+    for(var i = 0;i < spriteArr.length;i++){
+        spriteArr[i].update();
+    }
 }
 var hitSound = new Audio("assets/audio/hit.wav")
 var missSound = new Audio("assets/audio/miss.wav")
@@ -121,7 +180,16 @@ function closeMail(choice){
                     openMail.img = acceptAccountImage;
                 }
                 if (openMail.sub == 2){ //Virus
-                    openMail.img = acceptVirusImage;
+                    var virusSprite = new sprite({
+                                                 context: canvas.getContext("2d"),
+                                                 image: acceptVirusImage,
+                                                 ticksPerFrame: 10,
+                                                 numberOfFrames: 6,
+                                                 loop: true,
+                                                 width: canvas.width,
+                                                 height: canvas.width});
+                    spriteArr.push(virusSprite);
+                    openMail.img = explosionImage;
                 }
             }
             if (openMail.type == 2){ //spam mail
@@ -199,7 +267,7 @@ function touchStart(e){
 		for(i=0;i<e.touches.length;i++){
 			for(j=0;j<mailArr.length;j++){
                     for(k=0;k<mailArr[j].length;k++){
-				        if(e.touches[i].pageX >= mailArr[j][k].x && e.touches[i].pageX <= mailArr[j][k].x + mailArr[j][k].width && e.touches[i].pageY >= mailArr[j][k].y && e.touches[i].pageY <= mailArr[j][k].y + mailArr[j][k].height && mailArr[j][k].img != explosionImage){
+				        if(e.touches[i].pageX >= mailArr[j][k].x && e.touches[i].pageX <= mailArr[j][k].x + mailArr[j][k].width && e.touches[i].pageY >= mailArr[j][k].y && e.touches[i].pageY <= mailArr[j][k].y + mailArr[j][k].height && mailArr[j][k].img == mailImage){
                             
                             openMail = mailArr[j][k]
 
@@ -354,6 +422,10 @@ function render(){
     ctx.fillText("Score: " + score,40,45);
     ctx.strokeText("Spam Filter: " + spamFilter,40,90);
     ctx.fillText("Spam Filter: " + spamFilter,40,90);
+    
+    for(var i = 0;i < spriteArr.length;i++){
+        spriteArr[i].render();
+    }
 	
 }
 
