@@ -16,8 +16,8 @@ var app = {
 
 		addEventListener("touchstart",touchStart);
 		addEventListener("touchend",touchEnd);
-                jsonObject = JSON.parse('[{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1}]');
-//                jsonObject = JSON.parse('[{"Mail":"OBVIOUS GOOD EMAIL - Teach","Type": 0,"Sub": 0},{"Mail":"OBVIOUS GOOD EMAIL - Job","Type": 0,"Sub": 1},{"Mail":"OBVIOUS GOOD EMAIL - Family","Type": 0,"Sub": 2},{"Mail":"OBVIOUS GOOD EMAIL - Account","Type": 0,"Sub": 3},{"Mail":"OBVIOUS BAD EMAIL - Phishing","Type": 1,"Sub": 0},{"Mail":"OBVIOUS BAD EMAIL - Fake Account","Type": 1,"Sub": 1},{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1}]');
+//                jsonObject = JSON.parse('[{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1}]');
+                jsonObject = JSON.parse('[{"Mail":"OBVIOUS GOOD EMAIL - Teach","Type": 0,"Sub": 0},{"Mail":"OBVIOUS GOOD EMAIL - Job","Type": 0,"Sub": 1},{"Mail":"OBVIOUS GOOD EMAIL - Family","Type": 0,"Sub": 2},{"Mail":"OBVIOUS GOOD EMAIL - Account","Type": 0,"Sub": 3},{"Mail":"OBVIOUS BAD EMAIL - Phishing","Type": 1,"Sub": 0},{"Mail":"OBVIOUS BAD EMAIL - Fake Account","Type": 1,"Sub": 1},{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1}]');
        // jsonObject = JSON.parse('[{"Mail":"Good email example","Type": 0}]');
 
 		lastTime = Date.now()
@@ -54,6 +54,9 @@ var rejectFamilyImage = new Image();
 rejectFamilyImage.src = 'assets/img/reject_family.png';
 var rejectAccountImage = new Image();
 rejectAccountImage.src = 'assets/img/reject_account.png';
+var spamUpImage = new Image();
+spamUpImage.src = 'assets/img/spam_up.png';
+
 
 var spriteArr = [];
 
@@ -243,6 +246,17 @@ function closeMail(choice){
             if (openMail.type == 2){ //spam mail
                 score++;
                 changeSpam(1);
+                var spamUpSprite = new sprite({
+                                            context: canvas.getContext("2d"),
+                                            image: spamUpImage,
+                                            ticksPerFrame: 3,
+                                            numberOfFrames: 12,
+                                            x: canvas.width*3/5,
+                                            y: document.getElementsByClassName("reject")[0].offsetTop,
+                                            width: canvas.width/4,
+                                            height: canvas.width/4});
+                spriteArr.push(spamUpSprite);
+                hitSound.play()
                 openMail.img = explosionImage;
             }
             
@@ -331,6 +345,7 @@ function touchStart(e){
                                                 button1.appendChild(accept)
                             
                                                 var reject = document.createElement("img");
+                                                reject.className = "reject"
                                                 reject.src = "assets/img/reject_button.png";
                                                 reject.addEventListener('touchstart', function(event){
                                                                         event.preventDefault();
@@ -416,10 +431,10 @@ function render(){
         }
     ctx.font = "24pt Ariel"
     ctx.textAlign="left";
-    ctx.strokeText("Score: " + score,40,45);
-    ctx.fillText("Score: " + score,40,45);
-    ctx.strokeText("Spam Filter: " + spamFilter,40,90);
-    ctx.fillText("Spam Filter: " + spamFilter,40,90);
+    ctx.strokeText("Score: " + score,10,45);
+    ctx.fillText("Score: " + score,10,45);
+    //ctx.strokeText("Spam Filter: " + spamFilter,40,90);
+    //ctx.fillText("Spam Filter: " + spamFilter,40,90);
     
     for(var i = 0;i < spriteArr.length;i++){
         spriteArr[i].render();
