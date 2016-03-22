@@ -182,10 +182,11 @@ function closeMail(choice){
                                                  context: canvas.getContext("2d"),
                                                  image: acceptVirusImage,
                                                  ticksPerFrame: 10,
-                                                 numberOfFrames: 6,
+                                                 numberOfFrames: 10,
                                                  width: canvas.width,
                                                  height: canvas.width});
                     spriteArr.push(virusSprite);
+                    millisecondsPerMail = 1;
                     openMail.img = explosionImage;
                 }
             }
