@@ -170,24 +170,25 @@ function touchEnd(e){
 	for(i=0;i<e.changedTouches.length;i++){
 			var xDistance = e.changedTouches[i].pageX - start.x
 			var yDistance = e.changedTouches[i].pageY - start.y
-            if(Math.abs(xDistance) < Math.abs(yDistance)){
-              colorSelect = 2; // yellow
-            }else if(xDistance > 0){
-              colorSelect = 1; //  green
-            }else {
-              colorSelect = 3; // red
-            }
-			results_arr.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect})
-			if(moleArr[start.attachedTo].mole.targetType == colorSelect){
-				score = score + Math.floor(moleArr[start.attachedTo].mole.delay/1000 + 1)*5
-				hitSound.play()
-				moleArr[start.attachedTo].mole = new hit();
-			}else{
-					timer = timer - 2000
-					missSound.play()
-					moleArr[start.attachedTo].mole = new miss();
+			if (xDistance * xDistance + yDistance * yDistance <= 100){
+				if(Math.abs(xDistance) < Math.abs(yDistance)){
+				  colorSelect = 2; // yellow
+				}else if(xDistance > 0){
+				  colorSelect = 1; //  green
+				}else {
+				  colorSelect = 3; // red
+				}
+				results_arr.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect})
+				if(moleArr[start.attachedTo].mole.targetType == colorSelect){
+					score = score + Math.floor(moleArr[start.attachedTo].mole.delay/1000 + 1)*5
+					hitSound.play()
+					moleArr[start.attachedTo].mole = new hit();
+				}else{
+						timer = timer - 2000
+						missSound.play()
+						moleArr[start.attachedTo].mole = new miss();
+				}
 			}
-			
         }
        start = null;
 }
