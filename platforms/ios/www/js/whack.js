@@ -142,7 +142,7 @@ function touchStart(e){
 	
 		for(i=0;i<e.touches.length;i++){
 			for(j=0;j<6;j++){
-				if(e.touches[i].pageX >= moleArr[j].x && e.touches[i].pageX <= moleArr[j].x +moleArr[j].width && e.touches[i].pageY >= moleArr[j].y && e.touches[i].pageY <= moleArr[j].y + moleArr[j].height && moleArr[j].mole){
+				if(e.touches[i].pageX >= moleArr[j].x && e.touches[i].pageX <= moleArr[j].x +moleArr[j].width && e.touches[i].pageY >= moleArr[j].y && e.touches[i].pageY <= moleArr[j].y + moleArr[j].height && moleArr[j].mole && moleArr[j].mole.img == moleImage){
                     start = new startPoint(e.touches[i].pageX,e.touches[i].pageY, j);
                     finger_x = e.touches[i].pageX
                     finger_y = e.touches[i].pageY
