@@ -12,25 +12,20 @@ var app = {
 	},
 
     bindEvents: function() {
-        alert('-1');
         document.addEventListener('deviceready', this.onDeviceReady, false);
 		
     },
 
     onDeviceReady: function() {
-        alert('0');
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
-                                         alert('1');
+        
         dir.getFile("whack_results.json", {create:true}, function(file) {
-                    alert('2');
             results_file = file;
 			dir.getFile("whack_questions.json", {create:true}, function(file) {
 				questions_file = file;
-                        alert('3');
 				questions_file.file(function(file) {
 				var reader = new FileReader();
 				reader.onload = function(e) {
-                                    alert('4');
 					filedata=this.result;
 					addEventListener('touchmove', touchMove);
 					addEventListener("touchstart",touchStart);
@@ -39,7 +34,6 @@ var app = {
 					lastTime = Date.now()
 					main();
 				};
-                                    alert('5');
 				reader.readAsText(file);
 			}, fail);
 					
@@ -72,8 +66,7 @@ var hitImage = new Image();
 hitImage.src = 'assets/img/hit.png';
 var missImage = new Image();
 missImage.src = 'assets/img/miss.png';
-var wheelImage = new Image();
-wheelImage.src = 'assets/img/wheel.png'
+
 function moleHole(x,y){
 	this.x = x;
 	this.y=y;
@@ -109,15 +102,11 @@ function miss(){
         this.currentType = -1;
 }
 
-var wheel = null;
-function colorWheel(x,y,mole){
-        this.width = window.innerWidth/2;
-        this.height = window.innerHeight/4;
-	this.x=x - this.width/2;
-	this.y=y - this.height/2;
-
-        this.img = wheelImage;
-        this.attachedTo = mole;
+var start = null;
+function startPoint(x,y,mole){
+	this.x = x;
+    this.y = y;
+    this.attachedTo = mole;
 }
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
@@ -154,9 +143,9 @@ function touchStart(e){
 		for(i=0;i<e.touches.length;i++){
 			for(j=0;j<6;j++){
 				if(e.touches[i].pageX >= moleArr[j].x && e.touches[i].pageX <= moleArr[j].x +moleArr[j].width && e.touches[i].pageY >= moleArr[j].y && e.touches[i].pageY <= moleArr[j].y + moleArr[j].height && moleArr[j].mole){
-                                  wheel = new colorWheel(e.touches[i].pageX,e.touches[i].pageY, j);
-								  finger_x = e.touches[i].pageX
-								  finger_y = e.touches[i].pageY
+                    start = new startPoint(e.touches[i].pageX,e.touches[i].pageY, j);
+                    finger_x = e.touches[i].pageX
+                    finger_y = e.touches[i].pageY
 				}
 			}
 		}
@@ -170,18 +159,17 @@ function touchMove(e){
 	}
 }
 function touchEnd(e){
-        console.log(e.changedTouches[0].pageX, e.changedTouches[0].pageY)
-        if(wheel === null){return}
-        if(moleArr[wheel.attachedTo].mole === null){
-          wheel = null;
+//        console.log(e.changedTouches[0].pageX, e.changedTouches[0].pageY)
+        if(start === null){return}
+        if(moleArr[start.attachedTo].mole === null){
+          start = null;
           return;
         }
-        console.log(wheel.x)
-        console.log(wheel.width)
+
         var colorSelect;
 	for(i=0;i<e.changedTouches.length;i++){
-			var xDistance = e.changedTouches[i].pageX - (wheel.x + wheel.width/2)
-			var yDistance = e.changedTouches[i].pageY - (wheel.y + wheel.height/2)
+			var xDistance = e.changedTouches[i].pageX - start.x
+			var yDistance = e.changedTouches[i].pageY - start.y
             if(Math.abs(xDistance) < Math.abs(yDistance)){
               colorSelect = 2; // yellow
             }else if(xDistance > 0){
@@ -189,19 +177,19 @@ function touchEnd(e){
             }else {
               colorSelect = 3; // red
             }
-			results_arr.push({"id":moleArr[wheel.attachedTo].mole.password_id,"selected":colorSelect})
-			if(moleArr[wheel.attachedTo].mole.targetType == colorSelect){
-				score = score + Math.floor(moleArr[wheel.attachedTo].mole.delay/1000 + 1)*5
+			results_arr.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect})
+			if(moleArr[start.attachedTo].mole.targetType == colorSelect){
+				score = score + Math.floor(moleArr[start.attachedTo].mole.delay/1000 + 1)*5
 				hitSound.play()
-				moleArr[wheel.attachedTo].mole = new hit();
+				moleArr[start.attachedTo].mole = new hit();
 			}else{
 					timer = timer - 2000
 					missSound.play()
-					moleArr[wheel.attachedTo].mole = new miss();
+					moleArr[start.attachedTo].mole = new miss();
 			}
 			
         }
-       wheel = null; 
+       start = null;
 }
 function render(){	
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -222,11 +210,10 @@ function render(){
                     ctx.drawImage(moleArr[i].mole.img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
                     ctx.strokeText(moleArr[i].mole.password,moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/3)
                     ctx.fillText(moleArr[i].mole.password,moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/3)
-                    if (wheel) {
-                            //ctx.drawImage(wheel.img,wheel.x,wheel.y,wheel.width,wheel.height);
+                    if (start) {
 							ctx.beginPath();
-							var xDistance = finger_x - (wheel.x + wheel.width/2)
-							var yDistance = finger_y - (wheel.y + wheel.height/2)
+							var xDistance = finger_x - start.x
+							var yDistance = finger_y - start.y
 							if(Math.abs(xDistance) < Math.abs(yDistance)){
 							  ctx.strokeStyle = "#ffff00" // yellow
 							}else if(xDistance > 0){
@@ -235,7 +222,7 @@ function render(){
 							  ctx.strokeStyle = "#ff0000" // red
 							}
 							
-							ctx.moveTo((wheel.x + wheel.width/2),(wheel.y + wheel.height/2));
+							ctx.moveTo(start.x,start.y);
 							ctx.lineTo(finger_x,finger_y);
 							ctx.lineWidth=10;
 							ctx.stroke();
