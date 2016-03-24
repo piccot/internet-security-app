@@ -190,6 +190,7 @@ function closeMail(choice){
                                                  height: canvas.width});
                     spriteArr.push(virusSprite);
                     millisecondsPerMail = 1;
+                    spamFilter = 0;
                     openMail.img = explosionImage;
                 }
             }

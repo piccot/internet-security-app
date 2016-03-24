@@ -167,17 +167,17 @@ function closeMail(choice){
     switch (choice){
         case 0: //accept
             if (openMail.type == 0){ //good mail
-                score++;
+                score = score + 100;
                 openMail.img = explosionImage;
             }
             if (openMail.type == 1){ //bad mail
                 if (openMail.sub == 0){ //phish mail
-                    score--;
-                    changeSpam(-1);
+                    score = score - 25;
+                    changeSpam(-2);
                     openMail.img = acceptPhishImage;
                 }
                 if (openMail.sub == 1){ //Fake Account
-                    score--;
+                    score = score - 25;
                     openMail.img = acceptAccountImage;
                 }
                 if (openMail.sub == 2){ //Virus
@@ -190,6 +190,7 @@ function closeMail(choice){
                                                  height: canvas.width});
                     spriteArr.push(virusSprite);
                     millisecondsPerMail = 1;
+                    spamFilter = 0;
                     openMail.img = explosionImage;
                 }
             }
@@ -200,7 +201,7 @@ function closeMail(choice){
             break;
         case 1:  //reject
             if (openMail.type == 0){ //good mail
-                score--;
+                score = score - 25;
                 if (openMail.sub == 0){ //teacher
                     openMail.img = rejectTeachImage;
                 }
@@ -216,7 +217,7 @@ function closeMail(choice){
                 
             }
             if (openMail.type == 1){ //bad mail
-                score++;
+                score = score + 100;
                 openMail.img = explosionImage;
             }
             if (openMail.type == 2){ //spam mail
@@ -225,7 +226,7 @@ function closeMail(choice){
             break;
         case 2: //spam
             if (openMail.type == 0){ //good mail
-                score--;
+                score = score - 25;
                 changeSpam(-1);
                 if (openMail.sub == 0){ //teacher
                     openMail.img = rejectTeachImage;
@@ -244,7 +245,7 @@ function closeMail(choice){
                 openMail.img = explosionImage;
             }
             if (openMail.type == 2){ //spam mail
-                score++;
+                score = score + 100;
                 changeSpam(1);
                 var spamUpSprite = new sprite({
                                             context: canvas.getContext("2d"),

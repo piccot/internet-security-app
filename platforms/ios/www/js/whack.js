@@ -12,20 +12,25 @@ var app = {
 	},
 
     bindEvents: function() {
+        alert('-1');
         document.addEventListener('deviceready', this.onDeviceReady, false);
 		
     },
 
     onDeviceReady: function() {
+        alert('0');
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
-        
+                                         alert('1');
         dir.getFile("whack_results.json", {create:true}, function(file) {
+                    alert('2');
             results_file = file;
 			dir.getFile("whack_questions.json", {create:true}, function(file) {
 				questions_file = file;
+                        alert('3');
 				questions_file.file(function(file) {
 				var reader = new FileReader();
 				reader.onload = function(e) {
+                                    alert('4');
 					filedata=this.result;
 					addEventListener('touchmove', touchMove);
 					addEventListener("touchstart",touchStart);
@@ -34,6 +39,7 @@ var app = {
 					lastTime = Date.now()
 					main();
 				};
+                                    alert('5');
 				reader.readAsText(file);
 			}, fail);
 					
