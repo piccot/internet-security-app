@@ -54,7 +54,7 @@ var score = 0;
 var startTimer = 30000;
 var timer = startTimer;
 var bgImage = new Image();
-bgImage.src = 'assets/img/grass.jpg';
+bgImage.src = 'assets/img/passBG.png';
 var timeBarImage = new Image();
 timeBarImage.src = 'assets/img/time_bar.png'
 var timeImage = new Image();
@@ -170,7 +170,7 @@ function touchEnd(e){
 	for(i=0;i<e.changedTouches.length;i++){
 			var xDistance = e.changedTouches[i].pageX - start.x
 			var yDistance = e.changedTouches[i].pageY - start.y
-			if (xDistance * xDistance + yDistance * yDistance >= 100){
+			if (xDistance * xDistance + yDistance * yDistance >= 225){
 				if(Math.abs(xDistance) < Math.abs(yDistance)){
 				  colorSelect = 2; // yellow
 				}else if(xDistance > 0){
