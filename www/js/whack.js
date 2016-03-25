@@ -170,7 +170,7 @@ function touchEnd(e){
 	for(i=0;i<e.changedTouches.length;i++){
 			var xDistance = e.changedTouches[i].pageX - start.x
 			var yDistance = e.changedTouches[i].pageY - start.y
-			if (xDistance * xDistance + yDistance * yDistance <= 100){
+			if (xDistance * xDistance + yDistance * yDistance >= 225){
 				if(Math.abs(xDistance) < Math.abs(yDistance)){
 				  colorSelect = 2; // yellow
 				}else if(xDistance > 0){
