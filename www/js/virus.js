@@ -365,7 +365,7 @@ function antiVirusUpdate(){
 	av_update_counter = 1000;
 	av_update = true;
 	var button = document.getElementsByClassName("update")[0];
-	button.src = "assets/img/virus_popup2.gif?" + new Date.getTime();
+	button.src = "assets/img/virus_popup2.gif?" + Date.now();
 	button.onclick = null;
 
 }

@@ -11,7 +11,7 @@ var base_penalty = 5000;
 var av_speed_mod = .1;
 var av_size_mod = -.1;
 var win_score = 64;
-var timeRemaining = 30000;
+var timeRemaining = 60000;
 var score_arr = [];
 var score_arr2 = [];
 
@@ -339,11 +339,18 @@ function antiVirusPopup() {
 	var popup = document.createElement("div");
 	popup.className = "popup";
 	popup.style.top = getRandomInt(0,70) + '%';
-	var button = document.createElement("div");
-	button.className = "update";
-	button.innerText = "Update";
-	button.onclick=antiVirusUpdate;
-	popup.appendChild(button);
+	var img = document.createElement("img");
+	img.src = 'assets/img/virus_popup.png'
+	img.className = "update";
+	var div = document.createElement("div");
+	div.style.position = "absolute";
+	div.style.width = "100%";
+	div.style.top = "50%";
+	div.style.height = "50%";
+	div.style.zIndex = "5";
+	div.addEventListener("touchstart",antiVirusUpdate);
+	popup.appendChild(div);
+	popup.appendChild(img);
 	document.body.appendChild(popup);
 	av_open = true;
 
@@ -358,7 +365,7 @@ function antiVirusUpdate(){
 	av_update_counter = 1000;
 	av_update = true;
 	var button = document.getElementsByClassName("update")[0];
-	button.innerText = "Updating...";
+	button.src = "assets/img/virus_popup2.gif?" + Date.now();
 	button.onclick = null;
 
 }
