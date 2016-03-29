@@ -24,7 +24,7 @@ var app = {
 				writeWhackQuestionsToFile();
 				createCard('whack.png','whack.html',0);
 				createCard('virus.png','virus.html',1);
-				createCard('placeholder.png','mail.html',2);
+				createCard('placeholder.png','mail_initial.html',2);
 				createCard('placeholder.png','test.html',3);
 			});
 		
