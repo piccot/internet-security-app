@@ -13,6 +13,7 @@ var av_size_mod = -.1;
 var win_score = 64;
 var timeRemaining = 30000;
 var score_arr = [];
+var score_arr2 = [];
 
 var app = {
 
@@ -49,7 +50,7 @@ var app = {
 };
 app.initialize();
 var key_image_arr = [];
-for (i=3;i>-1;i--){
+for (i=0;i<4;i++){
 	for(j=0;j<4;j++){
 		var tempImage = new Image();
 		tempImage.src = 'assets/img/key_image/key Image-' + j +'-'+i+'.png';
@@ -93,10 +94,14 @@ function virus(x,y,dx,dy,id,type,mod){
 }
 function score_blob() {	
 	this.baseX = canvas.width - canvas.height * .2;
-	this.baseY = canvas.height * .99;
+	this.baseY = 0;
 	this.width = canvas.height * .2 / 4;
 	this.height = this.width;
 	this.img = key_image_arr[score-1]
+	this.dx;
+	this.dy;
+	this.currX;
+	this.currY;
 
 
 }
@@ -132,13 +137,20 @@ function render(){
 		ctx.drawImage(current.img,current.x,current.y,current.width,current.height)
     
 	}
+		ctx.drawImage(data_bucket_image,bucket.x,bucket.y,bucket.size,bucket.size)
 	for(var i = 0; i < score_arr.length; i++){
 		var current = score_arr[i];
-		ctx.drawImage(current.img,current.baseX  + current.width * (i%4),current.baseY - current.height - current.height * Math.floor(i/4),current.width,current.height)
+		ctx.drawImage(current.img,current.baseX  + current.width * (i%4),current.baseY + current.height * Math.floor(i/4),current.width,current.height)
     
 	}
+	for(var i = 0; i < score_arr2.length; i++){
+		var current = score_arr2[i];
+		ctx.drawImage(current.img,current.currX,current.currY,current.width,current.height);
+    
 	
-	ctx.drawImage(data_bucket_image,bucket.x,bucket.y,bucket.size,bucket.size)
+	}
+	
+
 	ctx.drawImage(av_arr[av_counter],av_button.x,av_button.y,av_button.size,av_button.size)
     ctx.fillStyle = "#FFFFFF"
     ctx.strokeStyle = "#000000";
@@ -172,6 +184,12 @@ function editObjects(dt){
 			virus_arr.splice(i,1);
 		}
 		
+	}
+	for(var i = 0; i < score_arr2.length; i++){
+		score_arr2[i].currX = score_arr2[i].currX + score_arr2[i].dx * dt;
+		score_arr2[i].currY = score_arr2[i].currY + score_arr2[i].dy * dt;
+		if (score_arr2[i].currX < canvas.width*.45 && score_arr2[i].currY > canvas.height /2)
+			score_arr2.splice(i,1);
 	}
 	if (Math.random() < (1/millisecondsPerUpdate) * dt && av_counter < 5 && !av_update){
 		av_counter++;
@@ -285,8 +303,15 @@ function touchEnd(e){
 			if(score == 16){
 				score=0;
 				imagesCollected++;
+				for(var i = 0; i < score_arr.length; i++){
+					score_arr[i].currX = score_arr[i].baseX  + score_arr[i].width * (i%4);
+					score_arr[i].currY = score_arr[i].baseY + score_arr[i].height * Math.floor(i/4);
+					score_arr[i].dx = (canvas.width*.45 - (score_arr[i].baseX  + score_arr[i].width * (i%4)))/1000;
+					score_arr[i].dy = (canvas.height/2 - (score_arr[i].baseY + score_arr[i].height * Math.floor(i/4)))/1000
+				}
+				
+				score_arr2 = score_arr;
 				score_arr = [];
-			
 			}
 			hitSound.play();
 		}
