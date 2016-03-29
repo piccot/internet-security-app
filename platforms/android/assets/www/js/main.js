@@ -40,6 +40,7 @@ function createCard(splash,home,i){
 
 	var upperImg = document.createElement("img");		
 	upperImg.src = 'splashscreens/'+splash
+	upperImg.onclick = function(){window.location.href = home};
 	div.appendChild(upperImg)
 	
 	
