@@ -127,7 +127,7 @@ function update(){
 		writeResultsToFile()
                 
 		timer = 30000;
-		score = 0;
+		 
 		for(j=0;j<6;j++)
 			moleArr[j].mole = null
 	}
