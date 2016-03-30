@@ -14,8 +14,8 @@ var app = {
     onDeviceReady: function() {
                 //addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
 
-		addEventListener("touchstart",touchStart);
-		addEventListener("touchend",touchEnd);
+		document.addEventListener("touchstart",touchStart);
+		document.addEventListener("touchend",touchEnd);
                 jsonObject = JSON.parse('[{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1}]');
 //                jsonObject = JSON.parse('[{"Mail":"OBVIOUS GOOD EMAIL - Teach","Type": 0,"Sub": 0},{"Mail":"OBVIOUS GOOD EMAIL - Job","Type": 0,"Sub": 1},{"Mail":"OBVIOUS GOOD EMAIL - Family","Type": 0,"Sub": 2},{"Mail":"OBVIOUS GOOD EMAIL - Account","Type": 0,"Sub": 3},{"Mail":"OBVIOUS BAD EMAIL - Phishing","Type": 1,"Sub": 0},{"Mail":"OBVIOUS BAD EMAIL - Fake Account","Type": 1,"Sub": 1},{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1}]');
        // jsonObject = JSON.parse('[{"Mail":"Good email example","Type": 0}]');

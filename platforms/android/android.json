@@ -54,6 +54,9 @@
         },
         "cordova-plugin-console": {
             "PACKAGE_NAME": "io.internetsecurityapp"
+        },
+        "cordova-plugin-wkwebview-engine": {
+            "PACKAGE_NAME": "io.internetsecurityapp"
         }
     },
     "dependent_plugins": {},

@@ -27,9 +27,9 @@ var app = {
 				var reader = new FileReader();
 				reader.onload = function(e) {
 					filedata=this.result;
-					addEventListener('touchmove', touchMove);
-					addEventListener("touchstart",touchStart);
-					addEventListener("touchend",touchEnd);
+                    document.addEventListener('touchmove', touchMove);
+					document.addEventListener("touchstart",touchStart);
+					document.addEventListener("touchend",touchEnd);
 					jsonObject = JSON.parse(filedata);
 					lastTime = Date.now()
 					main();
@@ -137,7 +137,7 @@ var hitSound = new Audio("assets/audio/hit.wav")
 var missSound = new Audio("assets/audio/miss.wav")
 
 function touchStart(e){
-	
+
 	
 	
 		for(i=0;i<e.touches.length;i++){

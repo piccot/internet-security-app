@@ -20,12 +20,13 @@ var app = {
     onDeviceReady: function() {
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
 			dir.getFile("whack_questions.json", {create:true}, function(file) {
-				questions_file = file;	
+				questions_file = file;
+//                var menuMusic = new Audio("assets/audio/menu.wav")
+//                menuMusic.play()
 				writeWhackQuestionsToFile();
-				createCard('whack.png','whack_initial.html',0);
-				createCard('virus.png','virus_initial.html',1);
-				createCard('placeholder.png','mail_initial.html',2);
-				createCard('placeholder.png','test.html',3);
+				createCard('whack_splash.png','whack_initial.html',0);
+				createCard('virus_splash.png','virus_initial.html',1);
+				createCard('mail_splash.png','mail_initial.html',2);
 			});
 		
 	});

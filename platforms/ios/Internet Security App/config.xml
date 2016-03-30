@@ -41,6 +41,10 @@
     <feature name="Console">
         <param name="ios-package" value="CDVLogger" />
     </feature>
+    <feature name="CDVWKWebViewEngine">
+        <param name="ios-package" value="CDVWKWebViewEngine" />
+    </feature>
+    <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="Orientation" value="all" />
     <allow-intent href="itms:*" />

@@ -21,6 +21,9 @@
 		B77084CEC9D846D4BB461AF1 /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 712282E12703429BBD419A3E /* CDVAssetLibraryFilesystem.m */; };
 		039452806CD7433B9768627F /* YoikScreenOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = E0023EB5CB5E40A5BA00924D /* YoikScreenOrientation.m */; };
 		6604F2A17DCD441A9367970A /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 72918FDF27A64F5E87C84CF1 /* CDVLogger.m */; };
+		384EEC6222964D42B77F9CD3 /* CDVWKWebViewEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E037574776741939789C3E8 /* CDVWKWebViewEngine.m */; };
+		108EDF56EF9545AF94DF8570 /* CDVWKWebViewUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CB53B74A1778464B96F44AAB /* CDVWKWebViewUIDelegate.m */; };
+		868F6434A15143A7BC1B4911 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9A8547A6EFE4733933BC33F /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +75,11 @@
 		0B0351C32A204C06BBEA8D0D /* YoikScreenOrientation.h */ = {isa = PBXFileReference; name = "YoikScreenOrientation.h"; path = "cordova-plugin-screen-orientation/YoikScreenOrientation.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		72918FDF27A64F5E87C84CF1 /* CDVLogger.m */ = {isa = PBXFileReference; name = "CDVLogger.m"; path = "cordova-plugin-console/CDVLogger.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		817DFC5D5086459DB4412913 /* CDVLogger.h */ = {isa = PBXFileReference; name = "CDVLogger.h"; path = "cordova-plugin-console/CDVLogger.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		2E037574776741939789C3E8 /* CDVWKWebViewEngine.m */ = {isa = PBXFileReference; name = "CDVWKWebViewEngine.m"; path = "cordova-plugin-wkwebview-engine/CDVWKWebViewEngine.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		CB53B74A1778464B96F44AAB /* CDVWKWebViewUIDelegate.m */ = {isa = PBXFileReference; name = "CDVWKWebViewUIDelegate.m"; path = "cordova-plugin-wkwebview-engine/CDVWKWebViewUIDelegate.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		47EC16AF97754C069408EBBD /* CDVWKWebViewEngine.h */ = {isa = PBXFileReference; name = "CDVWKWebViewEngine.h"; path = "cordova-plugin-wkwebview-engine/CDVWKWebViewEngine.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		BCFE1D94617F4B21BF95741C /* CDVWKWebViewUIDelegate.h */ = {isa = PBXFileReference; name = "CDVWKWebViewUIDelegate.h"; path = "cordova-plugin-wkwebview-engine/CDVWKWebViewUIDelegate.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		E9A8547A6EFE4733933BC33F /* WebKit.framework */ = {isa = PBXFileReference; name = "WebKit.framework"; path = "System/Library/Frameworks/WebKit.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +88,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
+				868F6434A15143A7BC1B4911 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,6 +158,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E9A8547A6EFE4733933BC33F /* WebKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -186,6 +196,10 @@
 				0B0351C32A204C06BBEA8D0D /* YoikScreenOrientation.h */,
 				72918FDF27A64F5E87C84CF1 /* CDVLogger.m */,
 				817DFC5D5086459DB4412913 /* CDVLogger.h */,
+				2E037574776741939789C3E8 /* CDVWKWebViewEngine.m */,
+				CB53B74A1778464B96F44AAB /* CDVWKWebViewUIDelegate.m */,
+				47EC16AF97754C069408EBBD /* CDVWKWebViewEngine.h */,
+				BCFE1D94617F4B21BF95741C /* CDVWKWebViewUIDelegate.h */,
 			);
 			name = Plugins;
 			path = "Internet Security App/Plugins";
@@ -314,6 +328,8 @@
 				7E1176920BF345629BA762C7 /* CDVFileTransfer.m in Sources */,
 				039452806CD7433B9768627F /* YoikScreenOrientation.m in Sources */,
 				6604F2A17DCD441A9367970A /* CDVLogger.m in Sources */,
+				384EEC6222964D42B77F9CD3 /* CDVWKWebViewEngine.m in Sources */,
+				108EDF56EF9545AF94DF8570 /* CDVWKWebViewUIDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
