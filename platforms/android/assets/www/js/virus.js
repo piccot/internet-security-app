@@ -340,7 +340,7 @@ function antiVirusPopup() {
 	popup.className = "popup";
 	popup.style.top = getRandomInt(0,70) + '%';
 	var img = document.createElement("img");
-	img.src = 'assets/img/virusPopup.png'
+	img.src = 'assets/img/virus_popup.png'
 	img.className = "update";
 	var div = document.createElement("div");
 	div.style.position = "absolute";
@@ -365,7 +365,7 @@ function antiVirusUpdate(){
 	av_update_counter = 1000;
 	av_update = true;
 	var button = document.getElementsByClassName("update")[0];
-	button.src = "assets/img/virusPopup2.png";
+	button.src = "assets/img/virus_popup2.gif?" + Date.now();
 	button.onclick = null;
 
 }

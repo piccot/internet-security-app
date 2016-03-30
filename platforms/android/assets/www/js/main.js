@@ -22,9 +22,9 @@ var app = {
 			dir.getFile("whack_questions.json", {create:true}, function(file) {
 				questions_file = file;	
 				writeWhackQuestionsToFile();
-				createCard('whack.png','whack.html',0);
-				createCard('virus.png','virus.html',1);
-				createCard('placeholder.png','mail.html',2);
+				createCard('whack.png','whack_initial.html',0);
+				createCard('virus.png','virus_initial.html',1);
+				createCard('placeholder.png','mail_initial.html',2);
 				createCard('placeholder.png','test.html',3);
 			});
 		

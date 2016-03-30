@@ -160,9 +160,9 @@ function render(){
 		ctx.drawImage(held.img,held.x,held.y,held.width,held.height)
 }
 var currentID = 0;
-var millisecondsPerVirus = 1000;
+var millisecondsPerVirus = 200;
 var baseSpeed = 4000;
-var millisecondsPerUpdate = 10000;
+var millisecondsPerUpdate = 15000;
 var av_open = false;
 var av_update = false;
 var av_update_counter = 0;
@@ -194,6 +194,13 @@ function editObjects(dt){
 	if (Math.random() < (1/millisecondsPerUpdate) * dt && av_counter < 5 && !av_update){
 		av_counter++;
 		notificationSound.play();
+		console.log(millisecondsPerUpdate);
+		millisecondsPerUpdate = 15000;
+		
+	}
+	else if (av_counter < 5 && !av_update)
+	{
+		millisecondsPerUpdate = millisecondsPerUpdate - dt;
 	}
 	if (av_update){
 		av_update_counter = av_update_counter - dt;
@@ -208,7 +215,7 @@ function editObjects(dt){
 			}			
 		} 
 	}
-	if (Math.random() < (1/millisecondsPerVirus)*dt){
+	if (Math.random() * (virus_arr.length/4 + 1) < (1/millisecondsPerVirus)*dt){
 		var rnd = getRandomInt(0,3);
 		
 		var xcoord ;
