@@ -20,7 +20,9 @@ var app = {
     onDeviceReady: function() {
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
 			dir.getFile("whack_questions.json", {create:true}, function(file) {
-				questions_file = file;	
+				questions_file = file;
+                var menuMusic = new Audio("assets/audio/menu.wav")
+                menuMusic.play()
 				writeWhackQuestionsToFile();
 				createCard('whack_splash.png','whack_initial.html',0);
 				createCard('virus_splash.png','virus_initial.html',1);
