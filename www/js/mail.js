@@ -1,3 +1,7 @@
+window.onerror = function(msg, url, linenumber) {
+    alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+    return true;
+}
 var app = {
 
   
@@ -12,18 +16,30 @@ var app = {
     },
 
     onDeviceReady: function() {
-                //addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
-		jsonObject = JSON.parse('[{"id":1,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe",Type:7,"Body":"obvious spam email"}]')
-		document.addEventListener("touchstart",touchStart);
-           //     jsonObject = JSON.parse('[{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1}]');
-//                jsonObject = JSON.parse('[{"Mail":"OBVIOUS GOOD EMAIL - Teach","Type": 0,"Sub": 0},{"Mail":"OBVIOUS GOOD EMAIL - Job","Type": 0,"Sub": 1},{"Mail":"OBVIOUS GOOD EMAIL - Family","Type": 0,"Sub": 2},{"Mail":"OBVIOUS GOOD EMAIL - Account","Type": 0,"Sub": 3},{"Mail":"OBVIOUS BAD EMAIL - Phishing","Type": 1,"Sub": 0},{"Mail":"OBVIOUS BAD EMAIL - Fake Account","Type": 1,"Sub": 1},{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1}]');
-       // jsonObject = JSON.parse('[{"Mail":"Good email example","Type": 0}]');
-
-		lastTime = Date.now()
-		main();	
+		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
+        dir.getFile("mail_results.json", {create:true}, function(file) {
+            results_file = file;
+			dir.getFile("mail_questions.json", {create:true}, function(file) {
+				questions_file = file;
+				questions_file.file(function(file) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					filedata=this.result;
+					jsonObject = JSON.parse(filedata);
+					document.addEventListener("touchstart",touchStart);
+					lastTime = Date.now()
+					main();
+				};
+				reader.readAsText(file);
+			}, fail);
+			});
+        });
+	});
     },
 
 };
+var results_file;
+var questions_file;
 var baseDelay = 5000
 var time = 0;
 var bgImage = new Image();
@@ -456,6 +472,9 @@ function editObjects(dt){
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+function fail(err){
+	alert(err)
+}
 
 
-app.onDeviceReady();
+app.initialize();

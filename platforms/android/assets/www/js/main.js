@@ -94,7 +94,7 @@ function writeMailQuestionsToFile(){
 			mail_questions_file.createWriter(function(fileWriter) {
 				fileWriter.seek(fileWriter.length);
 				if (fileWriter.length <= 0){
-					fileWriter.write('[{"id":1,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe",Type:7,"Body":"obvious spam email"}]');
+					fileWriter.write('[{"id":1,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":7,"Body":"obvious spam email"}]');
 				}
 			}, fail);
         };
