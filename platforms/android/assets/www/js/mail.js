@@ -440,7 +440,7 @@ function editObjects(dt){
 	for (i=0;i<3;i++){
 		if (Math.random() < (1/millisecondsPerMail)*dt && (mailArr[i].length == 0 || mailArr[i].last().y >= window.innerHeight/8)){
 			var random = getRandomInt(0,jsonObject.length -1)
-			mailArr[i].push(new mail(i, jsonObject[random].Mail,jsonObject[random].Type,jsonObject[random].Sub))
+			mailArr[i].push(new mail(i, jsonObject[random].Body,jsonObject[random].Type,jsonObject[random].Sub))
 		}
         for (j=0;j<mailArr[i].length;j++){
             if (mailArr[i][j].spamCheck == false){

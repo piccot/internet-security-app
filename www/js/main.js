@@ -77,7 +77,15 @@ function writeWhackQuestionsToFile(){
 			questions_file.createWriter(function(fileWriter) {
 				fileWriter.seek(fileWriter.length);
 				if (fileWriter.length <= 0){
-					fileWriter.write('[{"Password":"password123","Type": 3, "id": 1},{"Password":"I<3Horses","Type": 3, "id": 2},{"Password":"JknsD3@anmAiLfknsma!","Type": 3, "id": 3},{ "Password":"HappyDays","Type": 3, "id": 4},{"Password":"TheBestPassword","Type": 3, "id": 5},{"Password":"TheBestPassword","Type": 3, "id": 6},{"Password":"TheWorstPassword","Type": 3, "id": 7},{"Password":"2@Atak","Type": 2, "id": 8},{"Password":"24pples2D4y","Type": 2, "id": 9},{"Password":"IWasBornIn1919191995","Type": 2, "id": 10},{"Password":"IWasBornIn1919191995","Type": 2, "id": 11},{"Password":"2BorNot2B_ThatIsThe?","Type": 1, "id": 12},{"Password":"4Score&7yrsAgo","Type": 1, "id": 13}]');
+					var xhttp = new XMLHttpRequest();
+					xhttp.onreadystatechange = function() {
+					if (xhttp.readyState == 4 && xhttp.status == 200) {
+						fileWriter.write(xhttp.responseText);
+					}
+					};
+					xhttp.open("GET", "http://cybersafegames.unc.edu/whack_data.php", true);
+					xhttp.send();
+					
 				}
 			}, fail);
         };
@@ -94,7 +102,15 @@ function writeMailQuestionsToFile(){
 			mail_questions_file.createWriter(function(fileWriter) {
 				fileWriter.seek(fileWriter.length);
 				if (fileWriter.length <= 0){
-					fileWriter.write('[{"id":1,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":7,"Body":"obvious spam email"}]');
+					var xhttp = new XMLHttpRequest();
+					xhttp.onreadystatechange = function() {
+					if (xhttp.readyState == 4 && xhttp.status == 200) {
+						fileWriter.write(xhttp.responseText);
+					}
+					};
+					xhttp.open("GET", "http://cybersafegames.unc.edu/mail_data.php", true);
+					xhttp.send();
+					
 				}
 			}, fail);
         };
@@ -103,7 +119,16 @@ function writeMailQuestionsToFile(){
 
 }
 
-
+function loadWhackData() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      return xhttp.responseText;
+    }
+  };
+  xhttp.open("GET", "http://cybersafegames.unc.edu/whack_data.php", true);
+  xhttp.send();
+}
 
 
 app.initialize();
