@@ -45,6 +45,7 @@ var app = {
 		av_button = new av_button();
 		ctx.font = "24pt Ariel"
         ctx.textAlign="left";
+		loadDoc()
     },
 
 };
@@ -273,6 +274,7 @@ function editObjects(dt){
 	}
 	
 }
+
 var held;
 var score = 0;
 var imagesCollected = 0;

@@ -289,6 +289,7 @@ function editObjects(dt){
 	}
 	
 }
+
 var held;
 var score = 0;
 var imagesCollected = 0;
