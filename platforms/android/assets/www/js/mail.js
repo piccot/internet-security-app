@@ -14,8 +14,7 @@ var app = {
     onDeviceReady: function() {
                 //addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
 
-		addEventListener("touchstart",touchStart);
-		addEventListener("touchend",touchEnd);
+		document.addEventListener("touchstart",touchStart);
                 jsonObject = JSON.parse('[{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1}]');
 //                jsonObject = JSON.parse('[{"Mail":"OBVIOUS GOOD EMAIL - Teach","Type": 0,"Sub": 0},{"Mail":"OBVIOUS GOOD EMAIL - Job","Type": 0,"Sub": 1},{"Mail":"OBVIOUS GOOD EMAIL - Family","Type": 0,"Sub": 2},{"Mail":"OBVIOUS GOOD EMAIL - Account","Type": 0,"Sub": 3},{"Mail":"OBVIOUS BAD EMAIL - Phishing","Type": 1,"Sub": 0},{"Mail":"OBVIOUS BAD EMAIL - Fake Account","Type": 1,"Sub": 1},{"Mail":"OBVIOUS BAD EMAIL - Virus","Type": 1,"Sub": 2},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1},{"Mail":"OBVIOUS SPAM EMAIL","Type":2,"Sub":-1}]');
        // jsonObject = JSON.parse('[{"Mail":"Good email example","Type": 0}]');
@@ -26,7 +25,6 @@ var app = {
 
 };
 var baseDelay = 5000
-//var hitMissDelay = 2000
 var time = 0;
 var bgImage = new Image();
 bgImage.src = 'assets/img/emailBG.png';
@@ -386,42 +384,7 @@ function touchStart(e){
 		}
         }
 }
-function touchEnd(e){
-  return
-        if(moleArr[wheel.attachedTo].mole === null){
-          wheel = null;
-          return;
-        }
-        console.log(wheel.x)
-        console.log(wheel.width)
-        var colorSelect;
-	for(i=0;i<e.changedTouches.length;i++){
-            if(e.changedTouches[i].pageX >= wheel.x && e.changedTouches[i].pageX < wheel.x + wheel.width/3 && e.changedTouches[i].pageY >= wheel.y + wheel.height/3 && e.changedTouches[i].pageY <= wheel.y + wheel.height){
-              colorSelect = 3; // red
-              console.log("red")
-            }else if(e.changedTouches[i].pageX >= wheel.x + wheel.width/3 && e.changedTouches[i].pageX < wheel.x + wheel.width - wheel.width/3  && e.changedTouches[i].pageY >= wheel.y && e.changedTouches[i].pageY <= wheel.y + wheel.height/3){
-              colorSelect = 2; //  yellow
-              console.log("yellow")
-            }else if(e.changedTouches[i].pageX >= wheel.x + wheel.width - wheel.width/3 && e.changedTouches[i].pageX < wheel.x + wheel.width&& e.changedTouches[i].pageY >= wheel.y + wheel.height/3 && e.changedTouches[i].pageY <= wheel.y + wheel.height){
-              colorSelect = 1; // green
-              console.log("green")
-            }else{
-              wheel = null;
-              return
-            }
-		        if(moleArr[wheel.attachedTo].mole.targetType == colorSelect){
-				score = score + Math.floor(moleArr[wheel.attachedTo].mole.delay/1000 + 1)*5
-                                hitSound.play()
-                                moleArr[wheel.attachedTo].mole = new hit();
-                        }else{
-                                timer = timer - 2000
-                                missSound.play()
-                                moleArr[wheel.attachedTo].mole = new miss();
-                        }
-        }
-       wheel = null; 
-}
-function render(){	
+function render(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(bgImage,0,0,window.innerWidth,window.innerHeight)
 
@@ -494,33 +457,5 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function loadJSONData(){
-var xmlhttp;
-var jsonObject;
-
-// code for IE7+, Firefox, Chrome, Opera, Safari
-if (window.XMLHttpRequest)
-{
-    xmlhttp=new XMLHttpRequest();
-}
-// code for IE6, IE5
-else
-{
-    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-}
-
-xmlhttp.onreadystatechange=function()
-{
-    if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-        jsonObject = JSON.parse(xmlhttp.responseText);
-        alert(jsonObject[0].Password);                     
-    }
-}
-
-xmlhttp.open("GET","gamedata/whack.json",true);
-xmlhttp.send();
-
-}
 
 app.onDeviceReady();

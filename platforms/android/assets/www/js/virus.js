@@ -36,9 +36,9 @@ var app = {
 		canvas.height = window.innerHeight;
 		canvas.width = window.innerWidth;
 		document.body.appendChild(canvas)
-        addEventListener('touchmove', touchMove);
-		addEventListener("touchstart",touchStart);
-		addEventListener("touchend",touchEnd);
+        document.addEventListener('touchmove', touchMove);
+		document.addEventListener("touchstart",touchStart);
+		document.addEventListener("touchend",touchEnd);
 		lastTime = Date.now()
 		main();
 		bucket = new bucket();
