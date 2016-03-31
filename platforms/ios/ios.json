@@ -31,6 +31,10 @@
                         {
                             "xml": "<preference name=\"CordovaWebViewEngine\" value=\"CDVWKWebViewEngine\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Media\"><param name=\"ios-package\" value=\"CDVSound\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -54,6 +58,9 @@
             "PACKAGE_NAME": "io.internetsecurityapp"
         },
         "cordova-plugin-wkwebview-engine": {
+            "PACKAGE_NAME": "io.internetsecurityapp"
+        },
+        "cordova-plugin-media": {
             "PACKAGE_NAME": "io.internetsecurityapp"
         }
     },
@@ -280,6 +287,22 @@
             "pluginId": "cordova-plugin-wkwebview-engine",
             "clobbers": [
                 "cordova.exec"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-media/www/MediaError.js",
+            "id": "cordova-plugin-media.MediaError",
+            "pluginId": "cordova-plugin-media",
+            "clobbers": [
+                "window.MediaError"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-media/www/Media.js",
+            "id": "cordova-plugin-media.Media",
+            "pluginId": "cordova-plugin-media",
+            "clobbers": [
+                "window.Media"
             ]
         }
     ]

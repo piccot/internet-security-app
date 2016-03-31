@@ -1,7 +1,7 @@
-window.onerror = function(msg, url, linenumber) {
-    alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
-    return true;
-}
+//window.onerror = function(msg, url, linenumber) {
+//    alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+//    return true;
+//}
 var app = {
 
   
@@ -133,8 +133,25 @@ function update(){
 	}
 	editObjects(Date.now() - lastTime)
 }
-var hitSound = new Audio("assets/audio/hit.wav")
-var missSound = new Audio("assets/audio/miss.wav")
+function playAudio(src) {
+    
+    // Android needs the search path explicitly specified
+    if (navigator.userAgent.match(/Android/i) == "Android") {
+        src = '/android_asset/www/' + src;
+    }
+    
+    var mediaRes = new Media(src,
+                             function onSuccess() {
+                             // release the media resource once finished playing
+                             mediaRes.release();
+                             },
+                             function onError(e){
+                             console.log("error playing sound: " + JSON.stringify(e));
+                             });
+    mediaRes.play();
+    
+}
+
 
 function touchStart(e){
 
@@ -181,11 +198,11 @@ function touchEnd(e){
 				results_arr.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect})
 				if(moleArr[start.attachedTo].mole.targetType == colorSelect){
 					score = score + Math.floor(moleArr[start.attachedTo].mole.delay/1000 + 1)*5
-					hitSound.play()
+                    playAudio("assets/audio/hit.wav");
 					moleArr[start.attachedTo].mole = new hit();
 				}else{
 						timer = timer - 2000
-						missSound.play()
+                        playAudio("assets/audio/miss.wav");
 						moleArr[start.attachedTo].mole = new miss();
 				}
 			}

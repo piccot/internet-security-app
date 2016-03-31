@@ -45,6 +45,9 @@
         <param name="ios-package" value="CDVWKWebViewEngine" />
     </feature>
     <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
+    <feature name="Media">
+        <param name="ios-package" value="CDVSound" />
+    </feature>
     <preference name="DisallowOverscroll" value="true" />
     <preference name="Orientation" value="all" />
     <allow-intent href="itms:*" />

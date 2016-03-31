@@ -158,9 +158,25 @@ function update(){
         spriteArr[i].update();
     }
 }
-var hitSound = new Audio("assets/audio/hit.wav")
-var missSound = new Audio("assets/audio/miss.wav")
 
+function playAudio(src) {
+    
+    // Android needs the search path explicitly specified
+    if (navigator.userAgent.match(/Android/i) == "Android") {
+        src = '/android_asset/www/' + src;
+    }
+    
+    var mediaRes = new Media(src,
+                             function onSuccess() {
+                             // release the media resource once finished playing
+                             mediaRes.release();
+                             },
+                             function onError(e){
+                             console.log("error playing sound: " + JSON.stringify(e));
+                             });
+    mediaRes.play();
+    
+}
 function closeMail(choice){
     switch (choice){
         case 0: //accept
@@ -255,7 +271,7 @@ function closeMail(choice){
                                             width: canvas.width/4,
                                             height: canvas.width/4});
                 spriteArr.push(spamUpSprite);
-                hitSound.play()
+                playAudio("assets/audio/hit.wav");
                 openMail.img = explosionImage;
             }
             

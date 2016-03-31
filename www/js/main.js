@@ -8,7 +8,6 @@ var app = {
   
     initialize: function() {
         this.bindEvents();
-			
 		
 	},
 
@@ -21,8 +20,7 @@ var app = {
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
 			dir.getFile("whack_questions.json", {create:true}, function(file) {
 				questions_file = file;
-//                var menuMusic = new Audio("assets/audio/menu.wav")
-//                menuMusic.play()
+                playAudio("assets/audio/menu.wav");
 				writeWhackQuestionsToFile();
 				createCard('whack_splash.png','whack_initial.html',0);
 				createCard('virus_splash.png','virus_initial.html',1);
@@ -41,13 +39,19 @@ function createCard(splash,home,i){
 
 	var upperImg = document.createElement("img");		
 	upperImg.src = 'splashscreens/'+splash
-	upperImg.onclick = function(){window.location.href = home};
+	upperImg.onclick = function(){
+
+    window.location.href = home
+    };
 	div.appendChild(upperImg)
 	
 	
 	var lowerImg = document.createElement("img");
 	lowerImg.src = 'assets/img/playbutton.png'
-	lowerImg.onclick = function(){window.location.href = home};
+	lowerImg.onclick = function(){
+        
+        window.location.href = home
+    };
 	div.appendChild(lowerImg);
 	
 	div.style.width= width + 'px';
@@ -62,6 +66,25 @@ function createCard(splash,home,i){
 }
 function fail(){
 	return true;
+}
+
+function playAudio(src) {
+    
+        // Android needs the search path explicitly specified
+        if (navigator.userAgent.match(/Android/i) == "Android") {
+            src = '/android_asset/www/' + src;
+        }
+        
+        var mediaRes = new Media(src,
+                                 function onSuccess() {
+                                 // release the media resource once finished playing
+                                 mediaRes.release();
+                                 },
+                                 function onError(e){
+                                 console.log("error playing sound: " + JSON.stringify(e));
+                                 });
+        mediaRes.play();
+    
 }
 function writeWhackQuestionsToFile(){
 	var filedata

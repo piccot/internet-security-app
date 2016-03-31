@@ -1,7 +1,7 @@
-window.onerror = function(msg, url, linenumber) {
-    alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
-    return true;
-}
+//window.onerror = function(msg, url, linenumber) {
+//    alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+//    return true;
+//}
 var app = {
 
   
@@ -27,9 +27,9 @@ var app = {
 				var reader = new FileReader();
 				reader.onload = function(e) {
 					filedata=this.result;
-					addEventListener('touchmove', touchMove);
-					addEventListener("touchstart",touchStart);
-					addEventListener("touchend",touchEnd);
+                    document.addEventListener('touchmove', touchMove);
+					document.addEventListener("touchstart",touchStart);
+					document.addEventListener("touchend",touchEnd);
 					jsonObject = JSON.parse(filedata);
 					lastTime = Date.now()
 					main();
@@ -133,11 +133,26 @@ function update(){
 	}
 	editObjects(Date.now() - lastTime)
 }
-var hitSound = new Audio("assets/audio/hit.wav")
+//var hitSounds = []
+//var hitSoundsIndex = 0;
+//for(var i = 0; i < 10; i++){
+//    hitSounds.push(new Audio("assets/audio/hit.wav"));
+//                   }
+//function playHitSound(){
+//    hitSounds[hitSoundsIndex].play()
+//    hitSoundsIndex++;
+//    if (hitSoundsIndex == hitSounds.length){
+//        hitSoundsIndex = 0
+//    }
+//}
+
+//var hitSound = new Media("assets/audio/hit.wav");
+
+
 var missSound = new Audio("assets/audio/miss.wav")
 
 function touchStart(e){
-	
+
 	
 	
 		for(i=0;i<e.touches.length;i++){

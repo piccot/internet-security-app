@@ -74,9 +74,7 @@ for(i = 0; i < 6; i ++){
 	av_count_image.src = 'assets/img/av_count_' + i + '.png';
 	av_arr.push(av_count_image);
 }
-var hitSound = new Audio("assets/audio/hit.wav")
-var missSound = new Audio("assets/audio/miss.wav")
-var notificationSound = new Audio("assets/audio/notification.wav")
+
 var virus_arr = [];
 function virus(x,y,dx,dy,id,type,mod){
 	this.x = x;
@@ -128,6 +126,24 @@ function main (){
 function update(){
 	editObjects(Date.now() - lastTime);
 }
+function playAudio(src) {
+    
+    // Android needs the search path explicitly specified
+    if (navigator.userAgent.match(/Android/i) == "Android") {
+        src = '/android_asset/www/' + src;
+    }
+    
+    var mediaRes = new Media(src,
+                             function onSuccess() {
+                             // release the media resource once finished playing
+                             mediaRes.release();
+                             },
+                             function onError(e){
+                             console.log("error playing sound: " + JSON.stringify(e));
+                             });
+    mediaRes.play();
+    
+}
 
 function render(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -177,7 +193,7 @@ function editObjects(dt){
 		current.y = current.y + current.dy * dt;
 		if (current.x > window.innerWidth || current.x + current.width < 0 || current.y > window.innerHeight || current.y + current.height < 0){
 			if (current.type == 2){
-				missSound.play()
+                playAudio("assets/audio/miss.wav");
 				score_arr = score_arr.slice(0,score_arr.length -av_counter -1);
 				score = Math.max(0,score - (av_counter+1));
 			}
@@ -193,7 +209,7 @@ function editObjects(dt){
 	}
 	if (Math.random() < (1/millisecondsPerUpdate) * dt && av_counter < 5 && !av_update){
 		av_counter++;
-		notificationSound.play();
+        playAudio("assets/audio/notification.wav");
 		console.log(millisecondsPerUpdate);
 		millisecondsPerUpdate = 15000;
 		
@@ -320,7 +336,7 @@ function touchEnd(e){
 				score_arr2 = score_arr;
 				score_arr = [];
 			}
-			hitSound.play();
+            playAudio("assets/audio/hit.wav");
 		}
 		else
 			virus_arr.push(held);

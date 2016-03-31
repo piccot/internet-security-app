@@ -15,6 +15,9 @@
     <feature name="YoikScreenOrientation">
         <param name="android-package" value="net.yoik.cordova.plugins.screenorientation.YoikScreenOrientation" />
     </feature>
+    <feature name="Media">
+        <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
+    </feature>
     <allow-intent href="market:*" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="KeepRunning" value="false" />
