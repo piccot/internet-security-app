@@ -1,4 +1,5 @@
 var questions_file
+var mail_questions_file
 window.onerror = function(msg, url, linenumber) {
     alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
     return true;
@@ -21,14 +22,18 @@ var app = {
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
 			dir.getFile("whack_questions.json", {create:true}, function(file) {
 				questions_file = file;
-//                var menuMusic = new Audio("assets/audio/menu.wav")
-//                menuMusic.play()
-				writeWhackQuestionsToFile();
-				createCard('whack_splash.png','whack_initial.html',0);
-				createCard('virus_splash.png','virus_initial.html',1);
-				createCard('mail_splash.png','mail_initial.html',2);
+				dir.getFile("mail_questions.json", {create:true}, function(file) {
+					mail_questions_file = file;
+	//                var menuMusic = new Audio("assets/audio/menu.wav")
+	//                menuMusic.play()
+					writeWhackQuestionsToFile();
+					writeMailQuestionsToFile();
+					createCard('whack_splash.png','whack_initial.html',0);
+					createCard('virus_splash.png','virus_initial.html',1);
+					createCard('mail_splash.png','mail_initial.html',2);
+				});
 			});
-		
+			
 	});
     }
 
@@ -80,6 +85,24 @@ function writeWhackQuestionsToFile(){
     }, fail);
 
 }
+function writeMailQuestionsToFile(){
+	var filedata
+    mail_questions_file.file(function(file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {			
+			filedata=this.result;
+			mail_questions_file.createWriter(function(fileWriter) {
+				fileWriter.seek(fileWriter.length);
+				if (fileWriter.length <= 0){
+					fileWriter.write('[{"id":1,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe",Type:7,"Body":"obvious spam email"}]');
+				}
+			}, fail);
+        };
+        reader.readAsText(file);
+    }, fail);
+
+}
+
 
 
 
