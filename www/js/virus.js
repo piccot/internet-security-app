@@ -294,9 +294,8 @@ var held;
 var score = 0;
 var imagesCollected = 0;
 function touchStart(e){
-	for(i=0;i<e.touches.length;i++){
 			for(j=0;j<virus_arr.length;j++){
-				if(e.touches[i].pageX >= virus_arr[j].x - virus_arr[j].width /2 && e.touches[i].pageX <= virus_arr[j].x + virus_arr[j].width *1.5 && e.touches[i].pageY >= virus_arr[j].y - virus_arr[j].height /2 && e.touches[i].pageY <= virus_arr[j].y + virus_arr[j].height *1.5){
+				if(e.touches[0].pageX >= virus_arr[j].x - virus_arr[j].width /2 && e.touches[0].pageX <= virus_arr[j].x + virus_arr[j].width *1.5 && e.touches[0].pageY >= virus_arr[j].y - virus_arr[j].height /2 && e.touches[0].pageY <= virus_arr[j].y + virus_arr[j].height *1.5){
 					if (virus_arr[j].type == 1){
 						held = virus_arr[j];
 						virus_arr.splice(j,1);
@@ -312,11 +311,11 @@ function touchStart(e){
 					return true;
 				}
 			}
-			if (e.touches[i].pageX >= av_button.x && e.touches[i].pageX <= av_button.x +av_button.size && e.touches[i].pageY >= av_button.y && e.touches[i].pageY <= av_button.y + av_button.size){
+			if (e.touches[0].pageX >= av_button.x && e.touches[0].pageX <= av_button.x +av_button.size && e.touches[0].pageY >= av_button.y && e.touches[0].pageY <= av_button.y + av_button.size){
 				if (!av_open && av_counter > 0)
 					antiVirusPopup();
 			}
-		}
+		
 }
 function touchEnd(e){
 	if(held){

@@ -133,23 +133,25 @@ function update(){
 	}
 	editObjects(Date.now() - lastTime)
 }
-//var hitSounds = []
-//var hitSoundsIndex = 0;
-//for(var i = 0; i < 10; i++){
-//    hitSounds.push(new Audio("assets/audio/hit.wav"));
-//                   }
-//function playHitSound(){
-//    hitSounds[hitSoundsIndex].play()
-//    hitSoundsIndex++;
-//    if (hitSoundsIndex == hitSounds.length){
-//        hitSoundsIndex = 0
-//    }
-//}
+function playAudio(src) {
+    
+    // Android needs the search path explicitly specified
+    if (navigator.userAgent.match(/Android/i) == "Android") {
+        src = '/android_asset/www/' + src;
+    }
+    
+    var mediaRes = new Media(src,
+                             function onSuccess() {
+                             // release the media resource once finished playing
+                             mediaRes.release();
+                             },
+                             function onError(e){
+                             console.log("error playing sound: " + JSON.stringify(e));
+                             });
+    mediaRes.play();
+    
+}
 
-//var hitSound = new Media("assets/audio/hit.wav");
-
-
-var missSound = new Audio("assets/audio/miss.wav")
 
 function touchStart(e){
 
@@ -196,11 +198,11 @@ function touchEnd(e){
 				results_arr.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect})
 				if(moleArr[start.attachedTo].mole.targetType == colorSelect){
 					score = score + Math.floor(moleArr[start.attachedTo].mole.delay/1000 + 1)*5
-					hitSound.play()
+                    playAudio("assets/audio/hit.wav");
 					moleArr[start.attachedTo].mole = new hit();
 				}else{
 						timer = timer - 2000
-						missSound.play()
+                        playAudio("assets/audio/miss.wav");
 						moleArr[start.attachedTo].mole = new miss();
 				}
 			}
@@ -219,7 +221,7 @@ function render(){
         ctx.drawImage(timeBarImage, 100, 20, window.innerWidth - 110, 25)
 
 
-        ctx.font = "11pt Ariel";
+        ctx.font = "5vw Ariel";
 	for(i=0; i < 6; i++){
                 ctx.drawImage(moleArr[i].img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
                 if (moleArr[i].mole){

@@ -45,7 +45,6 @@ var app = {
 		av_button = new av_button();
 		ctx.font = "24pt Ariel"
         ctx.textAlign="left";
-		loadDoc()
     },
 
 };
@@ -75,9 +74,7 @@ for(i = 0; i < 6; i ++){
 	av_count_image.src = 'assets/img/av_count_' + i + '.png';
 	av_arr.push(av_count_image);
 }
-var hitSound = new Audio("assets/audio/hit.wav")
-var missSound = new Audio("assets/audio/miss.wav")
-var notificationSound = new Audio("assets/audio/notification.wav")
+
 var virus_arr = [];
 function virus(x,y,dx,dy,id,type,mod){
 	this.x = x;
@@ -129,6 +126,24 @@ function main (){
 function update(){
 	editObjects(Date.now() - lastTime);
 }
+function playAudio(src) {
+    
+    // Android needs the search path explicitly specified
+    if (navigator.userAgent.match(/Android/i) == "Android") {
+        src = '/android_asset/www/' + src;
+    }
+    
+    var mediaRes = new Media(src,
+                             function onSuccess() {
+                             // release the media resource once finished playing
+                             mediaRes.release();
+                             },
+                             function onError(e){
+                             console.log("error playing sound: " + JSON.stringify(e));
+                             });
+    mediaRes.play();
+    
+}
 
 function render(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -178,7 +193,7 @@ function editObjects(dt){
 		current.y = current.y + current.dy * dt;
 		if (current.x > window.innerWidth || current.x + current.width < 0 || current.y > window.innerHeight || current.y + current.height < 0){
 			if (current.type == 2){
-				missSound.play()
+                playAudio("assets/audio/miss.wav");
 				score_arr = score_arr.slice(0,score_arr.length -av_counter -1);
 				score = Math.max(0,score - (av_counter+1));
 			}
@@ -194,7 +209,7 @@ function editObjects(dt){
 	}
 	if (Math.random() < (1/millisecondsPerUpdate) * dt && av_counter < 5 && !av_update){
 		av_counter++;
-		notificationSound.play();
+        playAudio("assets/audio/notification.wav");
 		console.log(millisecondsPerUpdate);
 		millisecondsPerUpdate = 15000;
 		
@@ -279,9 +294,8 @@ var held;
 var score = 0;
 var imagesCollected = 0;
 function touchStart(e){
-	for(i=0;i<e.touches.length;i++){
 			for(j=0;j<virus_arr.length;j++){
-				if(e.touches[i].pageX >= virus_arr[j].x - virus_arr[j].width /2 && e.touches[i].pageX <= virus_arr[j].x + virus_arr[j].width *1.5 && e.touches[i].pageY >= virus_arr[j].y - virus_arr[j].height /2 && e.touches[i].pageY <= virus_arr[j].y + virus_arr[j].height *1.5){
+				if(e.touches[0].pageX >= virus_arr[j].x - virus_arr[j].width /2 && e.touches[0].pageX <= virus_arr[j].x + virus_arr[j].width *1.5 && e.touches[0].pageY >= virus_arr[j].y - virus_arr[j].height /2 && e.touches[0].pageY <= virus_arr[j].y + virus_arr[j].height *1.5){
 					if (virus_arr[j].type == 1){
 						held = virus_arr[j];
 						virus_arr.splice(j,1);
@@ -297,11 +311,11 @@ function touchStart(e){
 					return true;
 				}
 			}
-			if (e.touches[i].pageX >= av_button.x && e.touches[i].pageX <= av_button.x +av_button.size && e.touches[i].pageY >= av_button.y && e.touches[i].pageY <= av_button.y + av_button.size){
+			if (e.touches[0].pageX >= av_button.x && e.touches[0].pageX <= av_button.x +av_button.size && e.touches[0].pageY >= av_button.y && e.touches[0].pageY <= av_button.y + av_button.size){
 				if (!av_open && av_counter > 0)
 					antiVirusPopup();
 			}
-		}
+		
 }
 function touchEnd(e){
 	if(held){
@@ -322,7 +336,7 @@ function touchEnd(e){
 				score_arr2 = score_arr;
 				score_arr = [];
 			}
-			hitSound.play();
+            playAudio("assets/audio/hit.wav");
 		}
 		else
 			virus_arr.push(held);
