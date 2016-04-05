@@ -66,10 +66,18 @@ function createCard(splash,home,i){
 	var lowerImg = document.createElement("img");
 	lowerImg.src = 'assets/img/playbutton.png'
 	lowerImg.onclick = function(){
-        var test = mediaRes.getCurrentPosition();
-        mediaRes.stop();
-        
-        window.location.href = home + '?duration=' + test;
+        mediaRes.getCurrentPosition(
+                                    // success callback
+                                    function (position) {
+                                    if (position > -1) {
+                                    mediaRes.release();
+                                    window.location.href = home + '?duration=' + position
+                                    }
+                                    },
+                                    // error callback
+                                    function (e) {
+                                    console.log("Error getting pos=" + e);
+                                    });
     };
 	div.appendChild(lowerImg);
 	
