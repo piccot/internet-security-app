@@ -221,7 +221,7 @@ function render(){
         ctx.drawImage(timeBarImage, 100, 20, window.innerWidth - 110, 25)
 
 
-        ctx.font = "11pt Ariel";
+        ctx.font = "5vw Ariel";
 	for(i=0; i < 6; i++){
                 ctx.drawImage(moleArr[i].img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
                 if (moleArr[i].mole){

@@ -307,10 +307,10 @@ var touchStartY = 0;
 function touchStart(e){
 
         if (mailOpen == false){
-		for(i=0;i<e.touches.length;i++){
+		
 			for(j=0;j<mailArr.length;j++){
                     for(k=0;k<mailArr[j].length;k++){
-				        if(e.touches[i].pageX >= mailArr[j][k].x && e.touches[i].pageX <= mailArr[j][k].x + mailArr[j][k].width && e.touches[i].pageY >= mailArr[j][k].y && e.touches[i].pageY <= mailArr[j][k].y + mailArr[j][k].height && mailArr[j][k].img == mailImage){
+				        if(e.touches[0].pageX >= mailArr[j][k].x && e.touches[0].pageX <= mailArr[j][k].x + mailArr[j][k].width && e.touches[0].pageY >= mailArr[j][k].y && e.touches[0].pageY <= mailArr[j][k].y + mailArr[j][k].height && mailArr[j][k].img == mailImage){
                             
                             openMail = mailArr[j][k]
 
@@ -413,7 +413,7 @@ function touchStart(e){
                         }
                     }
 			}
-		}
+		
         }
 }
 function render(){
