@@ -274,8 +274,13 @@
     // don't care for any callbacks
 }
 
+
 - (void)startPlayingAudio:(CDVInvokedUrlCommand*)command
 {
+    //
+    [self.commandDelegate runInBackground:^{
+        //
+
     NSString* callbackId = command.callbackId;
 
 #pragma unused(callbackId)
@@ -358,7 +363,12 @@
     }
     // else audioFile was nil - error already returned from audioFile for resource
     return;
+        //
+     }];
+    //
 }
+
+
 
 - (BOOL)prepareToPlay:(CDVAudioFile*)audioFile withId:(NSString*)mediaId
 {
@@ -429,6 +439,8 @@
 
 - (void)pausePlayingAudio:(CDVInvokedUrlCommand*)command
 {
+    [self.commandDelegate runInBackground:^{
+
     NSString* mediaId = [command argumentAtIndex:0];
     NSString* jsString = nil;
     CDVAudioFile* audioFile = [[self soundCache] objectForKey:mediaId];
@@ -443,10 +455,15 @@
     if (jsString) {
         [self.commandDelegate evalJs:jsString];
     }
+        
+    }];
+
 }
 
 - (void)seekToAudio:(CDVInvokedUrlCommand*)command
 {
+    [self.commandDelegate runInBackground:^{
+
     // args:
     // 0 = Media id
     // 1 = path to resource
@@ -474,10 +491,14 @@
 
         [self.commandDelegate evalJs:jsString];
     }
+    }];
+
 }
 
 - (void)release:(CDVInvokedUrlCommand*)command
 {
+    [self.commandDelegate runInBackground:^{
+
     NSString* mediaId = [command argumentAtIndex:0];
 
     if (mediaId != nil) {
@@ -497,6 +518,8 @@
             NSLog(@"Media with id %@ released", mediaId);
         }
     }
+}];
+
 }
 
 - (void)getCurrentPositionAudio:(CDVInvokedUrlCommand*)command

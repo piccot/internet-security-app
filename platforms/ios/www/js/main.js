@@ -1,4 +1,5 @@
 var questions_file
+var mail_questions_file
 window.onerror = function(msg, url, linenumber) {
     alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
     return true;
@@ -20,13 +21,18 @@ var app = {
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
 			dir.getFile("whack_questions.json", {create:true}, function(file) {
 				questions_file = file;
-                playAudio("assets/audio/menu.wav");
-				writeWhackQuestionsToFile();
-				createCard('whack_splash.png','whack_initial.html',0);
-				createCard('virus_splash.png','virus_initial.html',1);
-				createCard('mail_splash.png','mail_initial.html',2);
+				dir.getFile("mail_questions.json", {create:true}, function(file) {
+					mail_questions_file = file;
+					writeWhackQuestionsToFile();
+					writeMailQuestionsToFile();
+					createCard('whack_splash.png','whack_initial.html',0);
+					createCard('virus_splash.png','virus_initial.html',1);
+					createCard('mail_splash.png','mail_initial.html',2);
+                    console.log(location.search.replace("?duration=",""))
+                    playAudio("assets/audio/menu.wav");
+				});
 			});
-		
+			
 	});
     }
 
@@ -40,8 +46,19 @@ function createCard(splash,home,i){
 	var upperImg = document.createElement("img");		
 	upperImg.src = 'splashscreens/'+splash
 	upperImg.onclick = function(){
+        mediaRes.getCurrentPosition(
+                                    // success callback
+                                    function (position) {
+                                        if (position > -1) {
+                                            mediaRes.release();
+                                            window.location.href = home + '?duration=' + position
+                                        }
+                                    },
+                                    // error callback
+                                    function (e) {
+                                        console.log("Error getting pos=" + e);
+                                    });
 
-    window.location.href = home
     };
 	div.appendChild(upperImg)
 	
@@ -49,14 +66,16 @@ function createCard(splash,home,i){
 	var lowerImg = document.createElement("img");
 	lowerImg.src = 'assets/img/playbutton.png'
 	lowerImg.onclick = function(){
+        var test = mediaRes.getCurrentPosition();
+        mediaRes.stop();
         
-        window.location.href = home
+        window.location.href = home + '?duration=' + test;
     };
 	div.appendChild(lowerImg);
 	
 	div.style.width= width + 'px';
-	div.style.height= height +'px';		
-	div.className = 'gameCard'		
+	div.style.height= height +'px';
+	div.className = 'gameCard'
 	div.style.top = (container.offsetHeight - height)/2 + 'px'
 	div.style.left = width * .075 *(i+1) + 'px'
 	container.appendChild(div)
@@ -68,6 +87,7 @@ function fail(){
 	return true;
 }
 
+var mediaRes;
 function playAudio(src) {
     
         // Android needs the search path explicitly specified
@@ -75,15 +95,28 @@ function playAudio(src) {
             src = '/android_asset/www/' + src;
         }
         
-        var mediaRes = new Media(src,
-                                 function onSuccess() {
-                                 // release the media resource once finished playing
-                                 mediaRes.release();
-                                 },
-                                 function onError(e){
-                                 console.log("error playing sound: " + JSON.stringify(e));
-                                 });
-        mediaRes.play();
+        mediaRes = new Media(src,
+                             function onSuccess() {
+                             // What happens when succesfully finished playing
+                             },
+                             function onError(e){
+                             console.log("error playing sound: " + JSON.stringify(e));
+                             },
+                             function onStatusChange (status) {
+                                //console.log("STATUS: " + status)
+                                if (status === Media.MEDIA_RUNNING) {
+                                    if (location.search) {
+                                        mediaRes.seekTo(location.search.replace("?duration=","") * 1000);
+                                    }
+                                }
+
+                                if (status === Media.MEDIA_STOPPED) {
+                                    location.search = ""
+                                 }
+                             }
+                                 );
+    mediaRes.play();
+
     
 }
 function writeWhackQuestionsToFile(){
@@ -95,7 +128,40 @@ function writeWhackQuestionsToFile(){
 			questions_file.createWriter(function(fileWriter) {
 				fileWriter.seek(fileWriter.length);
 				if (fileWriter.length <= 0){
-					fileWriter.write('[{"Password":"password123","Type": 3, "id": 1},{"Password":"I<3Horses","Type": 3, "id": 2},{"Password":"JknsD3@anmAiLfknsma!","Type": 3, "id": 3},{ "Password":"HappyDays","Type": 3, "id": 4},{"Password":"TheBestPassword","Type": 3, "id": 5},{"Password":"TheBestPassword","Type": 3, "id": 6},{"Password":"TheWorstPassword","Type": 3, "id": 7},{"Password":"2@Atak","Type": 2, "id": 8},{"Password":"24pples2D4y","Type": 2, "id": 9},{"Password":"IWasBornIn1919191995","Type": 2, "id": 10},{"Password":"IWasBornIn1919191995","Type": 2, "id": 11},{"Password":"2BorNot2B_ThatIsThe?","Type": 1, "id": 12},{"Password":"4Score&7yrsAgo","Type": 1, "id": 13}]');
+					var xhttp = new XMLHttpRequest();
+					xhttp.onreadystatechange = function() {
+					if (xhttp.readyState == 4 && xhttp.status == 200) {
+						fileWriter.write(xhttp.responseText);
+					}
+					};
+					xhttp.open("GET", "http://cybersafegames.unc.edu/whack_data.php", true);
+					xhttp.send();
+					
+				}
+			}, fail);
+        };
+        reader.readAsText(file);
+    }, fail);
+
+}
+function writeMailQuestionsToFile(){
+	var filedata
+    mail_questions_file.file(function(file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {			
+			filedata=this.result;
+			mail_questions_file.createWriter(function(fileWriter) {
+				fileWriter.seek(fileWriter.length);
+				if (fileWriter.length <= 0){
+					var xhttp = new XMLHttpRequest();
+					xhttp.onreadystatechange = function() {
+					if (xhttp.readyState == 4 && xhttp.status == 200) {
+						fileWriter.write(xhttp.responseText);
+					}
+					};
+					xhttp.open("GET", "http://cybersafegames.unc.edu/mail_data.php", true);
+					xhttp.send();
+					
 				}
 			}, fail);
         };
@@ -104,6 +170,16 @@ function writeWhackQuestionsToFile(){
 
 }
 
+function loadWhackData() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      return xhttp.responseText;
+    }
+  };
+  xhttp.open("GET", "http://cybersafegames.unc.edu/whack_data.php", true);
+  xhttp.send();
+}
 
 
 app.initialize();

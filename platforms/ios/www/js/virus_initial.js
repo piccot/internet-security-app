@@ -12,7 +12,7 @@ function play(){
 }
 
 function back(){
-    window.location.href = 'main.html'
+    window.location.href = 'main.html' + location.search
     
     
 }
