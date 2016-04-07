@@ -75,35 +75,22 @@ for(i = 0; i < 6; i ++){
 	av_count_image.src = 'assets/img/av_count_' + i + '.png';
 	av_arr.push(av_count_image);
 }
-var hitSound;
-var misSound;
-var notificationSound;
+
 
 function test() {
-    hitSound = new Media("assets/audio/hit.wav",
-                             function onSuccess() {
-                             // release the media resource once finished playing
-                             mediaRes.release();
-                             },
-                             function onError(e){
-                             console.log("error playing sound: " + JSON.stringify(e));
-                             });
-    missSound = new Media("assets/audio/miss.wav",
-                             function onSuccess() {
-                             // release the media resource once finished playing
-                             mediaRes.release();
-                             },
-                             function onError(e){
-                             console.log("error playing sound: " + JSON.stringify(e));
-                             });
-    notificationSound = new Media("assets/audio/notification.wav",
-                             function onSuccess() {
-                             // release the media resource once finished playing
-                             mediaRes.release();
-                             },
-                             function onError(e){
-                             console.log("error playing sound: " + JSON.stringify(e));
-                             });
+	window.plugins.NativeAudio.preloadComplex( 'hitSound', 'assets/audio/hit.wav', function(msg){
+    }, function(msg){
+        console.log( 'error: ' + msg );
+    });
+	window.plugins.NativeAudio.preloadComplex( 'missSound', 'assets/audio/miss.wav', function(msg){
+    }, function(msg){
+        console.log( 'error: ' + msg );
+    });
+	window.plugins.NativeAudio.preloadComplex( 'notificationSound', 'assets/audio/notification.wav', function(msg){
+    }, function(msg){
+        console.log( 'error: ' + msg );
+    });
+  
 }
 
 
@@ -219,6 +206,10 @@ var av_update_counter = 0;
 function editObjects(dt){
 	timeRemaining = timeRemaining - dt;
     if (timeRemaining <= 0){
+		window.plugins.NativeAudio.unload( 'missSound' );
+		window.plugins.NativeAudio.unload( 'hitSound' );
+		window.plugins.NativeAudio.unload( 'notificationSounds' );
+
         window.location.href = 'virus_final.html?score=' + (16 * imagesCollected + score);
     }
 	for(var i = 0; i < virus_arr.length; i++){
@@ -227,7 +218,7 @@ function editObjects(dt){
 		current.y = current.y + current.dy * dt;
 		if (current.x > window.innerWidth || current.x + current.width < 0 || current.y > window.innerHeight || current.y + current.height < 0){
 			if (current.type == 2){
-                missSound.play();
+				window.plugins.NativeAudio.play( 'missSound' );
                 //playAudio("assets/audio/miss.wav");
 				score_arr = score_arr.slice(0,score_arr.length -av_counter -1);
 				score = Math.max(0,score - (av_counter+1));
@@ -244,7 +235,7 @@ function editObjects(dt){
 	}
 	if (Math.random() < (1/millisecondsPerUpdate) * dt && av_counter < 5 && !av_update){
 		av_counter++;
-        notificationSound.play();
+		window.plugins.NativeAudio.play( 'notificationSound' );
         //playAudio("assets/audio/notification.wav");
 		console.log(millisecondsPerUpdate);
 		millisecondsPerUpdate = 15000;
@@ -372,7 +363,7 @@ function touchEnd(e){
 				score_arr2 = score_arr;
 				score_arr = [];
 			}
-            hitSound.play()
+			window.plugins.NativeAudio.play( 'hitSound' );
             //playAudio("assets/audio/hit.wav");
 		}
 		else

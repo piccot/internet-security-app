@@ -27,6 +27,9 @@
         },
         "cordova-plugin-media": {
             "PACKAGE_NAME": "io.internetsecurityapp"
+        },
+        "cordova-plugin-nativeaudio": {
+            "PACKAGE_NAME": "io.internetsecurityapp"
         }
     },
     "dependent_plugins": {}
