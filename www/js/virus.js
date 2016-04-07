@@ -377,6 +377,16 @@ function touchMove(e){
 	if (held){
 		held.x = e.touches[0].pageX - held.width/2;
 		held.y = e.touches[0].pageY - held.height/2;
+	} else {
+		for(j=0;j<virus_arr.length;j++){
+				if(e.touches[0].pageX >= virus_arr[j].x - virus_arr[j].width /2 && e.touches[0].pageX <= virus_arr[j].x + virus_arr[j].width *1.5 && e.touches[0].pageY >= virus_arr[j].y - virus_arr[j].height /2 && e.touches[0].pageY <= virus_arr[j].y + virus_arr[j].height *1.5){
+					if (virus_arr[j].type == 1){
+						held = virus_arr[j];
+						virus_arr.splice(j,1);
+						}
+					return true;
+				}
+			}
 	}
 }
 function virusIndex(id){
