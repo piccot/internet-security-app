@@ -48,6 +48,9 @@
     <feature name="Media">
         <param name="ios-package" value="CDVSound" />
     </feature>
+    <feature name="NativeAudio">
+        <param name="ios-package" value="NativeAudio" />
+    </feature>
     <preference name="DisallowOverscroll" value="true" />
     <preference name="Orientation" value="all" />
     <allow-intent href="itms:*" />

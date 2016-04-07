@@ -192,6 +192,13 @@ module.exports = [
         "clobbers": [
             "window.Media"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-nativeaudio/www/nativeaudio.js",
+        "id": "cordova-plugin-nativeaudio.nativeaudio",
+        "clobbers": [
+            "window.plugins.NativeAudio"
+        ]
     }
 ];
 module.exports.metadata = 
