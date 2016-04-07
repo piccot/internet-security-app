@@ -30,9 +30,10 @@ var app = {
                     document.addEventListener('touchmove', touchMove);
 					document.addEventListener("touchstart",touchStart);
 					document.addEventListener("touchend",touchEnd);
+					test();
 					jsonObject = JSON.parse(filedata);
 					lastTime = Date.now()
-					main();
+					requestAnimationFrame(main)
 				};
 				reader.readAsText(file);
 			}, fail);
@@ -66,7 +67,21 @@ var hitImage = new Image();
 hitImage.src = 'assets/img/hit.png';
 var missImage = new Image();
 missImage.src = 'assets/img/miss.png';
-
+function test() {
+	window.plugins.NativeAudio.preloadComplex( 'hitSound', 'assets/audio/hit.wav', function(msg){
+    }, function(msg){
+        console.log( 'error: ' + msg );
+    });
+	window.plugins.NativeAudio.preloadComplex( 'missSound', 'assets/audio/miss.wav', function(msg){
+    }, function(msg){
+        console.log( 'error: ' + msg );
+    });
+	window.plugins.NativeAudio.preloadComplex( 'notificationSound', 'assets/audio/notification.wav', function(msg){
+    }, function(msg){
+        console.log( 'error: ' + msg );
+    });
+  
+}
 function moleHole(x,y){
 	this.x = x;
 	this.y=y;
@@ -198,11 +213,13 @@ function touchEnd(e){
 				results_arr.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect})
 				if(moleArr[start.attachedTo].mole.targetType == colorSelect){
 					score = score + Math.floor(moleArr[start.attachedTo].mole.delay/1000 + 1)*5
-                    playAudio("assets/audio/hit.wav");
+                   
+					window.plugins.NativeAudio.play( 'hitSound' );
 					moleArr[start.attachedTo].mole = new hit();
 				}else{
 						timer = timer - 2000
-                        playAudio("assets/audio/miss.wav");
+                     
+						window.plugins.NativeAudio.play( 'missSound' );
 						moleArr[start.attachedTo].mole = new miss();
 				}
 			}
@@ -253,10 +270,11 @@ function render(){
 }
 
 function main (){
+	requestAnimationFrame(main)
     update()
 	lastTime = Date.now()
 	render()
-	requestAnimationFrame(main)
+	
 }
 var millisecondsPerMole = 4500;
 function editObjects(dt){
@@ -300,6 +318,8 @@ function writeResultsToFile(){
 				fileWriter.seek(fileWriter.length);
 				
 				fileWriter.write(datalog);
+				window.plugins.NativeAudio.unload( 'missSound' );
+		window.plugins.NativeAudio.unload( 'hitSound' );
 				window.location.href = 'whack_final.html?score=' + score
 
 			}, fail);

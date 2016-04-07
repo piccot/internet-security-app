@@ -41,7 +41,7 @@ var app = {
 		document.addEventListener("touchend",touchEnd);
 		lastTime = Date.now()
         test();
-		main();
+		requestAnimationFrame(main)
 		bucket = new bucket();
 		av_button = new av_button();
 		ctx.font = "24pt Ariel"
@@ -138,10 +138,11 @@ function av_button(){
 }
 var lastTime = Date.now();
 function main (){
+	requestAnimationFrame(main);
     update()
 	lastTime = Date.now()
 	render()
-	requestAnimationFrame(main)
+	
 }
 
 function update(){
