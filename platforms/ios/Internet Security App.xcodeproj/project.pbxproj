@@ -28,11 +28,11 @@
 		62333D3779764336BF6A1A75 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3998FAD121B4F838604E41C /* AVFoundation.framework */; };
 		52ACBE67EAA24E339AF35DCA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE72A1BB960A4D4EBFB8F9EF /* AudioToolbox.framework */; };
 		B69AEA9A1FF14AC3A031A05C /* CDVSound.m in Sources */ = {isa = PBXBuildFile; fileRef = 53F7CB2A3199481E8D7F0D6D /* CDVSound.m */; };
-		8C8D0535634D468E93EF056C /* NativeAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = D1862F190A414A8ABA26C298 /* NativeAudio.m */; };
-		2D82F67C350840DD81CA319E /* NativeAudioAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 8562C005B70644939EFFD64D /* NativeAudioAsset.m */; };
 		A05A074684A04FC8B5C2C9D0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A31A37D937DA43AA80EE5D0D /* Foundation.framework */; };
 		8E809395F62A4B8880A8A1A7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2021CB8561CA4FF0A6A47DB7 /* AVFoundation.framework */; };
 		9046BF4C42864255870910C8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B312427745E4949BC9AA56F /* AudioToolbox.framework */; };
+		2C78BEBB18E0471380ED2EE7 /* NativeAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB90DEF04364298B63112E0 /* NativeAudio.m */; };
+		92409D72CFAB4229AD797F4D /* NativeAudioAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C5FC34042142EDAF5D7502 /* NativeAudioAsset.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,13 +94,13 @@
 		DE72A1BB960A4D4EBFB8F9EF /* AudioToolbox.framework */ = {isa = PBXFileReference; name = "AudioToolbox.framework"; path = "System/Library/Frameworks/AudioToolbox.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		53F7CB2A3199481E8D7F0D6D /* CDVSound.m */ = {isa = PBXFileReference; name = "CDVSound.m"; path = "cordova-plugin-media/CDVSound.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		DECD3D06053E4FED9C98BDAB /* CDVSound.h */ = {isa = PBXFileReference; name = "CDVSound.h"; path = "cordova-plugin-media/CDVSound.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
-		D1862F190A414A8ABA26C298 /* NativeAudio.m */ = {isa = PBXFileReference; name = "NativeAudio.m"; path = "cordova-plugin-nativeaudio/NativeAudio.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
-		8562C005B70644939EFFD64D /* NativeAudioAsset.m */ = {isa = PBXFileReference; name = "NativeAudioAsset.m"; path = "cordova-plugin-nativeaudio/NativeAudioAsset.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
-		4784EFC941E5434E8B11CF88 /* NativeAudio.h */ = {isa = PBXFileReference; name = "NativeAudio.h"; path = "cordova-plugin-nativeaudio/NativeAudio.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
-		1876735652CA4F29BCDD66E8 /* NativeAudioAsset.h */ = {isa = PBXFileReference; name = "NativeAudioAsset.h"; path = "cordova-plugin-nativeaudio/NativeAudioAsset.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		A31A37D937DA43AA80EE5D0D /* Foundation.framework */ = {isa = PBXFileReference; name = "Foundation.framework"; path = "System/Library/Frameworks/Foundation.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		2021CB8561CA4FF0A6A47DB7 /* AVFoundation.framework */ = {isa = PBXFileReference; name = "AVFoundation.framework"; path = "System/Library/Frameworks/AVFoundation.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		8B312427745E4949BC9AA56F /* AudioToolbox.framework */ = {isa = PBXFileReference; name = "AudioToolbox.framework"; path = "System/Library/Frameworks/AudioToolbox.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		FFB90DEF04364298B63112E0 /* NativeAudio.m */ = {isa = PBXFileReference; name = "NativeAudio.m"; path = "cordova-plugin-nativeaudio/NativeAudio.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		D2C5FC34042142EDAF5D7502 /* NativeAudioAsset.m */ = {isa = PBXFileReference; name = "NativeAudioAsset.m"; path = "cordova-plugin-nativeaudio/NativeAudioAsset.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		BAD37E017D6D4E71A6DCE278 /* NativeAudio.h */ = {isa = PBXFileReference; name = "NativeAudio.h"; path = "cordova-plugin-nativeaudio/NativeAudio.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		2F2BC909267F4E3E903CD5EB /* NativeAudioAsset.h */ = {isa = PBXFileReference; name = "NativeAudioAsset.h"; path = "cordova-plugin-nativeaudio/NativeAudioAsset.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,10 +235,10 @@
 				BCFE1D94617F4B21BF95741C /* CDVWKWebViewUIDelegate.h */,
 				53F7CB2A3199481E8D7F0D6D /* CDVSound.m */,
 				DECD3D06053E4FED9C98BDAB /* CDVSound.h */,
-				D1862F190A414A8ABA26C298 /* NativeAudio.m */,
-				8562C005B70644939EFFD64D /* NativeAudioAsset.m */,
-				4784EFC941E5434E8B11CF88 /* NativeAudio.h */,
-				1876735652CA4F29BCDD66E8 /* NativeAudioAsset.h */,
+				FFB90DEF04364298B63112E0 /* NativeAudio.m */,
+				D2C5FC34042142EDAF5D7502 /* NativeAudioAsset.m */,
+				BAD37E017D6D4E71A6DCE278 /* NativeAudio.h */,
+				2F2BC909267F4E3E903CD5EB /* NativeAudioAsset.h */,
 			);
 			name = Plugins;
 			path = "Internet Security App/Plugins";
@@ -370,8 +370,8 @@
 				384EEC6222964D42B77F9CD3 /* CDVWKWebViewEngine.m in Sources */,
 				108EDF56EF9545AF94DF8570 /* CDVWKWebViewUIDelegate.m in Sources */,
 				B69AEA9A1FF14AC3A031A05C /* CDVSound.m in Sources */,
-				8C8D0535634D468E93EF056C /* NativeAudio.m in Sources */,
-				2D82F67C350840DD81CA319E /* NativeAudioAsset.m in Sources */,
+				2C78BEBB18E0471380ED2EE7 /* NativeAudio.m in Sources */,
+				92409D72CFAB4229AD797F4D /* NativeAudioAsset.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

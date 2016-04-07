@@ -41,7 +41,7 @@ var app = {
 		document.addEventListener("touchend",touchEnd);
 		lastTime = Date.now()
         test();
-		main();
+		requestAnimationFrame(main)
 		bucket = new bucket();
 		av_button = new av_button();
 		ctx.font = "24pt Ariel"
@@ -75,35 +75,22 @@ for(i = 0; i < 6; i ++){
 	av_count_image.src = 'assets/img/av_count_' + i + '.png';
 	av_arr.push(av_count_image);
 }
-var hitSound;
-var misSound;
-var notificationSound;
+
 
 function test() {
-    hitSound = new Media("assets/audio/hit.wav",
-                             function onSuccess() {
-                             // release the media resource once finished playing
-                             mediaRes.release();
-                             },
-                             function onError(e){
-                             console.log("error playing sound: " + JSON.stringify(e));
-                             });
-    missSound = new Media("assets/audio/miss.wav",
-                             function onSuccess() {
-                             // release the media resource once finished playing
-                             mediaRes.release();
-                             },
-                             function onError(e){
-                             console.log("error playing sound: " + JSON.stringify(e));
-                             });
-    notificationSound = new Media("assets/audio/notification.wav",
-                             function onSuccess() {
-                             // release the media resource once finished playing
-                             mediaRes.release();
-                             },
-                             function onError(e){
-                             console.log("error playing sound: " + JSON.stringify(e));
-                             });
+	window.plugins.NativeAudio.preloadComplex( 'hitSound', 'assets/audio/hit.wav', function(msg){
+    }, function(msg){
+        console.log( 'error: ' + msg );
+    });
+	window.plugins.NativeAudio.preloadComplex( 'missSound', 'assets/audio/miss.wav', function(msg){
+    }, function(msg){
+        console.log( 'error: ' + msg );
+    });
+	window.plugins.NativeAudio.preloadComplex( 'notificationSound', 'assets/audio/notification.wav', function(msg){
+    }, function(msg){
+        console.log( 'error: ' + msg );
+    });
+  
 }
 
 
@@ -151,10 +138,11 @@ function av_button(){
 }
 var lastTime = Date.now();
 function main (){
+	requestAnimationFrame(main);
     update()
 	lastTime = Date.now()
 	render()
-	requestAnimationFrame(main)
+	
 }
 
 function update(){
@@ -219,6 +207,10 @@ var av_update_counter = 0;
 function editObjects(dt){
 	timeRemaining = timeRemaining - dt;
     if (timeRemaining <= 0){
+		window.plugins.NativeAudio.unload( 'missSound' );
+		window.plugins.NativeAudio.unload( 'hitSound' );
+		window.plugins.NativeAudio.unload( 'notificationSounds' );
+
         window.location.href = 'virus_final.html?score=' + (16 * imagesCollected + score);
     }
 	for(var i = 0; i < virus_arr.length; i++){
@@ -227,7 +219,7 @@ function editObjects(dt){
 		current.y = current.y + current.dy * dt;
 		if (current.x > window.innerWidth || current.x + current.width < 0 || current.y > window.innerHeight || current.y + current.height < 0){
 			if (current.type == 2){
-                missSound.play();
+				window.plugins.NativeAudio.play( 'missSound' );
                 //playAudio("assets/audio/miss.wav");
 				score_arr = score_arr.slice(0,score_arr.length -av_counter -1);
 				score = Math.max(0,score - (av_counter+1));
@@ -244,7 +236,7 @@ function editObjects(dt){
 	}
 	if (Math.random() < (1/millisecondsPerUpdate) * dt && av_counter < 5 && !av_update){
 		av_counter++;
-        notificationSound.play();
+		window.plugins.NativeAudio.play( 'notificationSound' );
         //playAudio("assets/audio/notification.wav");
 		console.log(millisecondsPerUpdate);
 		millisecondsPerUpdate = 15000;
@@ -372,7 +364,7 @@ function touchEnd(e){
 				score_arr2 = score_arr;
 				score_arr = [];
 			}
-            hitSound.play()
+			window.plugins.NativeAudio.play( 'hitSound' );
             //playAudio("assets/audio/hit.wav");
 		}
 		else
@@ -385,6 +377,16 @@ function touchMove(e){
 	if (held){
 		held.x = e.touches[0].pageX - held.width/2;
 		held.y = e.touches[0].pageY - held.height/2;
+	} else {
+		for(j=0;j<virus_arr.length;j++){
+				if(e.touches[0].pageX >= virus_arr[j].x - virus_arr[j].width /2 && e.touches[0].pageX <= virus_arr[j].x + virus_arr[j].width *1.5 && e.touches[0].pageY >= virus_arr[j].y - virus_arr[j].height /2 && e.touches[0].pageY <= virus_arr[j].y + virus_arr[j].height *1.5){
+					if (virus_arr[j].type == 1){
+						held = virus_arr[j];
+						virus_arr.splice(j,1);
+						}
+					return true;
+				}
+			}
 	}
 }
 function virusIndex(id){
