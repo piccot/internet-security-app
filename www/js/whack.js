@@ -31,6 +31,7 @@ var app = {
 					document.addEventListener("touchstart",touchStart);
 					document.addEventListener("touchend",touchEnd);
 					test();
+                                    console.log(filedata)
 					jsonObject = JSON.parse(filedata);
 					lastTime = Date.now()
 					requestAnimationFrame(main)

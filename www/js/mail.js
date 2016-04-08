@@ -196,85 +196,88 @@ function playAudio(src) {
 function closeMail(choice){
     switch (choice){
         case 0: //accept
-            if (openMail.type == 0){ //good mail
+            if (openMail.type >= 0 && openMail.type <= 3){ //good mails
                 score = score + 100;
                 openMail.img = explosionImage;
             }
-            if (openMail.type == 1){ //bad mail
-                if (openMail.sub == 0){ //phish mail
-                    score = score - 25;
-                    changeSpam(-2);
-                    openMail.img = acceptPhishImage;
-                }
-                if (openMail.sub == 1){ //Fake Account
-                    score = score - 25;
-                    openMail.img = acceptAccountImage;
-                }
-                if (openMail.sub == 2){ //Virus
-                    var virusSprite = new sprite({
-                                                 context: canvas.getContext("2d"),
-                                                 image: acceptVirusImage,
-                                                 ticksPerFrame: 10,
-                                                 numberOfFrames: 10,
-                                                 width: canvas.width,
-                                                 height: canvas.width});
-                    spriteArr.push(virusSprite);
-                    millisecondsPerMail = 1;
-                    spamFilter = 0;
-                    openMail.img = explosionImage;
-                }
+            if (openMail.type == 4){ //bad mail phish
+                score = score - 25;
+                changeSpam(-2);
+                openMail.img = acceptPhishImage;
             }
-            if (openMail.type == 2){ //spam mail
+            if (openMail.type == 5){ //bad mail fake acct
+                score = score - 25;
+                openMail.img = acceptAccountImage;
+            }
+            if (openMail.type == 6){ //bad mail Virus
+                var virusSprite = new sprite({
+                                             context: canvas.getContext("2d"),
+                                            image: acceptVirusImage,
+                                            ticksPerFrame: 10,
+                                            numberOfFrames: 10,
+                                            width: canvas.width,
+                                            height: canvas.width});
+                spriteArr.push(virusSprite);
+                millisecondsPerMail = 1;
+                spamFilter = 0;
+                openMail.img = explosionImage;
+            }
+            
+            if (openMail.type == 7){ //spam mail
                 changeSpam(-2);
                 openMail.img = explosionImage;
             }
             break;
         case 1:  //reject
-            if (openMail.type == 0){ //good mail
+            if (openMail.type == 0){ //good mail teacher
                 score = score - 25;
-                if (openMail.sub == 0){ //teacher
-                    openMail.img = rejectTeachImage;
-                }
-                if (openMail.sub == 1){ //job
-                    openMail.img = rejectJobImage;
-                }
-                if (openMail.sub == 2){ //family
-                    openMail.img = rejectFamilyImage;
-                }
-                if (openMail.sub == 3){ //account
-                    openMail.img = rejectAccountImage;
-                }
-                
+                openMail.img = rejectTeachImage;
             }
-            if (openMail.type == 1){ //bad mail
+            if (openMail.type == 1){ //good mail job
+                score = score - 25;
+                openMail.img = rejectJobImage;
+            }
+            if (openMail.type == 2){ //good mail family
+                score = score - 25;
+                openMail.img = rejectFamilyImage;
+            }
+            if (openMail.type == 3){ //account
+                score = score - 25;
+                openMail.img = rejectAccountImage;
+            }
+            if (openMail.type >= 4 && openMail.type <= 6){ //bad mail
                 score = score + 100;
                 openMail.img = explosionImage;
             }
-            if (openMail.type == 2){ //spam mail
+            if (openMail.type == 7){ //spam mail
                 openMail.img = explosionImage;
             }
             break;
         case 2: //spam
-            if (openMail.type == 0){ //good mail
+            if (openMail.type == 0){ //good mail teacher
                 score = score - 25;
                 changeSpam(-1);
-                if (openMail.sub == 0){ //teacher
-                    openMail.img = rejectTeachImage;
-                }
-                if (openMail.sub == 1){ //job
-                    openMail.img = rejectJobImage;
-                }
-                if (openMail.sub == 2){ //family
-                    openMail.img = rejectFamilyImage;
-                }
-                if (openMail.sub == 3){ //account
-                    openMail.img = rejectAccountImage;
-                }
+                openMail.img = rejectTeachImage;
             }
-            if (openMail.type == 1){ //bad mail
+            if (openMail.type == 1){ //good mail job
+                score = score - 25;
+                changeSpam(-1);
+                openMail.img = rejectJobImage;
+            }
+            if (openMail.type == 2){ //good mail family
+                score = score - 25;
+                changeSpam(-1);
+                openMail.img = rejectFamilyImage;
+            }
+            if (openMail.type == 3){ //account
+                score = score - 25;
+                changeSpam(-1);
+                openMail.img = rejectAccountImage;
+            }
+            if (openMail.type >= 4 && openMail.type <= 6){ //bad mail
                 openMail.img = explosionImage;
             }
-            if (openMail.type == 2){ //spam mail
+            if (openMail.type == 7){ //spam mail
                 score = score + 100;
                 changeSpam(1);
                 var spamUpSprite = new sprite({
