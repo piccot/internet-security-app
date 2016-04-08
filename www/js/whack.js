@@ -68,19 +68,34 @@ var hitImage = new Image();
 hitImage.src = 'assets/img/hit.png';
 var missImage = new Image();
 missImage.src = 'assets/img/miss.png';
+var hit_sound_list = [];
+var hit_sound_index = 0;
+var hit_sound;
+var miss_sound;
+var miss_sound_list = [];
+var miss_sound_index = 0;
+var hit_sound2;
+var miss_sound2;
 function test() {
-	window.plugins.NativeAudio.preloadSimple( 'hitSound', 'assets/audio/hit.wav', function(msg){
-    }, function(msg){
-        console.log( 'error: ' + msg );
-    });
-	window.plugins.NativeAudio.preloadSimple( 'missSound', 'assets/audio/miss.wav', function(msg){
-    }, function(msg){
-        console.log( 'error: ' + msg );
-    });
-	window.plugins.NativeAudio.preloadSimple( 'notificationSound', 'assets/audio/notification.wav', function(msg){
-    }, function(msg){
-        console.log( 'error: ' + msg );
-    });
+	hit_sound = new Audio('assets/audio/hit.wav');
+	document.body.appendChild(hit_sound);
+	hit_sound_list.push(hit_sound);
+	
+	for (var i=0;i<4;i++){
+		hit_sound2 = hit_sound.cloneNode();
+		document.body.appendChild(hit_sound2);
+		hit_sound_list.push(hit_sound2);
+	
+	}
+	miss_sound = new Audio('assets/audio/miss.wav');
+	document.body.appendChild(miss_sound);
+	miss_sound_list.push(miss_sound);
+	for (var i=0;i<4;i++){
+		miss_sound2 = miss_sound.cloneNode();
+		document.body.appendChild(miss_sound2);
+		miss_sound_list.push(miss_sound2);
+	
+	}
   
 }
 function moleHole(x,y){
@@ -215,12 +230,14 @@ function touchEnd(e){
 				if(moleArr[start.attachedTo].mole.targetType == colorSelect){
 					score = score + Math.floor(moleArr[start.attachedTo].mole.delay/1000 + 1)*5
                    
-					window.plugins.NativeAudio.play( 'hitSound' );
+					hit_sound_list[hit_sound_index%5].play();
+				hit_sound_index++;
 					moleArr[start.attachedTo].mole = new hit();
 				}else{
 						timer = timer - 2000
                      
-						window.plugins.NativeAudio.play( 'missSound' );
+						miss_sound_list[miss_sound_index%5].play();
+				miss_sound_index++;
 						moleArr[start.attachedTo].mole = new miss();
 				}
 			}
@@ -319,8 +336,6 @@ function writeResultsToFile(){
 				fileWriter.seek(fileWriter.length);
 				
 				fileWriter.write(datalog);
-				window.plugins.NativeAudio.unload( 'missSound' );
-		window.plugins.NativeAudio.unload( 'hitSound' );
 				window.location.href = 'whack_final.html?score=' + score
 
 			}, fail);
