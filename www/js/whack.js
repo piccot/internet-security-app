@@ -21,8 +21,8 @@ var app = {
         document.addEventListener('touchmove', touchMove);
         document.addEventListener("touchstart",touchStart);
         document.addEventListener("touchend",touchEnd);
-        lastTime = Date.now()
-        requestAnimationFrame(main)
+        
+        //requestAnimationFrame(main)
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
         
         dir.getFile("whack_results.json", {create:true}, function(file) {
@@ -33,7 +33,9 @@ var app = {
 				var reader = new FileReader();
 				reader.onload = function(e) {
 					filedata=this.result;
-					//test();
+                                    lastTime = Date.now()
+                                    test();
+                                    main();
 
 				};
 				reader.readAsText(file);
@@ -256,7 +258,7 @@ function render(){
         ctx.drawImage(timeBarImage, 100, 20, window.innerWidth - 110, 25)
 
 
-        ctx.font = "5vw Ariel";
+        ctx.font = "5vw sans-serif";
 	for(i=0; i < 6; i++){
                 ctx.drawImage(moleArr[i].img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
                 if (moleArr[i].mole){

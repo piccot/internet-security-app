@@ -89,20 +89,24 @@ for(i = 0; i < 6; i ++){
 
 function test() {
 	hit_sound = new Audio('assets/audio/hit.wav');
+    hit_sound.load();
 	document.body.appendChild(hit_sound);
 	hit_sound_list.push(hit_sound);
 	
 	for (var i=0;i<4;i++){
 		hit_sound2 = hit_sound.cloneNode();
+        hit_sound2.load();
 		document.body.appendChild(hit_sound2);
 		hit_sound_list.push(hit_sound2);
 	
 	}
 	miss_sound = new Audio('assets/audio/miss.wav');
+    miss_sound.load();
 	document.body.appendChild(miss_sound);
 	miss_sound_list.push(miss_sound);
 	for (var i=0;i<4;i++){
 		miss_sound2 = miss_sound.cloneNode();
+        miss_sound2.load();
 		document.body.appendChild(miss_sound2);
 		miss_sound_list.push(miss_sound2);
 	

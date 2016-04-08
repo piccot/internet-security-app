@@ -17,9 +17,7 @@ var app = {
 
     onDeviceReady: function() {
         					jsonObject = JSON.parse('[{"id":1,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":0,"Body":"obvious teacher email"},{"id":2,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":1,"Body":"obvious job email"},{"id":3,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":2,"Body":"obvious family email"},{"id":4,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":3,"Body":"obvious Good Account Security email"},{"id":5,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":4,"Body":"obvious phishing email"},{"id":6,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":5,"Body":"obvious Fake Account Security email"},{"id":7,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":6,"Body":"obvious virus email"},{"id":8,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":7,"Body":"obvious spam email"}]');
-        document.addEventListener("touchstart",touchStart);
-        lastTime = Date.now()
-        main();
+        
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
         dir.getFile("mail_results.json", {create:true}, function(file) {
             results_file = file;
@@ -30,6 +28,9 @@ var app = {
 				reader.onload = function(e) {
 					filedata=this.result;
                     //jsonObject = JSON.parse(filedata);
+                                    document.addEventListener("touchstart",touchStart);
+                                    lastTime = Date.now()
+                                    main();
 
 				};
 				reader.readAsText(file);
@@ -243,7 +244,7 @@ function closeMail(choice){
                 score = score - 25;
                 openMail.img = rejectFamilyImage;
             }
-            if (openMail.type == 3){ //account
+            if (openMail.type == 3){ //good mail account
                 score = score - 25;
                 openMail.img = rejectAccountImage;
             }
