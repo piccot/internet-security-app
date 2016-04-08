@@ -68,15 +68,15 @@ hitImage.src = 'assets/img/hit.png';
 var missImage = new Image();
 missImage.src = 'assets/img/miss.png';
 function test() {
-	window.plugins.NativeAudio.preloadComplex( 'hitSound', 'assets/audio/hit.wav', function(msg){
+	window.plugins.NativeAudio.preloadSimple( 'hitSound', 'assets/audio/hit.wav', function(msg){
     }, function(msg){
         console.log( 'error: ' + msg );
     });
-	window.plugins.NativeAudio.preloadComplex( 'missSound', 'assets/audio/miss.wav', function(msg){
+	window.plugins.NativeAudio.preloadSimple( 'missSound', 'assets/audio/miss.wav', function(msg){
     }, function(msg){
         console.log( 'error: ' + msg );
     });
-	window.plugins.NativeAudio.preloadComplex( 'notificationSound', 'assets/audio/notification.wav', function(msg){
+	window.plugins.NativeAudio.preloadSimple( 'notificationSound', 'assets/audio/notification.wav', function(msg){
     }, function(msg){
         console.log( 'error: ' + msg );
     });
