@@ -36,9 +36,9 @@ var app = {
 		canvas.height = window.innerHeight;
 		canvas.width = window.innerWidth;
 		document.body.appendChild(canvas)
-        document.addEventListener('touchmove', touchMove);
-		document.addEventListener("touchstart",touchStart);
-		document.addEventListener("touchend",touchEnd);
+        canvas.addEventListener('touchmove', touchMove);
+		canvas.addEventListener("touchstart",touchStart);
+		canvas.addEventListener("touchend",touchEnd);
 		lastTime = Date.now()
         test();
 		requestAnimationFrame(main)
