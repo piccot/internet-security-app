@@ -211,6 +211,11 @@ function closeMail(choice){
             if (openMail.type == 5){ //bad mail fake acct
                 score = score - 25;
                 openMail.img = acceptAccountImage;
+                openMail.delay = 99999;
+                var popup = document.getElementsByClassName("popup")[0];
+                popup.parentNode.removeChild(popup);
+                mailOpen = false;
+                return;
             }
             if (openMail.type == 6){ //bad mail Virus
                 var virusSprite = new sprite({
