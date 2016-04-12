@@ -1,7 +1,7 @@
 function getScore(){
     document.getElementById('score').innerHTML = location.search.replace("?score=","")
-    document.getElementsByClassName('mainMenu')[0].onclick = mainMenu
-    document.getElementsByClassName('playAgain')[0].onclick = playAgain
+document.getElementsByClassName('mainMenu')[0].addEventListener("touchstart",mainMenu)
+	document.getElementsByClassName('playAgain')[0].addEventListener("touchend",playAgain) 
     
 }
 
