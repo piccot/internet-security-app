@@ -120,20 +120,6 @@ function mole(password,type,password_id){
 
 }
 
-function hit(){
-
-        this.img = hitImage; 
-        this.password = '';
-        this.delay = hitMissDelay;
-        this.currentType = -1;
-}
-function miss(){
-       
-        this.img = missImage; 
-        this.password = '';
-        this.delay = hitMissDelay;
-        this.currentType = -1;
-}
 
 var start = null;
 function startPoint(x,y,mole){
@@ -234,13 +220,17 @@ function touchEnd(e){
                    
 					hit_sound_list[hit_sound_index%5].play();
 				hit_sound_index++;
-					moleArr[start.attachedTo].mole = new hit();
+					moleArr[start.attachedTo].mole.img = hitImage;
+                    moleArr[start.attachedTo].mole.password = '';
+                    moleArr[start.attachedTo].mole.delay = hitMissDelay;
 				}else{
 						timer = timer - 2000
                      
 						miss_sound_list[miss_sound_index%5].play();
 				miss_sound_index++;
-						moleArr[start.attachedTo].mole = new miss();
+						moleArr[start.attachedTo].mole.img = missImage;
+                        moleArr[start.attachedTo].mole.password = '';
+                        moleArr[start.attachedTo].mole.delay = hitMissDelay;
 				}
 			}
         }

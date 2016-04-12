@@ -45,27 +45,7 @@ function createCard(splash,home,i){
 
 	var upperImg = document.createElement("img");		
 	upperImg.src = 'splashscreens/'+splash
-	upperImg.onclick = function(){
-        mediaRes.getCurrentPosition(
-                                    // success callback
-                                    function (position) {
-                                        if (position > -1) {
-                                            mediaRes.release();
-                                            window.location.href = home + '?duration=' + position
-                                        }
-                                    },
-                                    // error callback
-                                    function (e) {
-                                        console.log("Error getting pos=" + e);
-                                    });
-
-    };
-	div.appendChild(upperImg)
-	
-	
-	var lowerImg = document.createElement("img");
-	lowerImg.src = 'assets/img/playbutton.png'
-	lowerImg.onclick = function(){
+	upperImg.addEventListener("touchend",function(){
         mediaRes.getCurrentPosition(
                                     // success callback
                                     function (position) {
@@ -78,7 +58,26 @@ function createCard(splash,home,i){
                                     function (e) {
                                     console.log("Error getting pos=" + e);
                                     });
-    };
+    })
+	div.appendChild(upperImg)
+	
+	
+	var lowerImg = document.createElement("img");
+	lowerImg.src = 'assets/img/playbutton.png'
+	lowerImg.addEventListener("touchend",function(){
+        mediaRes.getCurrentPosition(
+                                    // success callback
+                                    function (position) {
+                                    if (position > -1) {
+                                    mediaRes.release();
+                                    window.location.href = home + '?duration=' + position
+                                    }
+                                    },
+                                    // error callback
+                                    function (e) {
+                                    console.log("Error getting pos=" + e);
+                                    });
+    })
 	div.appendChild(lowerImg);
 	
 	div.style.width= width + 'px';
