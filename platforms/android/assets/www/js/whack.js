@@ -17,7 +17,7 @@ var app = {
     },
 
     onDeviceReady: function() {
-        					jsonObject = JSON.parse('[{"id":1,"Password":"password123","Type":3},{"id":2,"Password":"I<3Horses","Type":3},{"id":3,"Password":"JknsD3@anmAiLfknsma!","Type":3},{"id":4,"Password":"HappyDays","Type":3},{"id":5,"Password":"TheBestPassword","Type":3},{"id":6,"Password":"TheWorstPassword","Type":3},{"id":7,"Password":"2@Atak","Type":2},{"id":8,"Password":"24pples2D4y","Type":2},{"id":9,"Password":"IWasBornIn1919191995","Type":2},{"id":10,"Password":"2BorNot2B_ThatIsThe?","Type":1},{"id":10,"Password":"4Score&7yrsAgo","Type":1}]');
+        					jsonObject = JSON.parse('[{"id":1,"Password":"password123","Type: 2},{"id":2,"Password":"I<3Horses","Type: 2},{"id":3,"Password":"JknsD3@anmAiLfknsma!","Type: 2},{"id":4,"Password":"HappyDays","Type: 2},{"id":5,"Password":"TheBestPassword","Type: 2},{"id":6,"Password":"TheWorstPassword","Type: 2},{"id":7,"Password":"2@Atak","Type: 3},{"id":8,"Password":"24pples2D4y","Type: 3},{"id":9,"Password":"IWasBornIn1919191995","Type: 3},{"id":10,"Password":"2BorNot2B_ThatIsThe?","Type":1},{"id":10,"Password":"4Score&7yrsAgo","Type":1}]');
         document.addEventListener('touchmove', touchMove);
         document.addEventListener("touchstart",touchStart);
         document.addEventListener("touchend",touchEnd);
@@ -203,10 +203,12 @@ function touchStart(e){
 
 }
 function touchMove(e){
-	for(i=0;i<e.touches.length;i++){
-		finger_x = e.touches[i].pageX;
-		finger_y = e.touches[i].pageY;
-	}
+	
+		finger_x = e.touches[0].pageX;
+		finger_y = e.touches[0].pageY;
+		if ( e.touches[0].pageX / canvas.width <.02)
+			touchEnd(e);
+	
 }
 function touchEnd(e){
 //        console.log(e.changedTouches[0].pageX, e.changedTouches[0].pageY)
@@ -221,12 +223,10 @@ function touchEnd(e){
 			var xDistance = e.changedTouches[i].pageX - start.x
 			var yDistance = e.changedTouches[i].pageY - start.y
 			if (xDistance * xDistance + yDistance * yDistance >= 225){
-				if(Math.abs(xDistance) < Math.abs(yDistance)){
-				  colorSelect = 2; // yellow
-				}else if(xDistance > 0){
+				 if(xDistance > 0){
 				  colorSelect = 1; //  green
 				}else {
-				  colorSelect = 3; // red
+				  colorSelect = 2; // red
 				}
 				results_arr.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect})
 				if(moleArr[start.attachedTo].mole.targetType == colorSelect){
@@ -269,9 +269,7 @@ function render(){
 							ctx.beginPath();
 							var xDistance = finger_x - start.x
 							var yDistance = finger_y - start.y
-							if(Math.abs(xDistance) < Math.abs(yDistance)){
-							  ctx.strokeStyle = "#ffff00" // yellow
-							}else if(xDistance > 0){
+							if(xDistance > 0){
 							  ctx.strokeStyle = "#00ff00" //  green
 							}else {
 							  ctx.strokeStyle = "#ff0000" // red

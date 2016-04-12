@@ -24,7 +24,8 @@
     <allow-intent href="market:*" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="KeepRunning" value="false" />
-    <preference name="SetFullscreen" value="True" />
+    <preference name="Fullscreen" value="true" />
+    <preference name="Orientation" value="portrait" />
     <name>Internet Security App</name>
     <description>
         Main application for games
