@@ -427,7 +427,7 @@ function touchMove(e){
 		held.x = e.touches[0].pageX - held.width/2;
 		held.y = e.touches[0].pageY - held.height/2;
 		
-		if ( e.touches[0].pageX / canvas.width <.02)
+		if ( e.touches[0].pageX / canvas.width >.98)
 			touchEnd(e,true);
 	} else {
 		for(j=0;j<virus_arr.length;j++){
