@@ -20,12 +20,14 @@
         <allow-intent href="market:*" />
 		<preference name="DisallowOverscroll" value="true" />
 		<preference name="KeepRunning" value="false"/>
-		<preference name="SetFullscreen" value="True"/>
+		<preference name="Fullscreen" value="true" />
+		<preference name="Orientation" value="portrait" />
     </platform>
     <platform name="ios">
         <preference name="DisallowOverscroll" value="true" />
-        <preference name="Orientation" value="all"/>
+		<preference name="Orientation" value="portrait" />
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
+		<preference name="Fullscreen" value="true" />
     </platform>
 </widget>
