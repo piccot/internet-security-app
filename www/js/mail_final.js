@@ -1,6 +1,6 @@
 function getScore(){
 	document.getElementsByClassName('mainMenu')[0].addEventListener("touchstart",mainMenu)
-	document.getElementsByClassName('playAgain')[0].addEventListener("touchend",playAgain) 
+	document.getElementsByClassName('playAgain')[0].addEventListener("touchstart",playAgain) 
 
 }
 
