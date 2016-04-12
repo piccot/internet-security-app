@@ -36,9 +36,9 @@ var app = {
 		canvas.height = window.innerHeight;
 		canvas.width = window.innerWidth;
 		document.body.appendChild(canvas)
-        document.addEventListener('touchmove', touchMove);
-		document.addEventListener("touchstart",touchStart);
-		document.addEventListener("touchend",touchEnd);
+        canvas.addEventListener('touchmove', touchMove);
+		canvas.addEventListener("touchstart",touchStart);
+		canvas.addEventListener("touchend",touchEnd);
 		lastTime = Date.now()
         test();
 		requestAnimationFrame(main)
@@ -384,7 +384,7 @@ function touchStart(e){
 			}
 		
 }
-function touchEnd(e){
+function touchEnd(e,kill){
 	if(held){
 		
 		if (held.x + held.width/2 >= bucket.x && held.x + held.width/2 <= bucket.x + bucket.size && held.y >= bucket.y && held.y <= bucket.y + bucket.size){
@@ -407,7 +407,8 @@ function touchEnd(e){
 				hit_sound_index++;
 		}
 		else
-			virus_arr.push(held);
+			if (!kill)
+				virus_arr.push(held);
 		held = null;
 	}
 }
@@ -416,6 +417,9 @@ function touchMove(e){
 	if (held){
 		held.x = e.touches[0].pageX - held.width/2;
 		held.y = e.touches[0].pageY - held.height/2;
+		
+		if ( e.touches[0].pageX / canvas.width <.02)
+			touchEnd(e,true);
 	} else {
 		for(j=0;j<virus_arr.length;j++){
 				if(e.touches[0].pageX >= virus_arr[j].x - virus_arr[j].width /2 && e.touches[0].pageX <= virus_arr[j].x + virus_arr[j].width *1.5 && e.touches[0].pageY >= virus_arr[j].y - virus_arr[j].height /2 && e.touches[0].pageY <= virus_arr[j].y + virus_arr[j].height *1.5){
