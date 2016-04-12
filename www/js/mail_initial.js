@@ -1,6 +1,6 @@
 function begin(){
-     document.getElementsByClassName('back')[0].addEventListener("touchstart",back)
-    document.getElementsByClassName('play')[0].addEventListener("touchstart",play)
+     document.getElementsByClassName('back')[0].addEventListener("touchend",back)
+    document.getElementsByClassName('play')[0].addEventListener("touchend",play)
     
 }
 
