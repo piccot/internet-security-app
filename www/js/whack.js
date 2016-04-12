@@ -203,10 +203,12 @@ function touchStart(e){
 
 }
 function touchMove(e){
-	for(i=0;i<e.touches.length;i++){
-		finger_x = e.touches[i].pageX;
-		finger_y = e.touches[i].pageY;
-	}
+	
+		finger_x = e.touches[0].pageX;
+		finger_y = e.touches[0].pageY;
+		if (canvas.width - e.touches[0].pageX <10)
+			touchEnd(e);
+	
 }
 function touchEnd(e){
 //        console.log(e.changedTouches[0].pageX, e.changedTouches[0].pageY)
