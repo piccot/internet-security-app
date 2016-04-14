@@ -70,6 +70,10 @@ var hitImage = new Image();
 hitImage.src = 'assets/img/hit.png';
 var missImage = new Image();
 missImage.src = 'assets/img/miss.png';
+var moleHitImage = new Image();
+moleHitImage.src = 'assets/img/mole_hit.png';
+var moleMissImage = new Image();
+moleMissImage.src = 'assets/img/mole_miss.png';
 var hit_sound_list = [];
 var hit_sound_index = 0;
 var hit_sound;
@@ -120,20 +124,6 @@ function mole(password,type,password_id){
 
 }
 
-function hit(){
-
-        this.img = hitImage; 
-        this.password = '';
-        this.delay = hitMissDelay;
-        this.currentType = -1;
-}
-function miss(){
-       
-        this.img = missImage; 
-        this.password = '';
-        this.delay = hitMissDelay;
-        this.currentType = -1;
-}
 
 var start = null;
 function startPoint(x,y,mole){
@@ -263,29 +253,23 @@ function render(){
 
 
         ctx.font = "5vw sans-serif";
+    
+    if (start && moleArr[start.attachedTo].mole) {
+        var xDistance = finger_x - start.x
+        if(xDistance > 15){
+            moleArr[start.attachedTo].mole.img = moleHitImage;
+        }else if (xDistance < -15){
+            moleArr[start.attachedTo].mole.img = moleMissImage;
+        }
+    }
+    
 	for(i=0; i < 6; i++){
                 ctx.drawImage(moleArr[i].img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
                 if (moleArr[i].mole){
                     ctx.drawImage(moleArr[i].mole.img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
                     ctx.strokeText(moleArr[i].mole.password.substr(0,12),moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/2.5)
                     ctx.fillText(moleArr[i].mole.password.substr(0,12),moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/2.5)
-                    if (start) {
-							ctx.beginPath();
-							var xDistance = finger_x - start.x
-							var yDistance = finger_y - start.y
-							if(xDistance > 0){
-							  ctx.strokeStyle = "#00ff00" //  green
-							}else {
-							  ctx.strokeStyle = "#ff0000" // red
-							}
-							
-							ctx.moveTo(start.x,start.y);
-							ctx.lineTo(finger_x,finger_y);
-							ctx.lineWidth=10;
-							ctx.stroke();
-							ctx.strokeStyle = "#000000"
-							ctx.lineWidth=1;
-                    }
+
                 }
 	}
 	
@@ -310,6 +294,9 @@ function editObjects(dt){
 			
 			if(moleArr[i].mole.delay <= 0){
 				moleArr[i].mole = null;
+                if (i == start.attachedTo) {
+                    start = null;
+                }
 			}
 		}
 		}

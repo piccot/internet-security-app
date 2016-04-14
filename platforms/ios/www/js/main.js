@@ -45,26 +45,27 @@ function createCard(splash,home,i){
 
 	var upperImg = document.createElement("img");		
 	upperImg.src = 'splashscreens/'+splash
-	upperImg.addEventListener("touchend",function(){
+	upperImg.onclick = function(){
         mediaRes.getCurrentPosition(
                                     // success callback
                                     function (position) {
-                                    if (position > -1) {
-                                    mediaRes.release();
-                                    window.location.href = home + '?duration=' + position
-                                    }
+                                        if (position > -1) {
+                                            mediaRes.release();
+                                            window.location.href = home + '?duration=' + position
+                                        }
                                     },
                                     // error callback
                                     function (e) {
-                                    console.log("Error getting pos=" + e);
+                                        console.log("Error getting pos=" + e);
                                     });
-    })
+
+    };
 	div.appendChild(upperImg)
 	
 	
 	var lowerImg = document.createElement("img");
 	lowerImg.src = 'assets/img/playbutton.png'
-	lowerImg.addEventListener("touchend",function(){
+	lowerImg.onclick = function(){
         mediaRes.getCurrentPosition(
                                     // success callback
                                     function (position) {
@@ -77,7 +78,7 @@ function createCard(splash,home,i){
                                     function (e) {
                                     console.log("Error getting pos=" + e);
                                     });
-    })
+    };
 	div.appendChild(lowerImg);
 	
 	div.style.width= width + 'px';
@@ -139,6 +140,7 @@ function writeWhackQuestionsToFile(){
 					xhttp.onreadystatechange = function() {
 					if (xhttp.readyState == 4 && xhttp.status == 200) {
 						fileWriter.write(xhttp.responseText);
+						alert('Whack Loaded')
 					}
 					};
 					xhttp.open("GET", "http://cybersafegames.unc.edu/whack_data.php", true);
@@ -164,6 +166,7 @@ function writeMailQuestionsToFile(){
 					xhttp.onreadystatechange = function() {
 					if (xhttp.readyState == 4 && xhttp.status == 200) {
 						fileWriter.write(xhttp.responseText);
+						alert('Whack Loaded')
 					}
 					};
 					xhttp.open("GET", "http://cybersafegames.unc.edu/mail_data.php", true);
