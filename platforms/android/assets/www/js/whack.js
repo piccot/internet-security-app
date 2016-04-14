@@ -17,7 +17,7 @@ var app = {
     },
 
     onDeviceReady: function() {
-        					jsonObject = JSON.parse('[{"id":1,"Password":"password123","Type: 2},{"id":2,"Password":"I<3Horses","Type: 2},{"id":3,"Password":"JknsD3@anmAiLfknsma!","Type: 2},{"id":4,"Password":"HappyDays","Type: 2},{"id":5,"Password":"TheBestPassword","Type: 2},{"id":6,"Password":"TheWorstPassword","Type: 2},{"id":7,"Password":"2@Atak","Type: 3},{"id":8,"Password":"24pples2D4y","Type: 3},{"id":9,"Password":"IWasBornIn1919191995","Type: 3},{"id":10,"Password":"2BorNot2B_ThatIsThe?","Type":1},{"id":10,"Password":"4Score&7yrsAgo","Type":1}]');
+        					jsonObject = JSON.parse('[{"id":1,"Password":"password123","Type": 2},{"id":2,"Password":"I<3Horses","Type": 2},{"id":3,"Password":"JknsD3@anmAiLfknsma!","Type": 2},{"id":4,"Password":"HappyDays","Type": 2},{"id":5,"Password":"TheBestPassword","Type": 2},{"id":6,"Password":"TheWorstPassword","Type": 2},{"id":7,"Password":"2@Atak","Type": 2},{"id":8,"Password":"24pples2D4y","Type": 2},{"id":9,"Password":"IWasBornIn1919191995","Type": 2},{"id":10,"Password":"2BorNot2B_ThatIsThe?","Type":1},{"id":10,"Password":"4Score&7yrsAgo","Type":1}]');
         document.addEventListener('touchmove', touchMove);
         document.addEventListener("touchstart",touchStart);
         document.addEventListener("touchend",touchEnd);
@@ -70,6 +70,10 @@ var hitImage = new Image();
 hitImage.src = 'assets/img/hit.png';
 var missImage = new Image();
 missImage.src = 'assets/img/miss.png';
+var moleHitImage = new Image();
+moleHitImage.src = 'assets/img/mole_hit.png';
+var moleMissImage = new Image();
+moleMissImage.src = 'assets/img/mole_miss.png';
 var hit_sound_list = [];
 var hit_sound_index = 0;
 var hit_sound;
@@ -120,20 +124,6 @@ function mole(password,type,password_id){
 
 }
 
-function hit(){
-
-        this.img = hitImage; 
-        this.password = '';
-        this.delay = hitMissDelay;
-        this.currentType = -1;
-}
-function miss(){
-       
-        this.img = missImage; 
-        this.password = '';
-        this.delay = hitMissDelay;
-        this.currentType = -1;
-}
 
 var start = null;
 function startPoint(x,y,mole){
@@ -206,7 +196,7 @@ function touchMove(e){
 	
 		finger_x = e.touches[0].pageX;
 		finger_y = e.touches[0].pageY;
-		if ( e.touches[0].pageX / canvas.width <.02)
+		if ( e.touches[0].pageX / canvas.width >.98)
 			touchEnd(e);
 	
 }
@@ -234,13 +224,17 @@ function touchEnd(e){
                    
 					hit_sound_list[hit_sound_index%5].play();
 				hit_sound_index++;
-					moleArr[start.attachedTo].mole = new hit();
+					moleArr[start.attachedTo].mole.img = hitImage;
+                    moleArr[start.attachedTo].mole.password = '';
+                    moleArr[start.attachedTo].mole.delay = hitMissDelay;
 				}else{
 						timer = timer - 2000
                      
 						miss_sound_list[miss_sound_index%5].play();
 				miss_sound_index++;
-						moleArr[start.attachedTo].mole = new miss();
+						moleArr[start.attachedTo].mole.img = missImage;
+                        moleArr[start.attachedTo].mole.password = '';
+                        moleArr[start.attachedTo].mole.delay = hitMissDelay;
 				}
 			}
         }
@@ -259,29 +253,23 @@ function render(){
 
 
         ctx.font = "5vw sans-serif";
+    
+    if (start && moleArr[start.attachedTo].mole) {
+        var xDistance = finger_x - start.x
+        if(xDistance > 15){
+            moleArr[start.attachedTo].mole.img = moleHitImage;
+        }else if (xDistance < -15){
+            moleArr[start.attachedTo].mole.img = moleMissImage;
+        }
+    }
+    
 	for(i=0; i < 6; i++){
                 ctx.drawImage(moleArr[i].img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
                 if (moleArr[i].mole){
                     ctx.drawImage(moleArr[i].mole.img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
                     ctx.strokeText(moleArr[i].mole.password.substr(0,12),moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/2.5)
                     ctx.fillText(moleArr[i].mole.password.substr(0,12),moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/2.5)
-                    if (start) {
-							ctx.beginPath();
-							var xDistance = finger_x - start.x
-							var yDistance = finger_y - start.y
-							if(xDistance > 0){
-							  ctx.strokeStyle = "#00ff00" //  green
-							}else {
-							  ctx.strokeStyle = "#ff0000" // red
-							}
-							
-							ctx.moveTo(start.x,start.y);
-							ctx.lineTo(finger_x,finger_y);
-							ctx.lineWidth=10;
-							ctx.stroke();
-							ctx.strokeStyle = "#000000"
-							ctx.lineWidth=1;
-                    }
+
                 }
 	}
 	
@@ -306,6 +294,9 @@ function editObjects(dt){
 			
 			if(moleArr[i].mole.delay <= 0){
 				moleArr[i].mole = null;
+                if (i == start.attachedTo) {
+                    start = null;
+                }
 			}
 		}
 		}

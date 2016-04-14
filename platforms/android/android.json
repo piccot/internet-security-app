@@ -31,6 +31,10 @@
                         {
                             "xml": "<feature name=\"NativeAudio\"><param name=\"android-package\" value=\"com.rjfun.cordova.plugin.nativeaudio.NativeAudio\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -82,6 +86,9 @@
             "PACKAGE_NAME": "io.internetsecurityapp"
         },
         "cordova-plugin-nativeaudio": {
+            "PACKAGE_NAME": "io.internetsecurityapp"
+        },
+        "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "io.internetsecurityapp"
         }
     },
@@ -285,6 +292,13 @@
             "id": "cordova-plugin-nativeaudio.nativeaudio",
             "clobbers": [
                 "window.plugins.NativeAudio"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+            "id": "cordova-plugin-splashscreen.SplashScreen",
+            "clobbers": [
+                "navigator.splashscreen"
             ]
         }
     ]

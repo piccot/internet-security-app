@@ -16,7 +16,7 @@ var app = {
     },
 
     onDeviceReady: function() {
-        					jsonObject = JSON.parse('[{"id":1,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":0,"Body":"obvious teacher email"},{"id":2,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":1,"Body":"obvious job email"},{"id":3,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":2,"Body":"obvious family email"},{"id":4,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":3,"Body":"obvious Good Account Security email"},{"id":5,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":4,"Body":"obvious phishing email"},{"id":6,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":5,"Body":"obvious Fake Account Security email"},{"id":7,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":6,"Body":"obvious virus email"},{"id":8,"To":"you@email.com","From":"me@email.com","Subject":"I LOVE YOU","Attachments":"test.exe","Type":7,"Body":"obvious spam email"}]');
+        					jsonObject = JSON.parse('[{"id":1,"To":"you@email.com","From":"me@email.com","Subject":"Grades","Attachments":"test.exe","Type":0,"Body":"This is professor X, I must speak with you about your most recent exam.  Please come to my next office hours session."},{"id":2,"To":"you@email.com","From":"me@email.com","Subject":"Job Opportunity","Attachments":"test.exe","Type":1,"Body":"Hello, I am writing to inform you about a job opportunity.  Please respond if you are interested"},{"id":3,"To":"you@email.com","From":"me@email.com","Subject":" Visit","Attachments":"test.exe","Type":2,"Body":"This is your grandmother, your uncle Barry said to send you an electronic mail, so that is what I am doing.  I need help fixing my VCR, please call soon"},{"id":4,"To":"you@email.com","From":"me@email.com","Subject":"Account Security","Attachments":"test.exe","Type":3,"Body":"Due to some changes in account security settings, we are asking all of our valued customers to log into their online accounts and update certain settings.  Thank you"},{"id":5,"To":"you@email.com","From":"me@email.com","Subject":"CA$H","Attachments":"test.exe","Type":4,"Body":"hello I am the prince of azerbaijan, in the power struggle of the royal family I have been temporarily compromised.  If you send your bank account information you will be rewarded generously in 1 years time thank you"},{"id":6,"To":"you@email.com","From":"me@email.com","Subject":"SECURITY ALERT","Attachments":"test.exe","Type":5,"Body":"Dear valued customer, your account may have been compromised, please respond with your password and your account will be secured"},{"id":7,"To":"you@email.com","From":"me@email.com","Subject":"New App!","Attachments":"test.exe","Type":6,"Body":"We are excited to share our new, FREE app with you! Please download the attached file to join in on the fun!"},{"id":8,"To":"you@email.com","From":"me@email.com","Subject":"BOATS BOATS BOATS","Attachments":"test.exe","Type":7,"Body":"COME ON DOWN TO BOATSVILLE FOR THE BET DEALS ON ALL THE NEW 2016 BOATS, YOU CAN NOT BEAT THESE DEALS"}]');
         
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
         dir.getFile("mail_results.json", {create:true}, function(file) {
@@ -47,7 +47,7 @@ var baseDelay = 5000
 var time = 0;
 var bgImage = new Image();
 bgImage.src = 'assets/img/emailBG.png';
-var baseSpeed = 3000;
+var baseSpeed = 4500;
 var delta = window.innerHeight / baseSpeed;
 var mailOpen = false;
 var score = 0;
@@ -211,6 +211,11 @@ function closeMail(choice){
             if (openMail.type == 5){ //bad mail fake acct
                 score = score - 25;
                 openMail.img = acceptAccountImage;
+                openMail.delay = 99999;
+                var popup = document.getElementsByClassName("popup")[0];
+                popup.parentNode.removeChild(popup);
+                mailOpen = false;
+                return;
             }
             if (openMail.type == 6){ //bad mail Virus
                 var virusSprite = new sprite({
@@ -457,7 +462,7 @@ if (!Array.prototype.last){
                     };
 };
 
-var millisecondsPerMail = 4500;
+var millisecondsPerMail = 6000;
 function editObjects(dt){
 	for (i=0;i<3;i++){
 		if (Math.random() < (1/millisecondsPerMail)*dt && (mailArr[i].length == 0 || mailArr[i].last().y >= window.innerHeight/8)){
@@ -483,7 +488,7 @@ function editObjects(dt){
                 }
             }
             if(mailArr[i][j].y <= window.innerHeight - (j+1)*window.innerHeight/8){
-                    mailArr[i][j].y = Math.min(mailArr[i][j].y + delta*dt,window.innerHeight - (j+1)*window.innerHeight/8);
+                    mailArr[i][j].y = Math.min(mailArr[i][j].y + delta*dt, window.innerHeight - (j+1)*window.innerHeight/8);
             }
         }
     }

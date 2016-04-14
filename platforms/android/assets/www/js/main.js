@@ -140,6 +140,7 @@ function writeWhackQuestionsToFile(){
 					xhttp.onreadystatechange = function() {
 					if (xhttp.readyState == 4 && xhttp.status == 200) {
 						fileWriter.write(xhttp.responseText);
+						alert('Whack Loaded')
 					}
 					};
 					xhttp.open("GET", "http://cybersafegames.unc.edu/whack_data.php", true);
@@ -165,6 +166,7 @@ function writeMailQuestionsToFile(){
 					xhttp.onreadystatechange = function() {
 					if (xhttp.readyState == 4 && xhttp.status == 200) {
 						fileWriter.write(xhttp.responseText);
+						alert('Whack Loaded')
 					}
 					};
 					xhttp.open("GET", "http://cybersafegames.unc.edu/mail_data.php", true);

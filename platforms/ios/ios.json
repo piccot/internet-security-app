@@ -39,6 +39,10 @@
                         {
                             "xml": "<feature name=\"NativeAudio\"><param name=\"ios-package\" value=\"NativeAudio\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"ios-package\" value=\"CDVSplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -68,6 +72,9 @@
             "PACKAGE_NAME": "io.internetsecurityapp"
         },
         "cordova-plugin-nativeaudio": {
+            "PACKAGE_NAME": "io.internetsecurityapp"
+        },
+        "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "io.internetsecurityapp"
         }
     },
@@ -318,6 +325,14 @@
             "pluginId": "cordova-plugin-nativeaudio",
             "clobbers": [
                 "window.plugins.NativeAudio"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+            "id": "cordova-plugin-splashscreen.SplashScreen",
+            "pluginId": "cordova-plugin-splashscreen",
+            "clobbers": [
+                "navigator.splashscreen"
             ]
         }
     ]

@@ -21,6 +21,10 @@
     <feature name="NativeAudio">
         <param name="android-package" value="com.rjfun.cordova.plugin.nativeaudio.NativeAudio" />
     </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
     <allow-intent href="market:*" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="KeepRunning" value="false" />

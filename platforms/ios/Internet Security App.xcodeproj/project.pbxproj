@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0207DA571B56EA530066E2B4 /* Images.xcassets */; };
 		039452806CD7433B9768627F /* YoikScreenOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = E0023EB5CB5E40A5BA00924D /* YoikScreenOrientation.m */; };
@@ -34,6 +33,8 @@
 		B69AEA9A1FF14AC3A031A05C /* CDVSound.m in Sources */ = {isa = PBXBuildFile; fileRef = 53F7CB2A3199481E8D7F0D6D /* CDVSound.m */; };
 		B77084CEC9D846D4BB461AF1 /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 712282E12703429BBD419A3E /* CDVAssetLibraryFilesystem.m */; };
 		BF49F894F5A84F4C8E87B400 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1675353AB2674A7889B01327 /* Foundation.framework */; };
+		1F33D67EE9BE4039819686AC /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D6250815DB464F8892468D /* CDVSplashScreen.m */; };
+		84724CDADD244C15BC929A0D /* CDVViewController+SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C0EFD46D3F4C3CAFCD488E /* CDVViewController+SplashScreen.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,10 @@
 		FA350461F5814EC8A03DF0F6 /* CDVFile.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVFile.m; path = "cordova-plugin-file/CDVFile.m"; sourceTree = "<group>"; };
 		FD30FEBF64F1435D90CCD43C /* CDVAssetLibraryFilesystem.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVAssetLibraryFilesystem.h; path = "cordova-plugin-file/CDVAssetLibraryFilesystem.h"; sourceTree = "<group>"; };
 		FFB90DEF04364298B63112E0 /* NativeAudio.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = NativeAudio.m; path = "cordova-plugin-nativeaudio/NativeAudio.m"; sourceTree = "<group>"; };
+		77D6250815DB464F8892468D /* CDVSplashScreen.m */ = {isa = PBXFileReference; name = "CDVSplashScreen.m"; path = "cordova-plugin-splashscreen/CDVSplashScreen.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		89C0EFD46D3F4C3CAFCD488E /* CDVViewController+SplashScreen.m */ = {isa = PBXFileReference; name = "CDVViewController+SplashScreen.m"; path = "cordova-plugin-splashscreen/CDVViewController+SplashScreen.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		AED44410A193419E9CE55CF5 /* CDVSplashScreen.h */ = {isa = PBXFileReference; name = "CDVSplashScreen.h"; path = "cordova-plugin-splashscreen/CDVSplashScreen.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		A00D4E5B19714005B11A6868 /* CDVViewController+SplashScreen.h */ = {isa = PBXFileReference; name = "CDVViewController+SplashScreen.h"; path = "cordova-plugin-splashscreen/CDVViewController+SplashScreen.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,6 +245,10 @@
 				D2C5FC34042142EDAF5D7502 /* NativeAudioAsset.m */,
 				BAD37E017D6D4E71A6DCE278 /* NativeAudio.h */,
 				2F2BC909267F4E3E903CD5EB /* NativeAudioAsset.h */,
+				77D6250815DB464F8892468D /* CDVSplashScreen.m */,
+				89C0EFD46D3F4C3CAFCD488E /* CDVViewController+SplashScreen.m */,
+				AED44410A193419E9CE55CF5 /* CDVSplashScreen.h */,
+				A00D4E5B19714005B11A6868 /* CDVViewController+SplashScreen.h */,
 			);
 			name = Plugins;
 			path = "Internet Security App/Plugins";
@@ -373,6 +382,8 @@
 				B69AEA9A1FF14AC3A031A05C /* CDVSound.m in Sources */,
 				2C78BEBB18E0471380ED2EE7 /* NativeAudio.m in Sources */,
 				92409D72CFAB4229AD797F4D /* NativeAudioAsset.m in Sources */,
+				1F33D67EE9BE4039819686AC /* CDVSplashScreen.m in Sources */,
+				84724CDADD244C15BC929A0D /* CDVViewController+SplashScreen.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
