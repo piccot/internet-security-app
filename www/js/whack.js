@@ -33,6 +33,7 @@ var app = {
 				var reader = new FileReader();
 				reader.onload = function(e) {
 					filedata=this.result;
+					jsonObject = JSON.parse(filedata)
                                     lastTime = Date.now()
                                     test();
                                     main();
