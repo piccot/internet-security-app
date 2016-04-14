@@ -55,7 +55,6 @@
         <param name="ios-package" value="CDVSplashScreen" />
         <param name="onload" value="true" />
     </feature>
-    <splash height="792" src="www/assets/img/Default-Landscape~ipad.png" width="612" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="Orientation" value="portrait" />
     <allow-intent href="itms:*" />

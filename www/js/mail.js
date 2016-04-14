@@ -1,7 +1,7 @@
-window.onerror = function(msg, url, linenumber) {
-    alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
-    return true;
-}
+//window.onerror = function(msg, url, linenumber) {
+//    alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+//    return true;
+//}
 var app = {
 
   
@@ -73,6 +73,8 @@ var rejectAccountImage = new Image();
 rejectAccountImage.src = 'assets/img/reject_account.png';
 var spamUpImage = new Image();
 spamUpImage.src = 'assets/img/spam_up.png';
+var scoreUpImage = new Image();
+scoreUpImage.src = 'assets/img/score_up.png';
 
 
 var spriteArr = [];
@@ -201,6 +203,17 @@ function closeMail(choice){
         case 0: //accept
             if (openMail.type >= 0 && openMail.type <= 3){ //good mails
                 score = score + 100;
+                var scoreUpSprite = new sprite({
+                                               context: canvas.getContext("2d"),
+                                               image: scoreUpImage,
+                                               ticksPerFrame: 3,
+                                               numberOfFrames: 12,
+                                               x: canvas.width*1/10,
+                                               y: document.getElementsByClassName("reject")[0].offsetTop,
+                                               width: canvas.width/4,
+                                               height: canvas.width/4});
+                spriteArr.push(scoreUpSprite);
+                playAudio("assets/audio/hit.wav");
                 openMail.img = explosionImage;
             }
             if (openMail.type == 4){ //bad mail phish
@@ -255,6 +268,17 @@ function closeMail(choice){
             }
             if (openMail.type >= 4 && openMail.type <= 6){ //bad mail
                 score = score + 100;
+                var scoreUpSprite = new sprite({
+                                              context: canvas.getContext("2d"),
+                                              image: scoreUpImage,
+                                              ticksPerFrame: 3,
+                                              numberOfFrames: 12,
+                                              x: canvas.width*2/5,
+                                              y: document.getElementsByClassName("reject")[0].offsetTop,
+                                              width: canvas.width/4,
+                                              height: canvas.width/4});
+                spriteArr.push(scoreUpSprite);
+                playAudio("assets/audio/hit.wav");
                 openMail.img = explosionImage;
             }
             if (openMail.type == 7){ //spam mail
@@ -293,7 +317,7 @@ function closeMail(choice){
                                             image: spamUpImage,
                                             ticksPerFrame: 3,
                                             numberOfFrames: 12,
-                                            x: canvas.width*3/5,
+                                            x: canvas.width*7/10,
                                             y: document.getElementsByClassName("reject")[0].offsetTop,
                                             width: canvas.width/4,
                                             height: canvas.width/4});

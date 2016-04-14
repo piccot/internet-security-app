@@ -129,18 +129,19 @@ function playAudio(src) {
 }
 function writeWhackQuestionsToFile(){
 	var filedata
+	alert('Starting Data Load');
     questions_file.file(function(file) {
         var reader = new FileReader();
-        reader.onload = function(e) {			
+        reader.onload = function(e) {
 			filedata=this.result;
 			questions_file.createWriter(function(fileWriter) {
-				fileWriter.seek(fileWriter.length);
+				fileWriter.truncate(0);
 				if (fileWriter.length <= 0){
 					var xhttp = new XMLHttpRequest();
 					xhttp.onreadystatechange = function() {
 					if (xhttp.readyState == 4 && xhttp.status == 200) {
 						fileWriter.write(xhttp.responseText);
-						alert('Whack Loaded')
+						alert('Finshed Data Load');
 					}
 					};
 					xhttp.open("GET", "http://cybersafegames.unc.edu/whack_data.php", true);
@@ -181,9 +182,11 @@ function writeMailQuestionsToFile(){
 }
 
 function loadWhackData() {
+	
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
+		
       return xhttp.responseText;
     }
   };
