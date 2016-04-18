@@ -18,6 +18,7 @@ var app = {
 
     onDeviceReady: function() {
         					jsonObject = JSON.parse('[{"id":1,"Password":"password123","Type": 2},{"id":2,"Password":"I<3Horses","Type": 2},{"id":3,"Password":"JknsD3@anmAiLfknsma!","Type": 2},{"id":4,"Password":"HappyDays","Type": 2},{"id":5,"Password":"TheBestPassword","Type": 2},{"id":6,"Password":"TheWorstPassword","Type": 2},{"id":7,"Password":"2@Atak","Type": 2},{"id":8,"Password":"24pples2D4y","Type": 2},{"id":9,"Password":"IWasBornIn1919191995","Type": 2},{"id":10,"Password":"2BorNot2B_ThatIsThe?","Type":1},{"id":10,"Password":"4Score&7yrsAgo","Type":1}]');
+        alert('test');
         document.addEventListener('touchmove', touchMove);
         document.addEventListener("touchstart",touchStart);
         document.addEventListener("touchend",touchEnd);
@@ -33,6 +34,8 @@ var app = {
 				var reader = new FileReader();
 				reader.onload = function(e) {
 					filedata=this.result;
+                                    console.log(filedata);
+					jsonObject = JSON.parse(filedata)
                                     lastTime = Date.now()
                                     test();
                                     main();
@@ -287,7 +290,7 @@ function editObjects(dt){
 	for (i=0;i<6;i++){
 		if (Math.random() < (1/millisecondsPerMole)*dt && moleArr[i].mole == null){
 			var random = getRandomInt(0,jsonObject.length -1)
-			moleArr[i].mole = new mole(jsonObject[random].Password,jsonObject[random].Type,jsonObject[random].id)
+			moleArr[i].mole = new mole(jsonObject[random].password,jsonObject[random].password_type,jsonObject[random].id)
 		}
 		if(moleArr[i].mole != null){
 			moleArr[i].mole.delay = moleArr[i].mole.delay - dt
