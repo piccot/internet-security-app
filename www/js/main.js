@@ -18,7 +18,6 @@ var app = {
     },
 
     onDeviceReady: function() {
-        alert('test');
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
 			dir.getFile("whack_questions.json", {create:true}, function(file) {
 				questions_file = file;
@@ -130,25 +129,22 @@ function playAudio(src) {
 }
 function writeWhackQuestionsToFile(){
 	var filedata
-	alert('Starting Data Load');
+	
     questions_file.file(function(file) {
                         
         var reader = new FileReader();
         reader.onload = function(e) {
-                        alert('loaded questions file');
+                       
 			filedata=this.result;
 			questions_file.createWriter(function(fileWriter) {
-                                        alert('created writer')
+                                       
 				fileWriter.truncate(0);
 				
 					var xhttp = new XMLHttpRequest();
 					xhttp.onreadystatechange = function() {
 					if (xhttp.readyState == 4 && xhttp.status == 200) {
 						fileWriter.write(xhttp.responseText);
-						alert('Finshed Data Load');
-                                        } else {
-                                            alert(xhttp.readyState + ' ' + xhttp.status)
-                                        
+						
                                         }
 					};
 					xhttp.open("GET", "http://cybersafegames.unc.edu/whack_data.php", true);
@@ -174,7 +170,7 @@ function writeMailQuestionsToFile(){
 					xhttp.onreadystatechange = function() {
 					if (xhttp.readyState == 4 && xhttp.status == 200) {
 						fileWriter.write(xhttp.responseText);
-						alert('Whack Loaded')
+						
 					}
 					};
 					xhttp.open("GET", "http://cybersafegames.unc.edu/mail_data.php", true);
