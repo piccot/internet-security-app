@@ -169,6 +169,11 @@ var lastTime;
 function update(){
 	time = time + (Date.now() - lastTime)
 
+    if (time >= 5000 && millisecondsPerMail >= 1000) {
+        time = 0;
+        millisecondsPerMail = millisecondsPerMail - 500;
+    }
+    
     for(i=0;i<mailArr.length;i++){
         if(mailArr[i].length > 7){
             window.location.href = 'mail_final.html'
