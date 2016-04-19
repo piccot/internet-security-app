@@ -244,7 +244,9 @@ function restartGame(){
 	for(j=0;j<6;j++)
 		moleArr[j].mole = null
 	results_arr = [];
+	
 	stopGame = false;
+	lastTime = Date.now()
 	main();
 }
 
