@@ -109,7 +109,16 @@ h1 {
     z-index: 2;
     font-size:150%;
 }
-
+.finalPopup{
+z-index:10;
+width:75%;
+background-color:white;
+height:30%;
+margin:auto;
+position:absolute;
+left:12.5%;
+top:35%;
+}
 .mailBody{
     position: relative;
     padding-right:5%;
