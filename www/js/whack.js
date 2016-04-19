@@ -58,6 +58,7 @@ var results_arr = []
 var baseDelay = 5000
 var hitMissDelay = 2000
 var score = 0;
+var stopGame = false;
 var startTimer = 30000;
 var timer = startTimer;
 var bgImage = new Image();
@@ -118,12 +119,13 @@ function moleHole(x,y){
 	this.mole = null;
 }
 
-function mole(password,type,password_id){
+function mole(password,type,password_id,reason){
     this.img = moleImage;
 	this.password = password;
 	this.targetType = type;
 	this.delay = baseDelay;
 	this.password_id = password_id
+	this.reason = reason
 
 }
 
@@ -150,15 +152,104 @@ function update(){
 	timer = timer - (Date.now() - lastTime)
         timePercentage = timer/startTimer
 	if(timer <= 0){
-		writeResultsToFile()
-                
-		timer = 30000;
-		 
-		for(j=0;j<6;j++)
-			moleArr[j].mole = null
+		
+		stopGame = true;
+        if (results_arr.length > 0){
+			writeResultsToFile()	
+			resultsPopup(0)
+		}
+
 	}
 	editObjects(Date.now() - lastTime)
 }
+function resultsPopup(number){
+	var oldPopup = document.getElementsByClassName("finalPopup")[0]
+	if(oldPopup)
+		document.body.removeChild(oldPopup);
+	var popup = document.createElement("div");
+	popup.className = "finalPopup";
+	var gameOver = document.createElement("div");
+	gameOver.className = "gameOver";
+	gameOver.innerHTML = "GAME OVER";
+	popup.appendChild(gameOver);
+	var missed = document.createElement("div");
+	missed.className = "missed";
+	missed.innerHTML = "You Missed: " + results_arr[number].password;   
+	var reason = document.createElement("div");
+	reason.className = "reason";			 
+	reason.innerHTML = "Because: " + results_arr[number].reason; 
+	var next = document.createElement("button");
+	next.className = "nextButton";
+	next.innerHTML = "NEXT"
+	next.addEventListener('touchend', function(event){
+							event.preventDefault();
+							event.stopPropagation();
+							if (number < results_arr.length - 1){
+								resultsPopup(number +1)
+							} else{
+								endingPopup();							
+							}
+							return true;
+
+							});
+	popup.appendChild(missed)
+	popup.appendChild(reason)
+	popup.appendChild(next)
+	document.body.appendChild(popup)
+}
+function endingPopup(number){
+	var oldPopup = document.getElementsByClassName("finalPopup")[0]
+	if(oldPopup)
+		document.body.removeChild(oldPopup);
+	var popup = document.createElement("div");
+	popup.className = "finalPopup";
+	var gameOver = document.createElement("div");
+	gameOver.className = "gameOver";
+	gameOver.innerHTML = "GAME OVER";
+	popup.appendChild(gameOver);
+	var missed = document.createElement("div");
+	missed.className = "finalScore";
+	missed.innerHTML = "Final Score: " + score;   
+	var next = document.createElement("button");
+	next.innerHTML = "Play Again"
+	next.className = "restart";
+	next.addEventListener('touchend', function(event){
+							event.preventDefault();
+							event.stopPropagation();
+							restartGame();
+							return true;
+
+							});
+	var mainMenu = document.createElement("button");
+	mainMenu.innerHTML = "Main Menu"
+	mainMenu.className = "mainMenu";
+	mainMenu.addEventListener('touchend', function(event){
+							event.preventDefault();
+							event.stopPropagation();
+							window.location.href = 'main.html'
+							return true;
+							});
+	popup.appendChild(missed)
+	popup.appendChild(next)
+	popup.appendChild(mainMenu);
+	document.body.appendChild(popup)
+}
+function restartGame(){
+	var oldPopup = document.getElementsByClassName("finalPopup")[0]
+	if(oldPopup)
+		document.body.removeChild(oldPopup);
+		
+	timer = 30000;
+	score = 0;
+	for(j=0;j<6;j++)
+		moleArr[j].mole = null
+	results_arr = [];
+	
+	stopGame = false;
+	lastTime = Date.now()
+	main();
+}
+
 function playAudio(src) {
     
     // Android needs the search path explicitly specified
@@ -221,7 +312,7 @@ function touchEnd(e){
 				}else {
 				  colorSelect = 2; // red
 				}
-				results_arr.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect})
+				results_arr.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"reason":moleArr[start.attachedTo].mole.reason})
 				if(moleArr[start.attachedTo].mole.targetType == colorSelect){
 					score = score + Math.floor(moleArr[start.attachedTo].mole.delay/1000 + 1)*5
                    
@@ -279,7 +370,8 @@ function render(){
 }
 
 function main (){
-	requestAnimationFrame(main)
+	if(!stopGame)
+		requestAnimationFrame(main)
     update()
 	lastTime = Date.now()
 	render()
@@ -290,7 +382,7 @@ function editObjects(dt){
 	for (i=0;i<6;i++){
 		if (Math.random() < (1/millisecondsPerMole)*dt && moleArr[i].mole == null){
 			var random = getRandomInt(0,jsonObject.length -1)
-			moleArr[i].mole = new mole(jsonObject[random].password,jsonObject[random].password_type,jsonObject[random].id)
+			moleArr[i].mole = new mole(jsonObject[random].password,jsonObject[random].password_type,jsonObject[random].id,jsonObject[random].wrong_message)
 		}
 		if(moleArr[i].mole != null){
 			moleArr[i].mole.delay = moleArr[i].mole.delay - dt
@@ -330,7 +422,7 @@ function writeResultsToFile(){
 				fileWriter.seek(fileWriter.length);
 				
 				fileWriter.write(datalog);
-				window.location.href = 'whack_final.html?score=' + score
+				// window.location.href = 'whack_final.html?score=' + score
 
 			}, fail);
         };

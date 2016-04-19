@@ -7,7 +7,7 @@
     <author email="piccot@live.unc.edu" href="http://cordova.io">
        Daniel Piccot and Matt Hill
     </author>
-    <content src="main.html" />
+    <content src="main_initial.html" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
