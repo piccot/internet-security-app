@@ -311,7 +311,6 @@ function touchEnd(e){
 				}else {
 				  colorSelect = 2; // red
 				}
-				results_arr.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"reason":moleArr[start.attachedTo].mole.reason})
 				if(moleArr[start.attachedTo].mole.targetType == colorSelect){
 					score = score + Math.floor(moleArr[start.attachedTo].mole.delay/1000 + 1)*5
                    
@@ -321,6 +320,8 @@ function touchEnd(e){
                     moleArr[start.attachedTo].mole.password = '';
                     moleArr[start.attachedTo].mole.delay = hitMissDelay;
 				}else{
+					results_arr.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"reason":moleArr[start.attachedTo].mole.reason})
+				
 						timer = timer - 2000
                      
 						miss_sound_list[miss_sound_index%5].play();
