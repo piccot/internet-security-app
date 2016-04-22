@@ -156,7 +156,11 @@ function update(){
         if (results_arr.length > 0){
 			writeResultsToFile()	
 			resultsPopup(0)
-		}
+        } else {
+            
+                endingPopup();	
+        
+        }
 
 	}
 	editObjects(Date.now() - lastTime)

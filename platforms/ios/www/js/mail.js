@@ -207,7 +207,7 @@ function closeMail(choice){
     switch (choice){
         case 0: //accept
             if (openMail.type >= 0 && openMail.type <= 3){ //good mails
-                score = score + 100;
+                score = score + 50;
                 var scoreUpSprite = new sprite({
                                                context: canvas.getContext("2d"),
                                                image: scoreUpImage,
@@ -222,12 +222,12 @@ function closeMail(choice){
                 openMail.img = explosionImage;
             }
             if (openMail.type == 4){ //bad mail phish
-                score = score - 25;
+                score = score - 100;
                 changeSpam(-2);
                 openMail.img = acceptPhishImage;
             }
             if (openMail.type == 5){ //bad mail fake acct
-                score = score - 25;
+                score = score - 100;
                 openMail.img = acceptAccountImage;
                 openMail.delay = 99999;
                 var popup = document.getElementsByClassName("popup")[0];
@@ -256,23 +256,23 @@ function closeMail(choice){
             break;
         case 1:  //reject
             if (openMail.type == 0){ //good mail teacher
-                score = score - 25;
+                score = score - 100;
                 openMail.img = rejectTeachImage;
             }
             if (openMail.type == 1){ //good mail job
-                score = score - 25;
+                score = score - 100;
                 openMail.img = rejectJobImage;
             }
             if (openMail.type == 2){ //good mail family
-                score = score - 25;
+                score = score - 100;
                 openMail.img = rejectFamilyImage;
             }
             if (openMail.type == 3){ //good mail account
-                score = score - 25;
+                score = score - 100;
                 openMail.img = rejectAccountImage;
             }
             if (openMail.type >= 4 && openMail.type <= 6){ //bad mail
-                score = score + 100;
+                score = score + 50;
                 var scoreUpSprite = new sprite({
                                               context: canvas.getContext("2d"),
                                               image: scoreUpImage,
@@ -292,22 +292,22 @@ function closeMail(choice){
             break;
         case 2: //spam
             if (openMail.type == 0){ //good mail teacher
-                score = score - 25;
+                score = score - 100;
                 changeSpam(-1);
                 openMail.img = rejectTeachImage;
             }
             if (openMail.type == 1){ //good mail job
-                score = score - 25;
+                score = score - 100;
                 changeSpam(-1);
                 openMail.img = rejectJobImage;
             }
             if (openMail.type == 2){ //good mail family
-                score = score - 25;
+                score = score - 100;
                 changeSpam(-1);
                 openMail.img = rejectFamilyImage;
             }
             if (openMail.type == 3){ //account
-                score = score - 25;
+                score = score - 100;
                 changeSpam(-1);
                 openMail.img = rejectAccountImage;
             }
@@ -315,7 +315,7 @@ function closeMail(choice){
                 openMail.img = explosionImage;
             }
             if (openMail.type == 7){ //spam mail
-                score = score + 100;
+                score = score + 50;
                 changeSpam(1);
                 var spamUpSprite = new sprite({
                                             context: canvas.getContext("2d"),

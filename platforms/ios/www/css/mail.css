@@ -121,13 +121,14 @@ h1 {
     height:7%
 }
 .scrollingBody{
-        height:90%;
+        height:80%;
     }
 
 .inner {
         height: calc(100% + 1px);
     }
 .buttonRow{
+    height: 15%;
     width: 100%;
 }
 .buttonRow div{
