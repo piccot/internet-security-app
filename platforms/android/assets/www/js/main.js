@@ -18,22 +18,10 @@ var app = {
     },
 
     onDeviceReady: function() {
-		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
-			dir.getFile("whack_questions.json", {create:true}, function(file) {
-				questions_file = file;
-				dir.getFile("mail_questions.json", {create:true}, function(file) {
-					mail_questions_file = file;
-					writeWhackQuestionsToFile();
-					writeMailQuestionsToFile();
 					createCard('whack_splash.png','whack_initial.html',0);
 					createCard('virus_splash.png','virus_initial.html',1);
 					createCard('mail_splash.png','mail_initial.html',2);
-                    console.log(location.search.replace("?duration=",""))
                     playAudio("assets/audio/menu.wav");
-				});
-			});
-			
-	});
     }
 
 };
