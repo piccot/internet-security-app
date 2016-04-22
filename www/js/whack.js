@@ -255,9 +255,11 @@ function endingPopup(number){
 }
 function restartGame(){
 	var oldPopup = document.getElementsByClassName("finalPopup")[0]
-	if(oldPopup)
+	var oldDimmer = document.getElementsByClassName("dimmer")[0]
+	if(oldPopup){
 		document.body.removeChild(oldPopup);
-		
+		document.body.removeChild(oldDimmer);
+		}
 	timer = 30000;
 	score = 0;
 	for(j=0;j<6;j++)
