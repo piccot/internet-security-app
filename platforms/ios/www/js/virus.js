@@ -11,9 +11,12 @@ var base_penalty = 5000;
 var av_speed_mod = .1;
 var av_size_mod = -.1;
 var win_score = 64;
-var timeRemaining = 60000;
+var startTime = 30000;
+var timeRemaining = startTime;
 var score_arr = [];
 var score_arr2 = [];
+
+
 
 var app = {
 
@@ -74,6 +77,11 @@ var data_bucket_image = new Image();
 data_bucket_image.src = 'assets/img/data_bucket.png';
 var background_image = new Image();
 background_image.src = 'assets/img/virusBG.png';
+var timeBarImage = new Image();
+timeBarImage.src = 'assets/img/time_bar.png'
+var timeImage = new Image();
+timeImage.src = 'assets/img/time.png'
+var timePercentage = 1;
 var av_arr  = [];
 var hit_sound_list = [];
 var hit_sound_index = 0;
@@ -172,7 +180,7 @@ function bucket(){
 
 }
 function av_button(){
-	this.x = canvas.height*.01;
+	this.x = canvas.width*.8;
 	this.y = canvas.height*.89;
 	this.size = canvas.height * .1;
 
@@ -231,10 +239,17 @@ function render(){
 	
 
 	ctx.drawImage(av_arr[av_counter],av_button.x,av_button.y,av_button.size,av_button.size)
-    ctx.fillStyle = "#FFFFFF"
-    ctx.strokeStyle = "#000000";
-	ctx.strokeText((Math.floor(timeRemaining/10)/100).toFixed(2),10,45);
-    ctx.fillText((Math.floor(timeRemaining/10)/100).toFixed(2),10,45);
+    
+//    ctx.drawImage(timeImage, window.width/20, window.width/40, (bucket.x - window.width/20) * timePercentage, window.width/40)
+//    ctx.drawImage(timeBarImage, window.width/20, window.width/40, bucket.x - window.width/20, window.width/40)
+    ctx.drawImage(timeImage, canvas.width *.01, canvas.height*.01, (bucket.x - canvas.width *.01) * timePercentage, canvas.height*.05)
+    ctx.drawImage(timeBarImage, canvas.width*.01, canvas.height*.01, bucket.x - canvas.width *.01, canvas.height*.05)
+//    ctx.fillStyle = "#FFFFFF"
+//    ctx.strokeStyle = "#000000";
+//	ctx.strokeText((Math.floor(timeRemaining/10)/100).toFixed(2),10,45);
+//    ctx.fillText((Math.floor(timeRemaining/10)/100).toFixed(2),10,45);
+    
+    
 	if (held)
 		ctx.drawImage(held.img,held.x,held.y,held.width,held.height)
 }
@@ -247,6 +262,7 @@ var av_update = false;
 var av_update_counter = 0;
 function editObjects(dt){
 	timeRemaining = timeRemaining - dt;
+    timePercentage = timeRemaining/startTime;
     if (timeRemaining <= 0){
 		
         window.location.href = 'virus_final.html?score=' + (16 * imagesCollected + score);

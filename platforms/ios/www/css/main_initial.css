@@ -28,3 +28,41 @@ center {
     transform: translateY(-50%);
     
 }
+.popup   span{  
+    width: 100%;
+    display: table-cell;
+    vertical-align: middle;
+}
+.popup{
+height:200px;
+width:75%;
+position: absolute;
+top:0;
+bottom: 0;
+left: 0;
+right: 0;
+display:table;
+margin: auto;
+
+
+}
+.popupHeader{
+background-color: gray;
+text-align:center;
+height:50px;
+display:table-row;
+    font-size: 6vw;
+color:white;
+font-weight: bold;
+
+}
+.popupBody{
+background-color: darkgray;
+text-align:center;
+height:150px;
+display:table-row;
+font-size:10vw;
+color:white;
+font-weight: bold;
+
+}
