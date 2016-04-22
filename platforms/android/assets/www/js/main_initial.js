@@ -1,5 +1,5 @@
 function begin(){
-    document.getElementById("background").onclick = play;
+    document.getElementById("background").addEventListener("touchend", play)
     
 }
 var popup;

@@ -96,7 +96,27 @@ h1 {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
 }
+.gameOver{
+	text-align: center;
+    font-size: 7vw;
+}
 
+.restart{
+	
+    position: absolute;
+    bottom: 2%;
+    left: 2%;
+    font-size: 5vw;
+
+}
+.mainMenu{
+	
+    position: absolute;
+    bottom: 2%;
+    right: 2%;
+    font-size: 5vw;
+
+}
 .popup {
     margin: auto;
     position: absolute;
