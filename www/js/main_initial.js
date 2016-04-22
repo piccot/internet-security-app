@@ -66,9 +66,12 @@ function play(){
 }
 
 function checkForUpdates(){
+   
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
+      
 	if (xhttp.readyState == 4 && xhttp.status == 200) {
+        
 		var updateData = JSON.parse(xhttp.responseText);
 		var mail_date
 		var whack_date
@@ -92,14 +95,18 @@ function checkForUpdates(){
 							body.innerHTML= "Downloading..."
 							writeMailQuestionsToFile()
 							}
-						else
+                                         else{
 							mail_done = true;
+                                         checkDone();
+                                         }
 						if (whack_date > last_update){
 							body.innerHTML= "Downloading..."
 							writeWhackQuestionsToFile()
 							}
-						else
+                                         else{
 							whack_done = true
+                                         checkDone();
+                                         }
 						
 					} else {
 						

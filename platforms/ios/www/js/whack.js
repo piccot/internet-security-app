@@ -167,8 +167,14 @@ function update(){
 }
 function resultsPopup(number){
 	var oldPopup = document.getElementsByClassName("finalPopup")[0]
-	if(oldPopup)
+	var oldDimmer = document.getElementsByClassName("dimmer")[0]
+	if(oldPopup){
 		document.body.removeChild(oldPopup);
+		document.body.removeChild(oldDimmer);
+		}
+	var dimmer = document.createElement("div");
+	dimmer.className = "dimmer";
+	document.body.appendChild(dimmer);
 	var popup = document.createElement("div");
 	popup.className = "finalPopup";
 	var gameOver = document.createElement("div");
@@ -180,7 +186,7 @@ function resultsPopup(number){
 	missed.innerHTML = "You Missed: " + results_arr[number].password;   
 	var reason = document.createElement("div");
 	reason.className = "reason";			 
-	reason.innerHTML = "Because: " + results_arr[number].reason; 
+	reason.innerHTML = results_arr[number].reason; 
 	var next = document.createElement("button");
 	next.className = "nextButton";
 	next.innerHTML = "NEXT"
@@ -202,17 +208,27 @@ function resultsPopup(number){
 }
 function endingPopup(number){
 	var oldPopup = document.getElementsByClassName("finalPopup")[0]
-	if(oldPopup)
+	var oldDimmer = document.getElementsByClassName("dimmer")[0]
+	if(oldPopup){
 		document.body.removeChild(oldPopup);
+		document.body.removeChild(oldDimmer);
+		}
+	var dimmer = document.createElement("div");
+	dimmer.className = "dimmer";
+	document.body.appendChild(dimmer);
 	var popup = document.createElement("div");
 	popup.className = "finalPopup";
 	var gameOver = document.createElement("div");
 	gameOver.className = "gameOver";
 	gameOver.innerHTML = "GAME OVER";
 	popup.appendChild(gameOver);
-	var missed = document.createElement("div");
+	var missedContainer = document.createElement("div");
+	missedContainer.className = "finalScoreContainer";
+	
+	var missed = document.createElement("span");
 	missed.className = "finalScore";
-	missed.innerHTML = "Final Score: " + score;   
+	missed.innerHTML = "Final Score: " + score; 
+		missedContainer.appendChild(missed)
 	var next = document.createElement("button");
 	next.innerHTML = "Play Again"
 	next.className = "restart";
@@ -232,7 +248,7 @@ function endingPopup(number){
 							window.location.href = 'main.html'
 							return true;
 							});
-	popup.appendChild(missed)
+	popup.appendChild(missedContainer)
 	popup.appendChild(next)
 	popup.appendChild(mainMenu);
 	document.body.appendChild(popup)
