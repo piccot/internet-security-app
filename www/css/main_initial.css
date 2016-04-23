@@ -34,6 +34,7 @@ to {
 	font-size:7vw;
 
 }
+}
 @-o-keyframes pulseText{
 from {
 	
@@ -44,6 +45,7 @@ to {
 	font-size:7vw;
 
 }
+}
 @-webkit-keyframes pulseText{
 from {
 	
@@ -53,6 +55,7 @@ from {
 to {
 	font-size:7vw;
 
+}
 }
 .tapAnywhere{
 	position:absolute;
