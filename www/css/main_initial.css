@@ -12,6 +12,69 @@ html,body{
     -o-background-size: cover;
     
 }
+@keyframes pulseText{
+from {
+	
+	font-size:5vw;
+
+}
+to {
+	font-size:7vw;
+	
+}
+
+}
+@-moz-keyframes pulseText{
+from {
+	
+	font-size:5vw;
+
+}
+to {
+	font-size:7vw;
+
+}
+@-o-keyframes pulseText{
+from {
+	
+	font-size:5vw;
+
+}
+to {
+	font-size:7vw;
+
+}
+@-webkit-keyframes pulseText{
+from {
+	
+	font-size:5vw;
+
+}
+to {
+	font-size:7vw;
+
+}
+.tapAnywhere{
+	position:absolute;
+	z-index:2;
+	color: #6DCEF5;
+	margin:auto;
+	
+	font-family:sans-serif;
+	width:100%;
+	text-align:center;
+	top: 83%;
+	font-size:7vw;
+	font-weight:bold;
+	-webkit-animation: pulseText .75s infinite alternate;
+	-moz-animation: pulseText .75s infinite alternate;
+	-o-animation: pulseText .75s infinite alternate;
+	animation: pulseText .75s infinite alternate;
+	display:none;
+	
+	
+
+}
 
 
 .header{

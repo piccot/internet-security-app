@@ -111,7 +111,7 @@ h1 {
 
 }
 .reason{
-	font-size:4vw;
+	font-size:2vh;
 	text-align:center;
 
 }
@@ -127,7 +127,7 @@ h1 {
     border: 1px solid #965F06;
     border-radius: 28px;
     height: 13%;
-    font-size: 6vw;
+    font-size: 3.2vh;
     margin-bottom: 4%;
 
 }

@@ -156,7 +156,11 @@ function update(){
         if (results_arr.length > 0){
 			writeResultsToFile()	
 			resultsPopup(0)
-		}
+        } else {
+            
+                endingPopup();	
+        
+        }
 
 	}
 	editObjects(Date.now() - lastTime)
@@ -251,9 +255,11 @@ function endingPopup(number){
 }
 function restartGame(){
 	var oldPopup = document.getElementsByClassName("finalPopup")[0]
-	if(oldPopup)
+	var oldDimmer = document.getElementsByClassName("dimmer")[0]
+	if(oldPopup){
 		document.body.removeChild(oldPopup);
-		
+		document.body.removeChild(oldDimmer);
+		}
 	timer = 30000;
 	score = 0;
 	for(j=0;j<6;j++)
