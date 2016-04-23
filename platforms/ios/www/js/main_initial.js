@@ -1,6 +1,7 @@
 function begin(){
     document.getElementById("background").onclick = play;
-    
+    var tap = document.getElementsByClassName("tapAnywhere")[0]
+	tap.style.display = "block";
 }
 var popup;
 var body;

@@ -82,6 +82,7 @@ var timeBarImage = new Image();
 timeBarImage.src = 'assets/img/time_bar.png'
 var timeImage = new Image();
 timeImage.src = 'assets/img/time.png'
+var stop_game = false;
 var timePercentage = 1;
 var av_arr  = [];
 var hit_sound_list = [];
@@ -188,7 +189,8 @@ function av_button(){
 }
 var lastTime = Date.now();
 function main (){
-	requestAnimationFrame(main);
+	if (!stop_game)
+		requestAnimationFrame(main);
     update()
 	lastTime = Date.now()
 	render()
@@ -261,7 +263,9 @@ function editObjects(dt){
 	timeRemaining = timeRemaining - dt;
     timePercentage = timeRemaining/startTime;
     if (timeRemaining <= 0){
-        window.location.href = 'virus_final.html?score=' + (16 * imagesCollected + score);
+      //  window.location.href = 'virus_final.html?score=' + (16 * imagesCollected + score);
+	  stop_game = true;
+	  endingPopup()
     }
     if (virusEscapeTimer){
         virusEscapeTimer = virusEscapeTimer - dt;
@@ -501,6 +505,73 @@ function antiVirusUpdate(){
 	button.src = "assets/img/virus_popup2.gif?" + Date.now();
 	button.onclick = null;
 
+}
+function endingPopup(){
+	var oldPopup = document.getElementsByClassName("finalPopup")[0]
+	var oldDimmer = document.getElementsByClassName("dimmer")[0]
+	if(oldPopup){
+		document.body.removeChild(oldPopup);
+		document.body.removeChild(oldDimmer);
+		}
+	var dimmer = document.createElement("div");
+	dimmer.className = "dimmer";
+	document.body.appendChild(dimmer);
+	var popup = document.createElement("div");
+	popup.className = "finalPopup";
+	var gameOver = document.createElement("div");
+	gameOver.className = "gameOver";
+	gameOver.innerHTML = "GAME OVER";
+	popup.appendChild(gameOver);
+	var missedContainer = document.createElement("div");
+	missedContainer.className = "finalScoreContainer";
+	
+	var missed = document.createElement("span");
+	missed.className = "finalScore";
+	missed.innerHTML = "Final Score: " + (16 * imagesCollected + score); 
+		missedContainer.appendChild(missed)
+	var next = document.createElement("button");
+	next.innerHTML = "Play Again"
+	next.className = "restart";
+	next.addEventListener('touchend', function(event){
+							event.preventDefault();
+							event.stopPropagation();
+							restartGame();
+							return true;
+
+							});
+	var mainMenu = document.createElement("button");
+	mainMenu.innerHTML = "Main Menu"
+	mainMenu.className = "mainMenu";
+	mainMenu.addEventListener('touchend', function(event){
+							event.preventDefault();
+							event.stopPropagation();
+							window.location.href = 'main.html'
+							return true;
+							});
+	popup.appendChild(missedContainer)
+	popup.appendChild(next)
+	popup.appendChild(mainMenu);
+	document.body.appendChild(popup)
+}
+function restartGame(){
+var oldPopup = document.getElementsByClassName("finalPopup")[0]
+	var oldDimmer = document.getElementsByClassName("dimmer")[0]
+	if(oldPopup){
+		document.body.removeChild(oldPopup);
+		document.body.removeChild(oldDimmer);
+		}
+	virus_arr = [];
+	held = null;
+	score = 0;
+	imagesCollected = 0;
+	timeRemaining = startTime;
+	if (av_open){
+		closeAntiVirusPopup();
+	}
+	av_counter = 0;
+	stop_game = false;
+	lastTime = Date.now()
+	main();
 }
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
