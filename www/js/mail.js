@@ -44,7 +44,11 @@ var app = {
 var results_file;
 var questions_file;
 var baseDelay = 5000
-var time = 0;
+var lastTime;
+var virusTimer = null;
+var mailCounter = 0;
+var secondsPerMail = 5;
+var time = (secondsPerMail - 1) * 1000;
 var bgImage = new Image();
 bgImage.src = 'assets/img/emailBG.png';
 var baseSpeed = 4500;
@@ -165,26 +169,25 @@ var mailArr = []
 for(i=0;i<3;i++){
         mailArr[i] = [];
 }
-var lastTime;
 function update(){
-	time = time + (Date.now() - lastTime)
-
-    if (time >= 5000 && millisecondsPerMail >= 1000) {
-        time = 0;
-        millisecondsPerMail = millisecondsPerMail - 500;
-    }
     
-    for(i=0;i<mailArr.length;i++){
-        if(mailArr[i].length > 7){
-            window.location.href = 'mail_final.html'
-        }
-    }
+    // Update all the things
 	editObjects(Date.now() - lastTime)
+    // Call the update function for all existing sprites
     for(var i = 0;i < spriteArr.length;i++){
         spriteArr[i].update();
     }
+    // If there is a row with 8 mails, end game
+    for(i=0;i<mailArr.length;i++){
+        if(mailArr[i].length > 7){
+            gameOver();
+        }
+    }
 }
 
+function gameOver(){
+    window.location.href = 'mail_final.html'
+}
 function playAudio(src) {
     
     // Android needs the search path explicitly specified
@@ -244,8 +247,7 @@ function closeMail(choice){
                                             width: canvas.width,
                                             height: canvas.width});
                 spriteArr.push(virusSprite);
-                millisecondsPerMail = 1;
-                spamFilter = 0;
+                virusTimer = 5000;
                 openMail.img = explosionImage;
             }
             
@@ -491,13 +493,26 @@ if (!Array.prototype.last){
                     };
 };
 
-var millisecondsPerMail = 6000;
 function editObjects(dt){
+    time = time + dt
+    
+    if (time >= secondsPerMail * 1000) {
+        time = 0;
+        mailCounter = mailCounter + 1;
+        
+        // Create new mail and push it to mailArr in a random column
+        var randomMail = getRandomInt(0,jsonObject.length -1)
+        var randomColumn = Math.floor(Math.random() * 3)
+        mailArr[randomColumn].push(new mail(randomColumn, jsonObject[randomMail].Body,jsonObject[randomMail].Type,jsonObject[randomMail].Sub))
+        
+    }
+    if (mailCounter == 10 && secondsPerMail > 1){
+        mailCounter = 0;
+        secondsPerMail = secondsPerMail - 1;
+    }
 	for (i=0;i<3;i++){
-		if (Math.random() < (1/millisecondsPerMail)*dt && (mailArr[i].length == 0 || mailArr[i].last().y >= window.innerHeight/8)){
-			var random = getRandomInt(0,jsonObject.length -1)
-			mailArr[i].push(new mail(i, jsonObject[random].Body,jsonObject[random].Type,jsonObject[random].Sub))
-		}
+        
+        // Spam filter action
         for (j=0;j<mailArr[i].length;j++){
             if (mailArr[i][j].spamCheck == false){
                 var check = getRandomInt(1,100)
@@ -507,17 +522,29 @@ function editObjects(dt){
                 }
                 mailArr[i][j].spamCheck = true;
             }
+            
+            // If mail has a delay, it must be an explosion-like image, so increment delay counter
             if (mailArr[i][j].delay != null){
                 mailArr[i][j].delay = mailArr[i][j].delay - dt
                 
+                // If the delay runs out, remove the object from mailArr
                 if(mailArr[i][j].delay <= 0){
                     mailArr[i][j].delay = null;
                     mailArr[i].splice(j,1)
                     return;
                 }
             }
+            // Move all existing mails down, unless they are touching another mail
+            // Falling Speed based on delta and baseSpeed
             if(mailArr[i][j].y <= window.innerHeight - (j+1)*window.innerHeight/8){
                     mailArr[i][j].y = Math.min(mailArr[i][j].y + delta*dt, window.innerHeight - (j+1)*window.innerHeight/8);
+            }
+            // Update virusTimer, if it exists, virus has been sprung.  Game over
+            if (virusTimer) {
+                virusTimer = virusTimer - dt;
+                if (virusTimer <= 0){
+                    gameOver();
+                }
             }
         }
     }
