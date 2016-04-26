@@ -240,7 +240,7 @@ function closeMail(choice){
             }
             if (openMail.type == 6){ //bad mail Virus
                 var virusSprite = new sprite({
-                                             context: canvas.getContext("2d"),
+                                            context: canvas.getContext("2d"),
                                             image: acceptVirusImage,
                                             ticksPerFrame: 10,
                                             numberOfFrames: 10,
