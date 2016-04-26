@@ -27,7 +27,7 @@ var app = {
 				var reader = new FileReader();
 				reader.onload = function(e) {
 					filedata=this.result;
-                    //jsonObject = JSON.parse(filedata);
+                    jsonObject = JSON.parse(filedata);
                                     document.addEventListener("touchstart",touchStart);
                                     lastTime = Date.now()
                                     main();
@@ -134,7 +134,7 @@ function sprite(options){
 }
 
 
-function mail(pos, text, type, sub){
+function mail(pos, text, type, sub,to,from,attach){
 	this.x = pos * window.innerWidth/3;
 	this.y = 0;
     this.width = window.innerWidth/3;
@@ -142,9 +142,12 @@ function mail(pos, text, type, sub){
 	this.img = mailImage;
     this.text = text;
     this.type = type;
-    this.sub = sub;
+    this.subject = sub;
     this.delay = null;
     this.spamCheck = false;
+	this.to = to;
+	this.from=from;
+	this.attach=attach;
 }
 
 function changeSpam(diff){
@@ -365,15 +368,15 @@ function touchStart(e){
                             
                             var to = document.createElement("div");
                             to.className = "to";
-                            to.innerHTML = "<b>To:&nbsp;</b>you@email.com";
+                            to.innerHTML = "<b>To:&nbsp;</b>" +openMail.to;
                             
                             var from = document.createElement("div");
                             from.className = "from";
-                            from.innerHTML = "<b>From:&nbsp;</b>me@email.com";
+                            from.innerHTML = "<b>From:&nbsp;</b>me@email.com" + openMail.from;
                             
                             var subject = document.createElement("div");
                             subject.className = "subject";
-                            subject.innerHTML = "<b>Subject:&nbsp;</b>I love you";
+                            subject.innerHTML = "<b>Subject:&nbsp;</b>" + openMail.subject;
                             
                             var body = document.createElement("div");
                             body.className = "mailBody";
@@ -503,7 +506,7 @@ function editObjects(dt){
         // Create new mail and push it to mailArr in a random column
         var randomMail = getRandomInt(0,jsonObject.length -1)
         var randomColumn = Math.floor(Math.random() * 3)
-        mailArr[randomColumn].push(new mail(randomColumn, jsonObject[randomMail].Body,jsonObject[randomMail].Type,jsonObject[randomMail].Sub))
+        mailArr[randomColumn].push(new mail(randomColumn, jsonObject[randomMail].mail_body,jsonObject[randomMail].mail_type,jsonObject[randomMail].mail_subject,jsonObject[randomMail].mail_to,jsonObject[randomMail].mail_from,jsonObject[randomMail].mail_attachments))
         
     }
     if (mailCounter == 5 && secondsPerMail > 1){
