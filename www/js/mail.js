@@ -372,7 +372,7 @@ function touchStart(e){
                             
                             var from = document.createElement("div");
                             from.className = "from";
-                            from.innerHTML = "<b>From:&nbsp;</b>me@email.com" + openMail.from;
+                            from.innerHTML = "<b>From:&nbsp;</b>" + openMail.from;
                             
                             var subject = document.createElement("div");
                             subject.className = "subject";
