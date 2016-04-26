@@ -27,6 +27,10 @@ body {
 	font-size:0px;
     text-transform:uppercase;
     width:100%;
+	background: url("../assets/img/virusBGDarkLoading.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+
 }
 .popup{
 	width: 80%;

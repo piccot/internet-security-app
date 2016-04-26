@@ -74,15 +74,20 @@ function checkForUpdates(){
 	if (xhttp.readyState == 4 && xhttp.status == 200) {
         
 		var updateData = JSON.parse(xhttp.responseText);
+        
 		var mail_date
 		var whack_date
+        console.log(updateData[0].date);
+        console.log(updateData[1].date);
 		if (updateData[0].type == "MAIL"){
+            
 			mail_date = new Date(updateData[0].date)
 			whack_date = new Date(updateData[1].date)
 		} else {
 			whack_date = new Date(updateData[0].date)
 			mail_date = new Date(updateData[1].date)
 		}
+        
 		update_file.file(function(file) {
 			var reader = new FileReader();
 			reader.onload = function(e) {
@@ -92,7 +97,9 @@ function checkForUpdates(){
 					if (filedata.length > 0){
 						var jsonObject = JSON.parse(filedata);
 						var last_update = new Date(jsonObject.updated);
-						if (mail_date > last_update){
+                                         
+                                         
+						if (mail_date < last_update){
 							body.innerHTML= "Downloading..."
 							writeMailQuestionsToFile()
 							}
@@ -100,7 +107,7 @@ function checkForUpdates(){
 							mail_done = true;
                                          checkDone();
                                          }
-						if (whack_date > last_update){
+						if (whack_date < last_update){
 							body.innerHTML= "Downloading..."
 							writeWhackQuestionsToFile()
 							}
@@ -128,7 +135,7 @@ function checkForUpdates(){
 		
 	}
 	};
-	xhttp.open("GET", "http://cybersafegames.unc.edu/whack_data.php", true);
+	xhttp.open("GET", "http://cybersafegames.unc.edu/update_data.php", true);
 	xhttp.send();
 
 }
@@ -138,7 +145,7 @@ var mail_done = false
 
 function writeWhackQuestionsToFile(){
 	var filedata
-	
+    
     questions_file.file(function(file) {
                         
         var reader = new FileReader();
@@ -170,13 +177,16 @@ function writeWhackQuestionsToFile(){
 
 function writeMailQuestionsToFile(){
 	var filedata
+    alert("test");
     mail_questions_file.file(function(file) {
         var reader = new FileReader();
         reader.onload = function(e) {			
 			filedata=this.result;
+                             alert("test2");
 			mail_questions_file.createWriter(function(fileWriter) {
-				fileWriter.seek(fileWriter.length);
-				if (fileWriter.length <= 0){
+				fileWriter.truncate(0);
+                
+				
 					var xhttp = new XMLHttpRequest();
 					xhttp.onreadystatechange = function() {
 					if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -189,7 +199,7 @@ function writeMailQuestionsToFile(){
 					xhttp.open("GET", "http://cybersafegames.unc.edu/mail_data.php", true);
 					xhttp.send();
 					
-				}
+				
 			}, fail);
         };
         reader.readAsText(file);
