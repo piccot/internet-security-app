@@ -78,8 +78,13 @@ var virus_green_image = new Image();
 virus_green_image.src = 'assets/img/virus_green.png';
 var data_bucket_image = new Image();
 data_bucket_image.src = 'assets/img/data_bucket.png';
-var background_image = new Image();
-background_image.src = 'assets/img/virusBG.png';
+var background_image;
+
+var background_image_green = new Image();
+background_image_green.src = 'assets/img/virusBG.png';
+var background_image_red = new Image();
+background_image_red.src = 'assets/img/virusBG_red.png';
+background_image = background_image_green;
 var timeBarImage = new Image();
 timeBarImage.src = 'assets/img/time_bar.png'
 var timeImage = new Image();
@@ -333,7 +338,7 @@ function editObjects(dt){
     if (virusEscapeTimer){
         virusEscapeTimer = virusEscapeTimer - dt;
         if (virusEscapeTimer <= 0){
-            background_image.src = 'assets/img/virusBG.png';
+            background_image = background_image_green;
             virusEscapeTimer = null;
         }
     }
@@ -344,7 +349,7 @@ function editObjects(dt){
 		if (current.x > window.innerWidth || current.x + current.width < 0 || current.y > window.innerHeight || current.y + current.height < 0){
 			if (current.type == 2){
                 virusEscapeTimer = 200;
-                background_image.src = 'assets/img/virusBG_red.png';
+                background_image = background_image_red;
 				miss_sound_list[miss_sound_index%5].play();
 				miss_sound_index++;
 				score_arr = score_arr.slice(0,score_arr.length -av_counter -1);
