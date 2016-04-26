@@ -144,7 +144,57 @@ function test() {
 	document.body.appendChild(notification_sound2);
 }
 
+var spriteArr = [];
 
+function sprite(options){
+    
+    var self = this;
+    
+    this.context = options.context;
+    this.imgWidth = options.image.width;
+    this.imgHeight = options.image.height;
+    this.img = options.image;
+    this.frameIndex = 0,
+    this.tickCount = 0,
+    this.ticksPerFrame = options.ticksPerFrame || 0;
+    this.numberOfFrames = options.numberOfFrames || 1;
+    this.x = options.x || 0;
+    this.y = options.y || 0;
+    this.width = options.width;
+    this.height = options.height;
+    
+    
+    this.render = function () {
+        
+        // Draw the animation
+        self.context.drawImage(
+                               self.img,
+                               self.frameIndex * self.imgWidth / self.numberOfFrames,
+                               0,
+                               self.imgWidth / self.numberOfFrames,
+                               self.imgHeight,
+                               self.x,
+                               self.y,
+                               self.width,
+                               self.height);
+    };
+    
+    this.update = function () {
+        self.tickCount += 1;
+        
+        if (self.tickCount > self.ticksPerFrame) {
+            
+            self.tickCount = 0;
+            // If the current frame index is in range
+            if (self.frameIndex < self.numberOfFrames - 1) {
+                // Go to the next frame
+                self.frameIndex += 1;
+            }else{
+                spriteArr.splice(spriteArr.indexOf(self),1)
+            }
+        }
+    };
+}
 
 
 var virus_arr = [];
@@ -199,6 +249,10 @@ function main (){
 
 function update(){
 	editObjects(Date.now() - lastTime);
+    // Call the update function for all existing sprites
+    for(var i = 0;i < spriteArr.length;i++){
+        spriteArr[i].update();
+    }
 }
 function playAudio(src) {
     
@@ -249,8 +303,14 @@ function render(){
 
     
     
-	if (held)
+    if (held) {
 		ctx.drawImage(held.img,held.x,held.y,held.width,held.height)
+    }
+    
+    // Render Sprites
+    for(var i = 0;i < spriteArr.length;i++){
+        spriteArr[i].render();
+    }
 }
 var currentID = 0;
 var millisecondsPerVirus = 200;
@@ -396,10 +456,18 @@ function touchStart(e){
 						virus_arr.splice(j,1);
 						}
 					else{
-						virus_arr[j].img = virus_red_splat_image;
-						virus_arr[j].dx = 0;
-						virus_arr[j].dy = Math.abs(virus_arr[j].dy)
-						virus_arr[j].type = 3;
+                        var virusSplatSprite = new sprite({
+                                                       context: canvas.getContext("2d"),
+                                                       image: virus_red_splat_image,
+                                                       ticksPerFrame: 6,
+                                                       numberOfFrames: 7,
+                                                       x: virus_arr[j].x,
+                                                       y: virus_arr[j].y,
+                                                       width: virus_arr[j].width,
+                                                       height: virus_arr[j].height * 3});
+                        spriteArr.push(virusSplatSprite);
+                        virus_arr.splice(j,1);
+
 					}
 						
 					
