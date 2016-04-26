@@ -277,13 +277,17 @@ function playAudio(src) {
 
 function render(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Draw Background
 	ctx.drawImage(background_image,0,0,canvas.width,canvas.height)
+    // Draw Viruses and Data
 	for(var i = 0; i < virus_arr.length; i++){
 		var current = virus_arr[i];
 		ctx.drawImage(current.img,current.x,current.y,current.width,current.height)
     
 	}
-		ctx.drawImage(data_bucket_image,bucket.x,bucket.y,bucket.size,bucket.size)
+    // Draw Bucket
+    ctx.drawImage(data_bucket_image,bucket.x,bucket.y,bucket.size,bucket.size)
+    // Draw Key Image
 	for(var i = 0; i < score_arr.length; i++){
 		var current = score_arr[i];
 		ctx.drawImage(score_image_arr[currentImage%totalImages][i],current.baseX  + current.width * (i%4),current.baseY + current.height * Math.floor(i/4),current.width,current.height)
@@ -292,24 +296,22 @@ function render(){
 	for(var i = 0; i < score_arr2.length; i++){
 		var current = score_arr2[i];
 		ctx.drawImage(score_image_arr[previousImage%totalImages][i],current.currX,current.currY,current.width,current.height);
-    
-	
 	}
 	
-
+    // Draw Update Counter
 	ctx.drawImage(av_arr[av_counter],av_button.x,av_button.y,av_button.size,av_button.size)
     
-
+    // Draw Time Bar
     ctx.drawImage(timeImage, canvas.width *.01, canvas.height*.01, (bucket.x - canvas.width *.01) * timePercentage, canvas.height*.05)
     ctx.drawImage(timeBarImage, canvas.width*.01, canvas.height*.01, bucket.x - canvas.width *.01, canvas.height*.05)
 
     
-    
+    // Draw currently held data
     if (held) {
 		ctx.drawImage(held.img,held.x,held.y,held.width,held.height)
     }
     
-    // Render Sprites
+    // Draw Sprites
     for(var i = 0;i < spriteArr.length;i++){
         spriteArr[i].render();
     }
@@ -325,7 +327,6 @@ function editObjects(dt){
 	timeRemaining = timeRemaining - dt;
     timePercentage = timeRemaining/startTime;
     if (timeRemaining <= 0){
-      //  window.location.href = 'virus_final.html?score=' + (16 * imagesCollected + score);
 	  stop_game = true;
 	  endingPopup()
     }
@@ -360,6 +361,7 @@ function editObjects(dt){
 			score_arr2.splice(i,1);
 	}
 	if (Math.random() < (1/millisecondsPerUpdate) * dt && av_counter < 5 && !av_update){
+        //increment update counter
         var notificationSprite = new sprite({
                                           context: canvas.getContext("2d"),
                                           image: notification_image,
@@ -369,17 +371,13 @@ function editObjects(dt){
                                           y: av_button.y - av_button.size * 1.5,
                                           width: av_button.size * 1.5,
                                           height: av_button.size * 1.5});
-        //av_arr[av_counter],av_button.x,av_button.y,av_button.size,av_button.size
-        //here
         spriteArr.push(notificationSprite);
 		av_counter++;
 		if (notification_sound.paused)
 				notification_sound.play();
 			else
 				notification_sound2.play();
-		
-        //playAudio("assets/audio/notification.wav");
-		
+				
 		millisecondsPerUpdate = 15000;
 		
 	}

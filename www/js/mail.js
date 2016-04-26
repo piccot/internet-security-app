@@ -210,7 +210,7 @@ function closeMail(choice){
     switch (choice){
         case 0: //accept
             if (openMail.type >= 0 && openMail.type <= 3){ //good mails
-                score = score + 50;
+                score = score + 100;
                 var scoreUpSprite = new sprite({
                                                context: canvas.getContext("2d"),
                                                image: scoreUpImage,
@@ -225,14 +225,14 @@ function closeMail(choice){
                 openMail.img = explosionImage;
             }
             if (openMail.type == 4){ //bad mail phish
-                score = score - 100;
+                score = score - 200;
                 changeSpam(-2);
                 openMail.img = acceptPhishImage;
             }
             if (openMail.type == 5){ //bad mail fake acct
-                score = score - 100;
+                score = score - 200;
                 openMail.img = acceptAccountImage;
-                openMail.delay = 99999;
+                openMail.delay = 999999;
                 var popup = document.getElementsByClassName("popup")[0];
                 popup.parentNode.removeChild(popup);
                 mailOpen = false;
@@ -247,7 +247,7 @@ function closeMail(choice){
                                             width: canvas.width,
                                             height: canvas.width});
                 spriteArr.push(virusSprite);
-                virusTimer = 5000;
+                virusTimer = 1000;
                 openMail.img = explosionImage;
             }
             
@@ -258,23 +258,23 @@ function closeMail(choice){
             break;
         case 1:  //reject
             if (openMail.type == 0){ //good mail teacher
-                score = score - 100;
+                score = score - 200;
                 openMail.img = rejectTeachImage;
             }
             if (openMail.type == 1){ //good mail job
-                score = score - 100;
+                score = score - 200;
                 openMail.img = rejectJobImage;
             }
             if (openMail.type == 2){ //good mail family
-                score = score - 100;
+                score = score - 200;
                 openMail.img = rejectFamilyImage;
             }
             if (openMail.type == 3){ //good mail account
-                score = score - 100;
+                score = score - 200;
                 openMail.img = rejectAccountImage;
             }
             if (openMail.type >= 4 && openMail.type <= 6){ //bad mail
-                score = score + 50;
+                score = score + 100;
                 var scoreUpSprite = new sprite({
                                               context: canvas.getContext("2d"),
                                               image: scoreUpImage,
@@ -294,22 +294,22 @@ function closeMail(choice){
             break;
         case 2: //spam
             if (openMail.type == 0){ //good mail teacher
-                score = score - 100;
+                score = score - 200;
                 changeSpam(-1);
                 openMail.img = rejectTeachImage;
             }
             if (openMail.type == 1){ //good mail job
-                score = score - 100;
+                score = score - 200;
                 changeSpam(-1);
                 openMail.img = rejectJobImage;
             }
             if (openMail.type == 2){ //good mail family
-                score = score - 100;
+                score = score - 200;
                 changeSpam(-1);
                 openMail.img = rejectFamilyImage;
             }
             if (openMail.type == 3){ //account
-                score = score - 100;
+                score = score - 200;
                 changeSpam(-1);
                 openMail.img = rejectAccountImage;
             }
@@ -317,7 +317,7 @@ function closeMail(choice){
                 openMail.img = explosionImage;
             }
             if (openMail.type == 7){ //spam mail
-                score = score + 50;
+                score = score + 100;
                 changeSpam(1);
                 var spamUpSprite = new sprite({
                                             context: canvas.getContext("2d"),
@@ -506,7 +506,7 @@ function editObjects(dt){
         mailArr[randomColumn].push(new mail(randomColumn, jsonObject[randomMail].Body,jsonObject[randomMail].Type,jsonObject[randomMail].Sub))
         
     }
-    if (mailCounter == 10 && secondsPerMail > 1){
+    if (mailCounter == 5 && secondsPerMail > 1){
         mailCounter = 0;
         secondsPerMail = secondsPerMail - 1;
     }
