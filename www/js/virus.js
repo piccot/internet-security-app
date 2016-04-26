@@ -70,6 +70,8 @@ for (i=0;i<4;i++){
 score_image_arr.push(key_image_arr);
 var virus_red_image = new Image();
 virus_red_image.src = 'assets/img/virus_red.png';
+var notification_image = new Image();
+notification_image.src = 'assets/img/virus_notification.png';
 var virus_red_splat_image = new Image();
 virus_red_splat_image.src = 'assets/img/virus_splat.png';
 var virus_green_image = new Image();
@@ -358,6 +360,18 @@ function editObjects(dt){
 			score_arr2.splice(i,1);
 	}
 	if (Math.random() < (1/millisecondsPerUpdate) * dt && av_counter < 5 && !av_update){
+        var notificationSprite = new sprite({
+                                          context: canvas.getContext("2d"),
+                                          image: notification_image,
+                                          ticksPerFrame: 6,
+                                          numberOfFrames: 5,
+                                          x: av_button.x - av_button.size * .5,
+                                          y: av_button.y - av_button.size * 1.5,
+                                          width: av_button.size * 1.5,
+                                          height: av_button.size * 1.5});
+        //av_arr[av_counter],av_button.x,av_button.y,av_button.size,av_button.size
+        //here
+        spriteArr.push(notificationSprite);
 		av_counter++;
 		if (notification_sound.paused)
 				notification_sound.play();
