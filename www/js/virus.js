@@ -41,11 +41,11 @@ var app = {
 		canvas.width = window.innerWidth;
 		document.body.appendChild(canvas)
 		document.getElementsByClassName('back')[0].onclick = back;
-		document.getElementsByClassName('play')[0].onclick = play;
+		document.getElementsByClassName('play')[0].onclick = playButton;
         canvas.addEventListener('touchmove', touchMove);
 		canvas.addEventListener("touchstart",touchStart);
 		canvas.addEventListener("touchend",touchEnd);
-		lastTime = Date.now()
+		
 
 		bucket = new bucket();
 		av_button = new av_button();
@@ -150,10 +150,11 @@ function loadAudio() {
 }
 
 var spriteArr = [];
-function play(){
+function playButton(){
+    
 	document.body.removeChild(document.getElementById("introContainer"));
    loadAudio();
-   
+   lastTime = Date.now()
    requestAnimationFrame(main);
     
 }
@@ -161,11 +162,6 @@ function play(){
 function back(){
     window.location.href = 'main.html' + location.search
     
-    
-}
-function begin(){
-    document.getElementsByClassName('back')[0].onclick = back;
-    document.getElementsByClassName('play')[0].onclick = play;
     
 }
 function sprite(options){

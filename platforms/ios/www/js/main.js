@@ -19,7 +19,7 @@ var app = {
 
     onDeviceReady: function() {
 					createCard('whack_splash.png','whack_initial.html',0);
-					createCard('virus_splash.png','virus_initial.html',1);
+					createCard('virus_splash.png','virus.html',1);
 					createCard('mail_splash.png','mail_initial.html',2);
                     playAudio("assets/audio/menu.wav");
     }
