@@ -523,7 +523,7 @@ function touchEnd(e,kill){
 				for(var i = 0; i < score_arr.length; i++){
 					score_arr[i].currX = score_arr[i].baseX  + score_arr[i].width * (i%4);
 					score_arr[i].currY = score_arr[i].baseY + score_arr[i].height * Math.floor(i/4);
-					score_arr[i].dx = (canvas.width*.45 - (score_arr[i].baseX  + score_arr[i].width * (i%4)))/1000;
+					score_arr[i].dx = (canvas.width*.35 - (score_arr[i].baseX  + score_arr[i].width * (i%4)))/1000;
 					score_arr[i].dy = (canvas.height/2 - (score_arr[i].baseY + score_arr[i].height * Math.floor(i/4)))/1000
 				}
 				
