@@ -92,7 +92,7 @@ canvas{
 	background-color:black;
 	z-index:5;
 	opacity:.5;
-	pointer-events:none;
+	pointer-events:all;
 
 }
 .finalScoreContainer{
