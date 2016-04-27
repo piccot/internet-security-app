@@ -116,7 +116,7 @@ for(i = 0; i < 6; i ++){
 
 function loadAudio() {
 	hit_sound = new Audio('assets/audio/hit.mp3');
-   
+	hit_sound.load();
 	hit_sound_list.push(hit_sound);
 	
 	for (var i=0;i<4;i++){
@@ -663,6 +663,8 @@ var oldPopup = document.getElementsByClassName("finalPopup")[0]
 		document.body.removeChild(oldDimmer);
 		}
 	virus_arr = [];
+	score_arr = [];
+	score_arr2 = [];
 	held = null;
 	score = 0;
 	imagesCollected = 0;

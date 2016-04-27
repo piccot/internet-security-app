@@ -116,9 +116,11 @@ h1 {
     height:79%;
     -webkit-overflow-scrolling: touch;
     overflow:scroll;
+    font-size:5vw;
 }
 .to, .from, .subject{
-    height:7%
+    height:7%;
+    font-size:4vw;
 }
 .scrollingBody{
         height:80%;
