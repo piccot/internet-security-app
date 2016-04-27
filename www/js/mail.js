@@ -47,7 +47,7 @@ var baseDelay = 5000
 var lastTime;
 //var virusTimer = null;
 var mailCounter = 0;
-var secondsPerMail = 5;
+var secondsPerMail = 4;
 var time = (secondsPerMail - 1) * 1000;
 var bgImage = new Image();
 bgImage.src = 'assets/img/emailBG.png';
@@ -517,7 +517,7 @@ function editObjects(dt){
     }
     if (mailCounter == 5 && secondsPerMail > 1){
         mailCounter = 0;
-        secondsPerMail = secondsPerMail - 1;
+        secondsPerMail = secondsPerMail - 0.5;
     }
 	for (i=0;i<3;i++){
         

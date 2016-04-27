@@ -99,7 +99,7 @@ function checkForUpdates(){
 						var last_update = new Date(jsonObject.updated);
                                          
                                          
-						if (mail_date < last_update){
+						if (mail_date < last_update || true){
 							body.innerHTML= "Downloading..."
 							writeMailQuestionsToFile()
 							}
