@@ -116,7 +116,7 @@ for(i = 0; i < 6; i ++){
 
 function loadAudio() {
 	hit_sound = new Audio('assets/audio/hit.mp3');
-   
+	hit_sound.load();
 	hit_sound_list.push(hit_sound);
 	
 	for (var i=0;i<4;i++){
