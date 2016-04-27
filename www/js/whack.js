@@ -86,7 +86,7 @@ var miss_sound_index = 0;
 var hit_sound2;
 var miss_sound2;
 function test() {
-	hit_sound = new Audio('assets/audio/hit.wav');
+	hit_sound = new Audio('assets/audio/hit.mp3');
 	document.body.appendChild(hit_sound);
 	hit_sound_list.push(hit_sound);
 	
@@ -96,7 +96,7 @@ function test() {
 		hit_sound_list.push(hit_sound2);
 	
 	}
-	miss_sound = new Audio('assets/audio/miss.wav');
+	miss_sound = new Audio('assets/audio/miss.mp3');
 	document.body.appendChild(miss_sound);
 	miss_sound_list.push(miss_sound);
 	for (var i=0;i<4;i++){
