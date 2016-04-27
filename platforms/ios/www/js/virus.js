@@ -112,38 +112,54 @@ for(i = 0; i < 6; i ++){
 	av_arr.push(av_count_image);
 }
 
-
+function loadSound(sound){
+    sound.setVolume(0.0);
+    sound.play();
+    sound.stop();
+    sound.setVolume(1.0);
+    
+}
 function loadAudio() {
-	hit_sound = new Media('assets/audio/hit.mp3');
-   
+	hit_sound = document.getElementById("stuff");
+    
 	hit_sound_list.push(hit_sound);
-	
-	for (var i=0;i<4;i++){
-		hit_sound2 = hit_sound
-       
-		
-		hit_sound_list.push(hit_sound2);
-	
-	}
-	splat_sound = new Media('assets/audio/virus_splat.mp3');
-  
-	splat_sound_list.push(splat_sound);
-	
-	for (var i=0;i<4;i++){
-		splat_sound2 = splat_sound
+//	
+//	for (var i=0;i<4;i++){
+//		hit_sound2 = hit_sound
+//        
+//		
+//		hit_sound_list.push(hit_sound2);
+//        loadSound(hit_sound_list[i+1])
+//	
+//	}
+//	splat_sound = new Media('assets/audio/virus_splat.mp3');
+//    loadSound(splat_sound);
+//
+//	splat_sound_list.push(splat_sound);
+//	
+//	for (var i=0;i<4;i++){
+//		splat_sound2 = splat_sound
+//        loadSound(splat_sound2);
+//
+//		splat_sound_list.push(splat_sound2);
+//        loadSound(splat_sound_list[i+1])
+//	
+//	}
+//	miss_sound = new Media('assets/audio/miss.mp3');
+//    loadSound(miss_sound);
+//
+//	miss_sound_list.push(miss_sound);
+//	for (var i=0;i<4;i++){
+//		miss_sound2 = miss_sound
+//        loadSound(miss_sound2);
+//
+//		miss_sound_list.push(miss_sound2);
+//        loadSound(miss_sound_list[i+1])
+//	
+//	}
+//	notification_sound = new Media('assets/audio/notification.mp3');
+//    loadSound(notification_sound);
 
-		splat_sound_list.push(splat_sound2);
-	
-	}
-	miss_sound = new Media('assets/audio/miss.mp3');
-	miss_sound_list.push(miss_sound);
-	for (var i=0;i<4;i++){
-		miss_sound2 = miss_sound
-
-		miss_sound_list.push(miss_sound2);
-	
-	}
-	notification_sound = new Media('assets/audio/notification.mp3');
 	
 }
 
@@ -468,6 +484,8 @@ function touchStart(e){
 						virus_arr.splice(j,1);
 						}
 					else{
+						splat_sound_list[splat_sound_index%5].play();
+						splat_sound_index++;
                         var virusSplatSprite = new sprite({
                                                        context: canvas.getContext("2d"),
                                                        image: virus_red_splat_image,
@@ -479,6 +497,7 @@ function touchStart(e){
                                                        height: virus_arr[j].height * 3});
                         spriteArr.push(virusSplatSprite);
                         virus_arr.splice(j,1);
+						
 
 					}
 						

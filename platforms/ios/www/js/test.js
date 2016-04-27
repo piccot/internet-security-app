@@ -34,7 +34,10 @@ var app = {
 };
  
  var logOb
- 
+function work(){
+    var test = document.getElementById("stuff");
+    test.play();
+}
 function writeLog(str) {
     if(!logOb) return;
     var log = str + " [" + (new Date()) + "]\n";
