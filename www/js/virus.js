@@ -468,6 +468,8 @@ function touchStart(e){
 						virus_arr.splice(j,1);
 						}
 					else{
+						splat_sound_list[splat_sound_index%5].play();
+						splat_sound_index++;
                         var virusSplatSprite = new sprite({
                                                        context: canvas.getContext("2d"),
                                                        image: virus_red_splat_image,
@@ -479,6 +481,7 @@ function touchStart(e){
                                                        height: virus_arr[j].height * 3});
                         spriteArr.push(virusSplatSprite);
                         virus_arr.splice(j,1);
+						
 
 					}
 						
