@@ -149,7 +149,7 @@ function test() {
 		miss_sound_list.push(miss_sound2);
 	
 	}
-	notification_sound = new Audio('assets/audio/notification.wav');
+	notification_sound = new Audio('assets/audio/notification.mp3');
 	
 	
 	
