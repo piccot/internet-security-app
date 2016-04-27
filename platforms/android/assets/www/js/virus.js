@@ -40,12 +40,13 @@ var app = {
 		canvas.height = window.innerHeight;
 		canvas.width = window.innerWidth;
 		document.body.appendChild(canvas)
+		document.getElementsByClassName('back')[0].onclick = back;
+		document.getElementsByClassName('play')[0].onclick = play;
         canvas.addEventListener('touchmove', touchMove);
 		canvas.addEventListener("touchstart",touchStart);
 		canvas.addEventListener("touchend",touchEnd);
 		lastTime = Date.now()
-        test();
-		requestAnimationFrame(main)
+
 		bucket = new bucket();
 		av_button = new av_button();
 		ctx.font = "24pt Ariel"
@@ -78,8 +79,13 @@ var virus_green_image = new Image();
 virus_green_image.src = 'assets/img/virus_green.png';
 var data_bucket_image = new Image();
 data_bucket_image.src = 'assets/img/data_bucket.png';
-var background_image = new Image();
-background_image.src = 'assets/img/virusBG.png';
+var background_image;
+
+var background_image_green = new Image();
+background_image_green.src = 'assets/img/virusBG.png';
+var background_image_red = new Image();
+background_image_red.src = 'assets/img/virusBG_red.png';
+background_image = background_image_green;
 var timeBarImage = new Image();
 timeBarImage.src = 'assets/img/time_bar.png'
 var timeImage = new Image();
@@ -93,9 +99,13 @@ var hit_sound;
 var miss_sound;
 var miss_sound_list = [];
 var miss_sound_index = 0;
+var splat_sound;
+var splat_sound_list = [];
+var splat_sound_index = 0;
 var notification_sound;
 var hit_sound2;
 var miss_sound2;
+var splat_sound2;
 var notification_sound2;
 for(i = 0; i < 6; i ++){
 	var av_count_image = new Image();
@@ -104,50 +114,60 @@ for(i = 0; i < 6; i ++){
 }
 
 
-function test() {
-	hit_sound = new Audio('assets/audio/hit.wav');
-    hit_sound.load();
-	document.body.appendChild(hit_sound);
+function loadAudio() {
+	hit_sound = new Audio('assets/audio/hit.mp3');
+   
 	hit_sound_list.push(hit_sound);
 	
 	for (var i=0;i<4;i++){
 		hit_sound2 = hit_sound.cloneNode();
-        hit_sound2.load();
-		document.body.appendChild(hit_sound2);
+       hit_sound2.load();
+		
 		hit_sound_list.push(hit_sound2);
 	
 	}
-	miss_sound = new Audio('assets/audio/miss.wav');
-    miss_sound.load();
-	document.body.appendChild(miss_sound);
+	splat_sound = new Audio('assets/audio/virus_splat.mp3');
+  splat_sound.load();
+	splat_sound_list.push(splat_sound);
+	
+	for (var i=0;i<4;i++){
+		splat_sound2 = splat_sound.cloneNode();
+		splat_sound2.load();
+		splat_sound_list.push(splat_sound2);
+	
+	}
+	miss_sound = new Audio('assets/audio/miss.mp3');
+	miss_sound.load();
 	miss_sound_list.push(miss_sound);
 	for (var i=0;i<4;i++){
 		miss_sound2 = miss_sound.cloneNode();
-        miss_sound2.load();
-		document.body.appendChild(miss_sound2);
+		miss_sound2.load();
 		miss_sound_list.push(miss_sound2);
 	
 	}
-	notification_sound = new Audio('assets/audio/notification.wav');
-	
-	
-	
-	document.body.appendChild(notification_sound);
-	
-	
-	
-	
-	hit_sound2 = hit_sound.cloneNode();
-	
-	notification_sound2 = hit_sound.cloneNode();
-	
-	
-	document.body.appendChild(hit_sound2);
-	document.body.appendChild(notification_sound2);
+	notification_sound = new Audio('assets/audio/notification.mp3');
+	notification_sound.load();
 }
 
 var spriteArr = [];
+function play(){
+	document.body.removeChild(document.getElementById("introContainer"));
+   loadAudio();
+   
+   requestAnimationFrame(main);
+    
+}
 
+function back(){
+    window.location.href = 'main.html' + location.search
+    
+    
+}
+function begin(){
+    document.getElementsByClassName('back')[0].onclick = back;
+    document.getElementsByClassName('play')[0].onclick = play;
+    
+}
 function sprite(options){
     
     var self = this;
@@ -256,7 +276,7 @@ function update(){
         spriteArr[i].update();
     }
 }
-function playAudio(src) {
+function playMedia(src) {
     
     // Android needs the search path explicitly specified
     if (navigator.userAgent.match(/Android/i) == "Android") {
@@ -333,7 +353,7 @@ function editObjects(dt){
     if (virusEscapeTimer){
         virusEscapeTimer = virusEscapeTimer - dt;
         if (virusEscapeTimer <= 0){
-            background_image.src = 'assets/img/virusBG.png';
+            background_image = background_image_green;
             virusEscapeTimer = null;
         }
     }
@@ -344,7 +364,7 @@ function editObjects(dt){
 		if (current.x > window.innerWidth || current.x + current.width < 0 || current.y > window.innerHeight || current.y + current.height < 0){
 			if (current.type == 2){
                 virusEscapeTimer = 200;
-                background_image.src = 'assets/img/virusBG_red.png';
+                background_image = background_image_red;
 				miss_sound_list[miss_sound_index%5].play();
 				miss_sound_index++;
 				score_arr = score_arr.slice(0,score_arr.length -av_counter -1);
@@ -373,10 +393,9 @@ function editObjects(dt){
                                           height: av_button.size * 1.5});
         spriteArr.push(notificationSprite);
 		av_counter++;
-		if (notification_sound.paused)
-				notification_sound.play();
-			else
-				notification_sound2.play();
+		
+        notification_sound.play();
+		
 				
 		millisecondsPerUpdate = 15000;
 		
@@ -468,6 +487,8 @@ function touchStart(e){
 						virus_arr.splice(j,1);
 						}
 					else{
+						splat_sound_list[splat_sound_index%5].play();
+						splat_sound_index++;
                         var virusSplatSprite = new sprite({
                                                        context: canvas.getContext("2d"),
                                                        image: virus_red_splat_image,
@@ -479,6 +500,7 @@ function touchStart(e){
                                                        height: virus_arr[j].height * 3});
                         spriteArr.push(virusSplatSprite);
                         virus_arr.splice(j,1);
+						
 
 					}
 						

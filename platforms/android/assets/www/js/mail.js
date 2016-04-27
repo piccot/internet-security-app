@@ -45,9 +45,9 @@ var results_file;
 var questions_file;
 var baseDelay = 5000
 var lastTime;
-var virusTimer = null;
+//var virusTimer = null;
 var mailCounter = 0;
-var secondsPerMail = 5;
+var secondsPerMail = 4;
 var time = (secondsPerMail - 1) * 1000;
 var bgImage = new Image();
 bgImage.src = 'assets/img/emailBG.png';
@@ -99,6 +99,7 @@ function sprite(options){
     this.y = options.y || 0;
     this.width = options.width;
     this.height = options.height;
+    this.virus = options.virus;
 
     
     this.render = function () {
@@ -127,7 +128,11 @@ function sprite(options){
                 // Go to the next frame
                 self.frameIndex += 1;
             }else{
+                // Remove sprite from array
                 spriteArr.splice(spriteArr.indexOf(self),1)
+                if (self.virus){
+                    gameOver();
+                }
             }
         }
     };
@@ -191,7 +196,7 @@ function update(){
 function gameOver(){
     window.location.href = 'mail_final.html'
 }
-function playAudio(src) {
+function playMedia(src) {
     
     // Android needs the search path explicitly specified
     if (navigator.userAgent.match(/Android/i) == "Android") {
@@ -224,7 +229,7 @@ function closeMail(choice){
                                                width: canvas.width/4,
                                                height: canvas.width/4});
                 spriteArr.push(scoreUpSprite);
-                playAudio("assets/audio/hit.wav");
+                playMedia("assets/audio/hit.wav");
                 openMail.img = explosionImage;
             }
             if (openMail.type == 4){ //bad mail phish
@@ -248,9 +253,10 @@ function closeMail(choice){
                                             ticksPerFrame: 10,
                                             numberOfFrames: 10,
                                             width: canvas.width,
-                                            height: canvas.width});
+                                            height: canvas.width,
+                                            virus: true});
                 spriteArr.push(virusSprite);
-                virusTimer = 1000;
+//                mer = 1000;
                 openMail.img = explosionImage;
             }
             
@@ -288,7 +294,7 @@ function closeMail(choice){
                                               width: canvas.width/4,
                                               height: canvas.width/4});
                 spriteArr.push(scoreUpSprite);
-                playAudio("assets/audio/hit.wav");
+                playMedia("assets/audio/hit.wav");
                 openMail.img = explosionImage;
             }
             if (openMail.type == 7){ //spam mail
@@ -332,7 +338,7 @@ function closeMail(choice){
                                             width: canvas.width/4,
                                             height: canvas.width/4});
                 spriteArr.push(spamUpSprite);
-                playAudio("assets/audio/hit.wav");
+                playMedia("assets/audio/hit.wav");
                 openMail.img = explosionImage;
             }
             
@@ -511,7 +517,7 @@ function editObjects(dt){
     }
     if (mailCounter == 5 && secondsPerMail > 1){
         mailCounter = 0;
-        secondsPerMail = secondsPerMail - 1;
+        secondsPerMail = secondsPerMail - 0.5;
     }
 	for (i=0;i<3;i++){
         
@@ -543,12 +549,12 @@ function editObjects(dt){
                     mailArr[i][j].y = Math.min(mailArr[i][j].y + delta*dt, window.innerHeight - (j+1)*window.innerHeight/8);
             }
             // Update virusTimer, if it exists, virus has been sprung.  Game over
-            if (virusTimer) {
-                virusTimer = virusTimer - dt;
-                if (virusTimer <= 0){
-                    gameOver();
-                }
-            }
+//            if (virusTimer) {
+//                virusTimer = virusTimer - dt;
+//                if (virusTimer <= 0){
+//                    gameOver();
+//                }
+//            }
         }
     }
 				
