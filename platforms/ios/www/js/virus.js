@@ -44,7 +44,7 @@ var app = {
 		canvas.addEventListener("touchstart",touchStart);
 		canvas.addEventListener("touchend",touchEnd);
 		lastTime = Date.now()
-        test();
+        loadAudio();
 		requestAnimationFrame(main)
 		bucket = new bucket();
 		av_button = new av_button();
@@ -98,9 +98,13 @@ var hit_sound;
 var miss_sound;
 var miss_sound_list = [];
 var miss_sound_index = 0;
+var splat_sound;
+var splat_sound_list = [];
+var splat_sound_index = 0;
 var notification_sound;
 var hit_sound2;
 var miss_sound2;
+var splat_sound2;
 var notification_sound2;
 for(i = 0; i < 6; i ++){
 	var av_count_image = new Image();
@@ -109,46 +113,38 @@ for(i = 0; i < 6; i ++){
 }
 
 
-function test() {
-	hit_sound = new Audio('assets/audio/hit.wav');
-    hit_sound.load();
-	document.body.appendChild(hit_sound);
+function loadAudio() {
+	hit_sound = new Media('assets/audio/hit.mp3');
+   
 	hit_sound_list.push(hit_sound);
 	
 	for (var i=0;i<4;i++){
-		hit_sound2 = hit_sound.cloneNode();
-        hit_sound2.load();
-		document.body.appendChild(hit_sound2);
+		hit_sound2 = hit_sound
+       
+		
 		hit_sound_list.push(hit_sound2);
 	
 	}
-	miss_sound = new Audio('assets/audio/miss.wav');
-    miss_sound.load();
-	document.body.appendChild(miss_sound);
+	splat_sound = new Media('assets/audio/virus_splat.mp3');
+  
+	splat_sound_list.push(splat_sound);
+	
+	for (var i=0;i<4;i++){
+		splat_sound2 = splat_sound
+
+		splat_sound_list.push(splat_sound2);
+	
+	}
+	miss_sound = new Media('assets/audio/miss.mp3');
 	miss_sound_list.push(miss_sound);
 	for (var i=0;i<4;i++){
-		miss_sound2 = miss_sound.cloneNode();
-        miss_sound2.load();
-		document.body.appendChild(miss_sound2);
+		miss_sound2 = miss_sound
+
 		miss_sound_list.push(miss_sound2);
 	
 	}
-	notification_sound = new Audio('assets/audio/notification.wav');
+	notification_sound = new Media('assets/audio/notification.mp3');
 	
-	
-	
-	document.body.appendChild(notification_sound);
-	
-	
-	
-	
-	hit_sound2 = hit_sound.cloneNode();
-	
-	notification_sound2 = hit_sound.cloneNode();
-	
-	
-	document.body.appendChild(hit_sound2);
-	document.body.appendChild(notification_sound2);
 }
 
 var spriteArr = [];
@@ -261,7 +257,7 @@ function update(){
         spriteArr[i].update();
     }
 }
-function playAudio(src) {
+function playMedia(src) {
     
     // Android needs the search path explicitly specified
     if (navigator.userAgent.match(/Android/i) == "Android") {
@@ -378,10 +374,9 @@ function editObjects(dt){
                                           height: av_button.size * 1.5});
         spriteArr.push(notificationSprite);
 		av_counter++;
-		if (notification_sound.paused)
-				notification_sound.play();
-			else
-				notification_sound2.play();
+		
+        notification_sound.play();
+		
 				
 		millisecondsPerUpdate = 15000;
 		

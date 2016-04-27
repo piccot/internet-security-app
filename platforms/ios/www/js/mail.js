@@ -196,7 +196,7 @@ function update(){
 function gameOver(){
     window.location.href = 'mail_final.html'
 }
-function playAudio(src) {
+function playMedia(src) {
     
     // Android needs the search path explicitly specified
     if (navigator.userAgent.match(/Android/i) == "Android") {
@@ -229,7 +229,7 @@ function closeMail(choice){
                                                width: canvas.width/4,
                                                height: canvas.width/4});
                 spriteArr.push(scoreUpSprite);
-                playAudio("assets/audio/hit.wav");
+                playMedia("assets/audio/hit.wav");
                 openMail.img = explosionImage;
             }
             if (openMail.type == 4){ //bad mail phish
@@ -294,7 +294,7 @@ function closeMail(choice){
                                               width: canvas.width/4,
                                               height: canvas.width/4});
                 spriteArr.push(scoreUpSprite);
-                playAudio("assets/audio/hit.wav");
+                playMedia("assets/audio/hit.wav");
                 openMail.img = explosionImage;
             }
             if (openMail.type == 7){ //spam mail
@@ -338,7 +338,7 @@ function closeMail(choice){
                                             width: canvas.width/4,
                                             height: canvas.width/4});
                 spriteArr.push(spamUpSprite);
-                playAudio("assets/audio/hit.wav");
+                playMedia("assets/audio/hit.wav");
                 openMail.img = explosionImage;
             }
             

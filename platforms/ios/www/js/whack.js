@@ -36,7 +36,7 @@ var app = {
                                     console.log(filedata);
 					jsonObject = JSON.parse(filedata)
                                     lastTime = Date.now()
-                                    test();
+                                    loadAudio();
                                     main();
 
 				};
@@ -85,23 +85,23 @@ var miss_sound_list = [];
 var miss_sound_index = 0;
 var hit_sound2;
 var miss_sound2;
-function test() {
-	hit_sound = new Audio('assets/audio/hit.wav');
-	document.body.appendChild(hit_sound);
+function loadAudio() {
+	hit_sound = new Media('assets/audio/hit.mp3');
+	
 	hit_sound_list.push(hit_sound);
 	
 	for (var i=0;i<4;i++){
-		hit_sound2 = hit_sound.cloneNode();
-		document.body.appendChild(hit_sound2);
+		hit_sound2 = hit_sound;
+		
 		hit_sound_list.push(hit_sound2);
 	
 	}
-	miss_sound = new Audio('assets/audio/miss.wav');
-	document.body.appendChild(miss_sound);
+	miss_sound = new Media('assets/audio/miss.mp3');
+	
 	miss_sound_list.push(miss_sound);
 	for (var i=0;i<4;i++){
-		miss_sound2 = miss_sound.cloneNode();
-		document.body.appendChild(miss_sound2);
+		miss_sound2 = miss_sound;
+	
 		miss_sound_list.push(miss_sound2);
 	
 	}
@@ -271,7 +271,7 @@ function restartGame(){
 	main();
 }
 
-function playAudio(src) {
+function playMedia(src) {
     
     // Android needs the search path explicitly specified
     if (navigator.userAgent.match(/Android/i) == "Android") {

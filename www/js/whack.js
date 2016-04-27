@@ -87,21 +87,21 @@ var hit_sound2;
 var miss_sound2;
 function loadAudio() {
 	hit_sound = new Media('assets/audio/hit.mp3');
-	document.body.appendChild(hit_sound);
+	
 	hit_sound_list.push(hit_sound);
 	
 	for (var i=0;i<4;i++){
-		hit_sound2 = hit_sound.cloneNode();
-		document.body.appendChild(hit_sound2);
+		hit_sound2 = hit_sound;
+		
 		hit_sound_list.push(hit_sound2);
 	
 	}
 	miss_sound = new Media('assets/audio/miss.mp3');
-	document.body.appendChild(miss_sound);
+	
 	miss_sound_list.push(miss_sound);
 	for (var i=0;i<4;i++){
-		miss_sound2 = miss_sound.cloneNode();
-		document.body.appendChild(miss_sound2);
+		miss_sound2 = miss_sound;
+	
 		miss_sound_list.push(miss_sound2);
 	
 	}

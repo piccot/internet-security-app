@@ -115,56 +115,36 @@ for(i = 0; i < 6; i ++){
 
 function loadAudio() {
 	hit_sound = new Media('assets/audio/hit.mp3');
-    hit_sound.load();
-	document.body.appendChild(hit_sound);
+   
 	hit_sound_list.push(hit_sound);
 	
 	for (var i=0;i<4;i++){
-		hit_sound2 = hit_sound.cloneNode();
-        hit_sound2.load();
-		document.body.appendChild(hit_sound2);
+		hit_sound2 = hit_sound
+       
+		
 		hit_sound_list.push(hit_sound2);
 	
 	}
 	splat_sound = new Media('assets/audio/virus_splat.mp3');
-    splat_sound.load();
-	document.body.appendChild(splat_sound);
+  
 	splat_sound_list.push(splat_sound);
 	
 	for (var i=0;i<4;i++){
-		splat_sound2 = splat_sound.cloneNode();
-        splat_sound2.load();
-		document.body.appendChild(splat_sound2);
+		splat_sound2 = splat_sound
+
 		splat_sound_list.push(splat_sound2);
 	
 	}
 	miss_sound = new Media('assets/audio/miss.mp3');
-    miss_sound.load();
-	document.body.appendChild(miss_sound);
 	miss_sound_list.push(miss_sound);
 	for (var i=0;i<4;i++){
-		miss_sound2 = miss_sound.cloneNode();
-        miss_sound2.load();
-		document.body.appendChild(miss_sound2);
+		miss_sound2 = miss_sound
+
 		miss_sound_list.push(miss_sound2);
 	
 	}
 	notification_sound = new Media('assets/audio/notification.mp3');
 	
-	
-	
-	document.body.appendChild(notification_sound);
-	
-	
-	
-	
-	hit_sound2 = hit_sound.cloneNode();
-	
-	notification_sound2 = hit_sound.cloneNode();
-	
-	
-	document.body.appendChild(hit_sound2);
-	document.body.appendChild(notification_sound2);
 }
 
 var spriteArr = [];
@@ -394,10 +374,9 @@ function editObjects(dt){
                                           height: av_button.size * 1.5});
         spriteArr.push(notificationSprite);
 		av_counter++;
-		if (notification_sound.paused)
-				notification_sound.play();
-			else
-				notification_sound2.play();
+		
+        notification_sound.play();
+		
 				
 		millisecondsPerUpdate = 15000;
 		
