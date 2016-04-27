@@ -44,7 +44,7 @@ var app = {
 		canvas.addEventListener("touchstart",touchStart);
 		canvas.addEventListener("touchend",touchEnd);
 		lastTime = Date.now()
-        test();
+        loadAudio();
 		requestAnimationFrame(main)
 		bucket = new bucket();
 		av_button = new av_button();
@@ -113,8 +113,8 @@ for(i = 0; i < 6; i ++){
 }
 
 
-function test() {
-	hit_sound = new Audio('assets/audio/hit.mp3');
+function loadAudio() {
+	hit_sound = new Media('assets/audio/hit.mp3');
     hit_sound.load();
 	document.body.appendChild(hit_sound);
 	hit_sound_list.push(hit_sound);
@@ -126,7 +126,7 @@ function test() {
 		hit_sound_list.push(hit_sound2);
 	
 	}
-	splat_sound = new Audio('assets/audio/virus_splat.mp3');
+	splat_sound = new Media('assets/audio/virus_splat.mp3');
     splat_sound.load();
 	document.body.appendChild(splat_sound);
 	splat_sound_list.push(splat_sound);
@@ -138,7 +138,7 @@ function test() {
 		splat_sound_list.push(splat_sound2);
 	
 	}
-	miss_sound = new Audio('assets/audio/miss.mp3');
+	miss_sound = new Media('assets/audio/miss.mp3');
     miss_sound.load();
 	document.body.appendChild(miss_sound);
 	miss_sound_list.push(miss_sound);
@@ -149,7 +149,7 @@ function test() {
 		miss_sound_list.push(miss_sound2);
 	
 	}
-	notification_sound = new Audio('assets/audio/notification.mp3');
+	notification_sound = new Media('assets/audio/notification.mp3');
 	
 	
 	
@@ -277,7 +277,7 @@ function update(){
         spriteArr[i].update();
     }
 }
-function playAudio(src) {
+function playMedia(src) {
     
     // Android needs the search path explicitly specified
     if (navigator.userAgent.match(/Android/i) == "Android") {
