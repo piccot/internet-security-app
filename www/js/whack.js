@@ -162,7 +162,7 @@ for (i = 0; i < 2; i++)
 var lastTime;
 function update(){
 	timer = timer - (Date.now() - lastTime)
-        timePercentage = timer/startTimer
+    timePercentage = timer/startTimer
 	if(timer <= 0){
 		
 		stopGame = true;
@@ -374,11 +374,11 @@ function render(){
         ctx.font = "24pt Ariel"
         ctx.textAlign="center";
         ctx.drawImage(bgImage,0,0,window.innerWidth,window.innerHeight)
-        ctx.strokeText(score,40,45);
-        ctx.fillText(score,40,45);
-
-        ctx.drawImage(timeImage, 100, 20, (window.innerWidth - 110) * timePercentage, 25)
-        ctx.drawImage(timeBarImage, 100, 20, window.innerWidth - 110, 25)
+        ctx.strokeText(score,canvas.width*.09,canvas.height*.055);
+        ctx.fillText(score,canvas.width*.09,canvas.height*.055);
+    
+        ctx.drawImage(timeImage, canvas.width *.25, canvas.height*.01, (canvas.width - canvas.width *.3) * timePercentage, canvas.height*.05)
+        ctx.drawImage(timeBarImage, canvas.width*.25, canvas.height*.01, canvas.width - canvas.width *.3, canvas.height*.05)
 
 
         ctx.font = "5vw sans-serif";

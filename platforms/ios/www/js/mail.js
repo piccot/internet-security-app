@@ -335,6 +335,8 @@ function closeMail(choice){
                 openMail.img = rejectAccountImage;
             }
             if (openMail.type >= 4 && openMail.type <= 6){ //bad mail
+                // Technically a correct choice, but no points awarded
+                playMedia("assets/audio/hit.mp3");
                 openMail.img = explosionImage;
             }
             if (openMail.type == 7){ //spam mail
