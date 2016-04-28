@@ -45,7 +45,6 @@ var results_file;
 var questions_file;
 var baseDelay = 5000
 var lastTime;
-//var virusTimer = null;
 var mailCounter = 0;
 var secondsPerMail = 4;
 var time = (secondsPerMail - 1) * 1000;
@@ -57,6 +56,7 @@ var mailOpen = false;
 var score = 0;
 var spamBase = 0;
 var spamFilter = 0;
+var stop_game = false;
 var mailImage = new Image();
 mailImage.src = 'assets/img/mail.png';
 var explosionImage = new Image();
@@ -80,7 +80,10 @@ spamUpImage.src = 'assets/img/spam_up.png';
 var scoreUpImage = new Image();
 scoreUpImage.src = 'assets/img/score_up.png';
 
-
+var mailArr = []
+for(i=0;i<3;i++){
+    mailArr[i] = [];
+}
 var spriteArr = [];
 
 function sprite(options){
@@ -161,7 +164,8 @@ function changeSpam(diff){
     }else{
         spamBase = spamBase + diff;
     }
-    spamFilter = parseFloat((0.8*(spamBase/(spamBase+3))).toFixed(2))
+    // 70% of spam mails blocked at max, takes about 5 spams to get filter up to half of that
+    spamFilter = parseFloat((0.7*(spamBase/(spamBase+5))).toFixed(2))
     
 }
 
@@ -172,11 +176,6 @@ canvas.height = window.innerHeight;
 canvas.position = "absolute";
 document.body.appendChild(canvas)
 
-var mailArr = []
-
-for(i=0;i<3;i++){
-        mailArr[i] = [];
-}
 function update(){
     
     // Update all the things
@@ -194,7 +193,8 @@ function update(){
 }
 
 function gameOver(){
-    window.location.href = 'mail_final.html'
+    stop_game = true;
+    endingPopup()
 }
 function playMedia(src) {
     
@@ -214,11 +214,20 @@ function playMedia(src) {
     mediaRes.play();
     
 }
+
+function scoreDown(){
+    score = score - 200;
+    playMedia("assets/audio/miss.mp3");
+}
+function scoreUp(){
+    score = score + 100;
+    playMedia("assets/audio/hit.mp3");
+}
 function closeMail(choice){
     switch (choice){
         case 0: //accept
             if (openMail.type >= 0 && openMail.type <= 3){ //good mails
-                score = score + 100;
+                scoreUp();
                 var scoreUpSprite = new sprite({
                                                context: canvas.getContext("2d"),
                                                image: scoreUpImage,
@@ -229,17 +238,17 @@ function closeMail(choice){
                                                width: canvas.width/4,
                                                height: canvas.width/4});
                 spriteArr.push(scoreUpSprite);
-                playMedia("assets/audio/hit.wav");
                 openMail.img = explosionImage;
             }
             if (openMail.type == 4){ //bad mail phish
-                score = score - 200;
+                scoreDown();
                 changeSpam(-2);
                 openMail.img = acceptPhishImage;
             }
             if (openMail.type == 5){ //bad mail fake acct
-                score = score - 200;
+                scoreDown();
                 openMail.img = acceptAccountImage;
+                // Makes "permanant" block, so has different delay than other explosions
                 openMail.delay = 999999;
                 var popup = document.getElementsByClassName("popup")[0];
                 popup.parentNode.removeChild(popup);
@@ -256,34 +265,36 @@ function closeMail(choice){
                                             height: canvas.width,
                                             virus: true});
                 spriteArr.push(virusSprite);
-//                mer = 1000;
+                playMedia("assets/audio/power_down.mp3")
                 openMail.img = explosionImage;
             }
             
             if (openMail.type == 7){ //spam mail
+                // Technically a wrong answer, but sometimes accepting Spam is ok, so no loss of points
+                playMedia("assets/audio/miss.mp3");
                 changeSpam(-2);
                 openMail.img = explosionImage;
             }
             break;
         case 1:  //reject
             if (openMail.type == 0){ //good mail teacher
-                score = score - 200;
+                scoreDown();
                 openMail.img = rejectTeachImage;
             }
             if (openMail.type == 1){ //good mail job
-                score = score - 200;
+                scoreDown();
                 openMail.img = rejectJobImage;
             }
             if (openMail.type == 2){ //good mail family
-                score = score - 200;
+                scoreDown();
                 openMail.img = rejectFamilyImage;
             }
             if (openMail.type == 3){ //good mail account
-                score = score - 200;
+                scoreDown();
                 openMail.img = rejectAccountImage;
             }
             if (openMail.type >= 4 && openMail.type <= 6){ //bad mail
-                score = score + 100;
+                scoreUp();
                 var scoreUpSprite = new sprite({
                                               context: canvas.getContext("2d"),
                                               image: scoreUpImage,
@@ -294,39 +305,42 @@ function closeMail(choice){
                                               width: canvas.width/4,
                                               height: canvas.width/4});
                 spriteArr.push(scoreUpSprite);
-                playMedia("assets/audio/hit.wav");
                 openMail.img = explosionImage;
             }
             if (openMail.type == 7){ //spam mail
+                // Technically correct, but no points awarded
+                playMedia("assets/audio/hit.mp3");
                 openMail.img = explosionImage;
             }
             break;
         case 2: //spam
             if (openMail.type == 0){ //good mail teacher
-                score = score - 200;
+                scoreDown();
                 changeSpam(-1);
                 openMail.img = rejectTeachImage;
             }
             if (openMail.type == 1){ //good mail job
-                score = score - 200;
+                scoreDown();
                 changeSpam(-1);
                 openMail.img = rejectJobImage;
             }
             if (openMail.type == 2){ //good mail family
-                score = score - 200;
+                scoreDown();
                 changeSpam(-1);
                 openMail.img = rejectFamilyImage;
             }
             if (openMail.type == 3){ //account
-                score = score - 200;
+                scoreDown();
                 changeSpam(-1);
                 openMail.img = rejectAccountImage;
             }
             if (openMail.type >= 4 && openMail.type <= 6){ //bad mail
+                // Technically a correct choice, but no points awarded
+                playMedia("assets/audio/hit.mp3");
                 openMail.img = explosionImage;
             }
             if (openMail.type == 7){ //spam mail
-                score = score + 100;
+                scoreUp();
                 changeSpam(1);
                 var spamUpSprite = new sprite({
                                             context: canvas.getContext("2d"),
@@ -338,7 +352,6 @@ function closeMail(choice){
                                             width: canvas.width/4,
                                             height: canvas.width/4});
                 spriteArr.push(spamUpSprite);
-                playMedia("assets/audio/hit.wav");
                 openMail.img = explosionImage;
             }
             
@@ -490,11 +503,12 @@ function render(){
 }
 
 function main (){
-
+    if (!stop_game){
+        requestAnimationFrame(main)
+    }
     update()
 	lastTime = Date.now()
 	render()
-	requestAnimationFrame(main)
 }
 if (!Array.prototype.last){
       Array.prototype.last = function(){
@@ -548,19 +562,85 @@ function editObjects(dt){
             if(mailArr[i][j].y <= window.innerHeight - (j+1)*window.innerHeight/8){
                     mailArr[i][j].y = Math.min(mailArr[i][j].y + delta*dt, window.innerHeight - (j+1)*window.innerHeight/8);
             }
-            // Update virusTimer, if it exists, virus has been sprung.  Game over
-//            if (virusTimer) {
-//                virusTimer = virusTimer - dt;
-//                if (virusTimer <= 0){
-//                    gameOver();
-//                }
-//            }
+
         }
     }
 				
 			
 }
-
+function endingPopup(){
+    var oldPopup = document.getElementsByClassName("finalPopup")[0]
+    var oldDimmer = document.getElementsByClassName("dimmer")[0]
+    if(oldPopup){
+        document.body.removeChild(oldPopup);
+        document.body.removeChild(oldDimmer);
+    }
+    var dimmer = document.createElement("div");
+    dimmer.className = "dimmer";
+    document.body.appendChild(dimmer);
+    var popup = document.createElement("div");
+    popup.className = "finalPopup";
+    var gameOver = document.createElement("div");
+    gameOver.className = "gameOver";
+    gameOver.innerHTML = "GAME OVER";
+    popup.appendChild(gameOver);
+    var missedContainer = document.createElement("div");
+    missedContainer.className = "finalScoreContainer";
+    
+    var missed = document.createElement("span");
+    missed.className = "finalScore";
+    missed.innerHTML = "Final Score: " + score;
+    missedContainer.appendChild(missed)
+    var next = document.createElement("button");
+    next.innerHTML = "Play Again"
+    next.className = "restart";
+    next.addEventListener('touchend', function(event){
+                          event.preventDefault();
+                          event.stopPropagation();
+                          restartGame();
+                          return true;
+                          
+                          });
+    var mainMenu = document.createElement("button");
+    mainMenu.innerHTML = "Main Menu"
+    mainMenu.className = "mainMenu";
+    mainMenu.addEventListener('touchend', function(event){
+                              event.preventDefault();
+                              event.stopPropagation();
+                              window.location.href = 'main.html'
+                              return true;
+                              });
+    popup.appendChild(missedContainer)
+    popup.appendChild(next)
+    popup.appendChild(mainMenu);
+    document.body.appendChild(popup)
+}
+function restartGame(){
+    var oldPopup = document.getElementsByClassName("finalPopup")[0]
+    var oldDimmer = document.getElementsByClassName("dimmer")[0]
+    if(oldPopup){
+        document.body.removeChild(oldPopup);
+        document.body.removeChild(oldDimmer);
+    }
+    mailArr = [];
+    for(i=0;i<3;i++){
+        mailArr[i] = [];
+    }
+    spriteArr = [];
+    mailCounter = 0;
+    secondsPerMail = 4;
+    time = (secondsPerMail - 1) * 1000;
+    if (mailOpen){
+        var popup = document.getElementsByClassName("popup")[0];
+        popup.parentNode.removeChild(popup);
+        mailOpen = false;
+        openMail = null;
+    }
+    score = 0;
+    stop_game = false;
+    lastTime = Date.now()
+    main();
+}
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
