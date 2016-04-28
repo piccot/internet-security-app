@@ -36,8 +36,8 @@ var app = {
                                     console.log(filedata);
 					jsonObject = JSON.parse(filedata)
                                     lastTime = Date.now()
-                                    loadAudio();
-                                    main();
+                                     document.getElementsByClassName('back')[0].onclick = back;
+									document.getElementsByClassName('play')[0].onclick = play;
 
 				};
 				reader.readAsText(file);
@@ -86,26 +86,38 @@ var miss_sound_index = 0;
 var hit_sound2;
 var miss_sound2;
 function loadAudio() {
-	hit_sound = new Media('assets/audio/hit.mp3');
-	
+	hit_sound = new Audio('assets/audio/hit.mp3');
+	hit_sound.load();
 	hit_sound_list.push(hit_sound);
 	
 	for (var i=0;i<4;i++){
 		hit_sound2 = hit_sound;
-		
+		hit_sound2.load();
 		hit_sound_list.push(hit_sound2);
 	
 	}
-	miss_sound = new Media('assets/audio/miss.mp3');
-	
+	miss_sound = new Audio('assets/audio/miss.mp3');
+	miss_sound.load();
 	miss_sound_list.push(miss_sound);
 	for (var i=0;i<4;i++){
 		miss_sound2 = miss_sound;
-	
+		miss_sound2.load();
 		miss_sound_list.push(miss_sound2);
 	
 	}
   
+}
+function play(){
+    document.body.removeChild(document.getElementById("introContainer"));
+	loadAudio();
+	main();
+    
+}
+
+function back(){
+    window.location.href = 'main.html' + location.search
+    
+    
 }
 function moleHole(x,y){
 	this.x = x;

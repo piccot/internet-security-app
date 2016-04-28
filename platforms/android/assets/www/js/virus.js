@@ -41,11 +41,11 @@ var app = {
 		canvas.width = window.innerWidth;
 		document.body.appendChild(canvas)
 		document.getElementsByClassName('back')[0].onclick = back;
-		document.getElementsByClassName('play')[0].onclick = play;
+		document.getElementsByClassName('play')[0].onclick = playButton;
         canvas.addEventListener('touchmove', touchMove);
 		canvas.addEventListener("touchstart",touchStart);
 		canvas.addEventListener("touchend",touchEnd);
-		lastTime = Date.now()
+		
 
 		bucket = new bucket();
 		av_button = new av_button();
@@ -150,10 +150,11 @@ function loadAudio() {
 }
 
 var spriteArr = [];
-function play(){
+function playButton(){
+    
 	document.body.removeChild(document.getElementById("introContainer"));
    loadAudio();
-   
+   lastTime = Date.now()
    requestAnimationFrame(main);
     
 }
@@ -161,11 +162,6 @@ function play(){
 function back(){
     window.location.href = 'main.html' + location.search
     
-    
-}
-function begin(){
-    document.getElementsByClassName('back')[0].onclick = back;
-    document.getElementsByClassName('play')[0].onclick = play;
     
 }
 function sprite(options){
@@ -527,7 +523,7 @@ function touchEnd(e,kill){
 				for(var i = 0; i < score_arr.length; i++){
 					score_arr[i].currX = score_arr[i].baseX  + score_arr[i].width * (i%4);
 					score_arr[i].currY = score_arr[i].baseY + score_arr[i].height * Math.floor(i/4);
-					score_arr[i].dx = (canvas.width*.45 - (score_arr[i].baseX  + score_arr[i].width * (i%4)))/1000;
+					score_arr[i].dx = (canvas.width*.35 - (score_arr[i].baseX  + score_arr[i].width * (i%4)))/1000;
 					score_arr[i].dy = (canvas.height/2 - (score_arr[i].baseY + score_arr[i].height * Math.floor(i/4)))/1000
 				}
 				
@@ -663,6 +659,8 @@ var oldPopup = document.getElementsByClassName("finalPopup")[0]
 		document.body.removeChild(oldDimmer);
 		}
 	virus_arr = [];
+	score_arr = [];
+	score_arr2 = [];
 	held = null;
 	score = 0;
 	imagesCollected = 0;
