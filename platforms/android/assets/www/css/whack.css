@@ -6,7 +6,6 @@ html,body{
     width:100%;
     height:100%;
     margin:0px;
-    white-space:nowrap;
     -webkit-text-size-adjust: none;
 	
 }
@@ -226,7 +225,7 @@ top:35%;
     width: 33%;
 }
 #introContainer{
-	background: url("../assets/img/whackBG.png");
+	background: url("../assets/img/passBG.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
 	width:100%;

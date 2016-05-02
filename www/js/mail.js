@@ -29,8 +29,8 @@ var app = {
 					filedata=this.result;
                     jsonObject = JSON.parse(filedata);
                                     document.addEventListener("touchstart",touchStart);
-                                    lastTime = Date.now()
-                                    main();
+                                    document.getElementsByClassName('back')[0].onclick = back;
+									document.getElementsByClassName('play')[0].onclick = play;
 
 				};
 				reader.readAsText(file);
@@ -85,7 +85,22 @@ for(i=0;i<3;i++){
     mailArr[i] = [];
 }
 var spriteArr = [];
+function play(){
+	
+    document.body.removeChild(document.getElementById("introContainer"));
+	
+	lastTime = Date.now()
+	
+	main();
+	
+    
+}
 
+function back(){
+    window.location.href = 'main.html' + location.search
+    
+    
+}
 function sprite(options){
     
     var self = this;
