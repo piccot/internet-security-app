@@ -20,9 +20,9 @@ body {
     );
     background-attachment:fixed;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
-    font-size:12px;
+   
     height:100%;
-    margin:0px;
+   
     padding:0px;
     width:100%;
 }
@@ -144,9 +144,20 @@ h1 {
     display: block;
 }
 
+#introContainer{
+	background: url("../assets/img/emailBG.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+	width:100%;
+	height:100%;
+    position:absolute;
+	z-index:5;
+}
 canvas{
     position: absolute;
     z-index: 1;
+	top:0px;
+	left:0px;
 }
 .dimmer{
     position:fixed;
@@ -224,4 +235,87 @@ canvas{
     font-size: 3.2vh;
     margin-bottom: 4%;
     
+}
+
+body{
+	background: url("../assets/img/emailBGDark.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+.play{
+    width: 75%;
+    position: absolute;
+    left: 12.5%;
+    bottom: 12%;
+    background-color: #3EFF3E;
+    box-shadow: 0px 1px 1px rgba(000,000,000,0.5), inset 1px 2px 0px rgba(255,255,255,0.4);
+    border: 1px solid #965F06;
+    border-radius: 28px;
+    height: 8%;
+    font-size: 31pt;
+}
+.instructionHeader{
+    
+    
+    position: relative;
+    top: 5%;
+    color: white;
+    font-size: 7vw;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    white-space: normal;
+}
+.instruction{
+    font-size:5vw;
+    white-space:normal;
+    width:60%;
+    color:white;
+    padding-top:5.5%;
+    padding-bottom:5.5%;
+
+}
+.instructionContainer{
+    position: relative;
+    width: 100%;
+	top:5%;
+    
+
+}
+html,body{
+    width:100%;
+    height:100%;
+    margin:0px;
+    -webkit-text-size-adjust: none;
+	
+}
+.back{
+    width: 70%;
+    position: absolute;
+    left: 15%;
+    bottom: 1%;
+    height: 20%;
+    background-color: #FFBA3A;
+    box-shadow: 0px 1px 1px rgba(000,000,000,0.5), inset 1px 2px 0px rgba(255,255,255,0.4);
+    border: 1px solid #965F06;
+    border-radius: 28px;
+    height: 8%;
+    font-size: 24pt;
+    margin-bottom: 4%;
+    
+}
+center {
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    
+}
+.header{
+    position: relative;
+    top: 3%;
+    font-size: 50pt;
+    width:100%;
+	height:20%:
 }

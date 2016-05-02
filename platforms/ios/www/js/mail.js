@@ -1,7 +1,7 @@
-//window.onerror = function(msg, url, linenumber) {
-//    alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
-//    return true;
-//}
+// window.onerror = function(msg, url, linenumber) {
+   // alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+   // return true;
+// }
 var app = {
 
   
@@ -19,6 +19,19 @@ var app = {
         					jsonObject = JSON.parse('[{"id":1,"To":"you@email.com","From":"me@email.com","Subject":"Grades","Attachments":"test.exe","Type":0,"Body":"This is professor X, I must speak with you about your most recent exam.  Please come to my next office hours session."},{"id":2,"To":"you@email.com","From":"me@email.com","Subject":"Job Opportunity","Attachments":"test.exe","Type":1,"Body":"Hello, I am writing to inform you about a job opportunity.  Please respond if you are interested"},{"id":3,"To":"you@email.com","From":"me@email.com","Subject":" Visit","Attachments":"test.exe","Type":2,"Body":"This is your grandmother, your uncle Barry said to send you an electronic mail, so that is what I am doing.  I need help fixing my VCR, please call soon"},{"id":4,"To":"you@email.com","From":"me@email.com","Subject":"Account Security","Attachments":"test.exe","Type":3,"Body":"Due to some changes in account security settings, we are asking all of our valued customers to log into their online accounts and update certain settings.  Thank you"},{"id":5,"To":"you@email.com","From":"me@email.com","Subject":"CA$H","Attachments":"test.exe","Type":4,"Body":"hello I am the prince of azerbaijan, in the power struggle of the royal family I have been temporarily compromised.  If you send your bank account information you will be rewarded generously in 1 years time thank you"},{"id":6,"To":"you@email.com","From":"me@email.com","Subject":"SECURITY ALERT","Attachments":"test.exe","Type":5,"Body":"Dear valued customer, your account may have been compromised, please respond with your password and your account will be secured"},{"id":7,"To":"you@email.com","From":"me@email.com","Subject":"New App!","Attachments":"test.exe","Type":6,"Body":"We are excited to share our new, FREE app with you! Please download the attached file to join in on the fun!"},{"id":8,"To":"you@email.com","From":"me@email.com","Subject":"BOATS BOATS BOATS","Attachments":"test.exe","Type":7,"Body":"COME ON DOWN TO BOATSVILLE FOR THE BET DEALS ON ALL THE NEW 2016 BOATS, YOU CAN NOT BEAT THESE DEALS"}]');
         
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
+		dir.getFile("info.json", {create:true}, function(update_file) {
+				update_file.file(function(file) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					filedata=this.result;
+					var jsonObject = JSON.parse(filedata);
+					pid = filedata.PID;
+					
+				};
+				reader.readAsText(file);
+			}, fail);
+				
+		});
         dir.getFile("mail_results.json", {create:true}, function(file) {
             results_file = file;
 			dir.getFile("mail_questions.json", {create:true}, function(file) {
@@ -29,8 +42,8 @@ var app = {
 					filedata=this.result;
                     jsonObject = JSON.parse(filedata);
                                     document.addEventListener("touchstart",touchStart);
-                                    lastTime = Date.now()
-                                    main();
+                                    document.getElementsByClassName('back')[0].onclick = back;
+									document.getElementsByClassName('play')[0].onclick = play;
 
 				};
 				reader.readAsText(file);
@@ -54,9 +67,14 @@ var baseSpeed = 4500;
 var delta = window.innerHeight / baseSpeed;
 var mailOpen = false;
 var score = 0;
+var game_id = 1;
 var spamBase = 0;
+var pid;
 var spamFilter = 0;
 var stop_game = false;
+var results_arr = [];
+var results_arr2 = [];
+var disableClick = false;
 var mailImage = new Image();
 mailImage.src = 'assets/img/mail.png';
 var explosionImage = new Image();
@@ -85,7 +103,22 @@ for(i=0;i<3;i++){
     mailArr[i] = [];
 }
 var spriteArr = [];
+function play(){
+	
+    document.body.removeChild(document.getElementById("introContainer"));
+	
+	lastTime = Date.now()
+	
+	main();
+	
+    
+}
 
+function back(){
+    window.location.href = 'main.html' + location.search
+    
+    
+}
 function sprite(options){
     
     var self = this;
@@ -142,7 +175,7 @@ function sprite(options){
 }
 
 
-function mail(pos, text, type, sub,to,from,attach){
+function mail(pos, text, type, sub,to,from,attach,id){
 	this.x = pos * window.innerWidth/3;
 	this.y = 0;
     this.width = window.innerWidth/3;
@@ -156,6 +189,7 @@ function mail(pos, text, type, sub,to,from,attach){
 	this.to = to;
 	this.from=from;
 	this.attach=attach;
+	this.id = id
 }
 
 function changeSpam(diff){
@@ -224,6 +258,7 @@ function scoreUp(){
     playMedia("assets/audio/hit.mp3");
 }
 function closeMail(choice){
+	results_arr.push({"id":openMail.id,"selected":choice,"game_id":game_id});
     switch (choice){
         case 0: //accept
             if (openMail.type >= 0 && openMail.type <= 3){ //good mails
@@ -526,7 +561,7 @@ function editObjects(dt){
         // Create new mail and push it to mailArr in a random column
         var randomMail = getRandomInt(0,jsonObject.length -1)
         var randomColumn = Math.floor(Math.random() * 3)
-        mailArr[randomColumn].push(new mail(randomColumn, jsonObject[randomMail].mail_body,jsonObject[randomMail].mail_type,jsonObject[randomMail].mail_subject,jsonObject[randomMail].mail_to,jsonObject[randomMail].mail_from,jsonObject[randomMail].mail_attachments))
+        mailArr[randomColumn].push(new mail(randomColumn, jsonObject[randomMail].mail_body,jsonObject[randomMail].mail_type,jsonObject[randomMail].mail_subject,jsonObject[randomMail].mail_to,jsonObject[randomMail].mail_from,jsonObject[randomMail].mail_attachments,jsonObject[randomMail].id))
         
     }
     if (mailCounter == 5 && secondsPerMail > 1){
@@ -607,7 +642,26 @@ function endingPopup(){
     mainMenu.addEventListener('touchend', function(event){
                               event.preventDefault();
                               event.stopPropagation();
-                              window.location.href = 'main.html'
+							  
+                            
+							if (!disableClick){
+							 disableClick=true;
+								var xhttp = new XMLHttpRequest();
+								
+								xhttp.onreadystatechange = function() {
+
+								if (xhttp.readyState == 4 && xhttp.status == 200) {
+									window.location.href = 'main.html'
+									
+								}
+								};
+							
+								xhttp.open("GET", "http://cybersafegames.unc.edu/mail_results_add.php?pid=" + pid + "&json_data=" + encodeURIComponent(JSON.stringify(results_arr)), true);
+								
+								xhttp.send();
+
+							}
+							
                               return true;
                               });
     popup.appendChild(missedContainer)
@@ -628,6 +682,7 @@ function restartGame(){
     }
     spriteArr = [];
     mailCounter = 0;
+	game_id = game_id +1;
     secondsPerMail = 4;
     time = (secondsPerMail - 1) * 1000;
     if (mailOpen){

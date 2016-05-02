@@ -22,41 +22,46 @@ var app = {
         document.addEventListener("touchstart",touchStart);
         document.addEventListener("touchend",touchEnd);
         
+        
+                    
+    
         //requestAnimationFrame(main)
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
-        
         dir.getFile("whack_results.json", {create:true}, function(file) {
-		dir.getFile("info.json", {create:true}, function(update_file) {
-				update_file.file(function(file) {
-				var reader = new FileReader();
-				reader.onload = function(e) {
-					filedata=this.result;
-					var jsonObject = JSON.parse(filedata);
-					pid = filedata.PID;
-					
-				};
-				reader.readAsText(file);
-			}, fail);
-				
-		});
+		
             results_file = file;
-			dir.getFile("whack_questions.json", {create:true}, function(file) {
-				questions_file = file;
-				questions_file.file(function(file) {
-				var reader = new FileReader();
-				reader.onload = function(e) {
-					filedata=this.result;
-                                    console.log(filedata);
-					jsonObject = JSON.parse(filedata)
+            dir.getFile("info.json", {create:true}, function(file) {
+                        update_file = file;
+                        dir.getFile("whack_questions.json", {create:true}, function(file) {
+                                    questions_file = file;
+                                    questions_file.file(function(file) {
+                                    var reader = new FileReader();
+                                    reader.onload = function(e) {
+                                    filedata=this.result;
+                                                        
+                                    jsonObject = JSON.parse(filedata)
+                                    update_file.file(function(file) {
+                                        var reader = new FileReader();
+                                        reader.onload = function(e) {
+                                            
+                                            filedata=this.result;
+                                                     console.log(filedata);
+                                                     filedata = JSON.parse(filedata);
+                                                     console.log(filedata);
+                                            pid = filedata.PID;
+                                                     document.getElementsByClassName('back')[0].onclick = back;
+                                                     document.getElementsByClassName('play')[0].onclick = play;
+                                                     };
+                                    reader.readAsText(file);
+                                    }, fail);
                                     
-                                     document.getElementsByClassName('back')[0].onclick = back;
-									document.getElementsByClassName('play')[0].onclick = play;
 
 				};
 				reader.readAsText(file);
 			}, fail);
 					
 			});
+                        })
         });
 	});
     },
@@ -75,6 +80,7 @@ var stopGame = false;
 var startTimer = 30000;
 var timer = startTimer;
 var pid;
+var update_file;
 var bgImage = new Image();
 bgImage.src = 'assets/img/passBG.png';
 var timeBarImage = new Image();
