@@ -25,7 +25,7 @@ var app = {
     initialize: function() {
         this.bindEvents();
 			
-		//loadJSONData()
+		
 	},
 
     bindEvents: function() {
@@ -36,7 +36,7 @@ var app = {
     onDeviceReady: function() {	
 		canvas = document.createElement("canvas");
 		ctx = canvas.getContext("2d");
-		// window.screen.lockOrientation('portrait')
+		//Set up the Canvas and create click functions
 		canvas.height = window.innerHeight;
 		canvas.width = window.innerWidth;
 		document.body.appendChild(canvas)
@@ -60,6 +60,7 @@ var previousImage = 0;
 var totalImages = 1;
 var score_image_arr = [];
 var key_image_arr = [];
+//Load the Key image (image you are building) into an array to use later
 for (i=0;i<4;i++){
 	for(j=0;j<4;j++){
 		var tempImage = new Image();
@@ -107,13 +108,14 @@ var hit_sound2;
 var miss_sound2;
 var splat_sound2;
 var notification_sound2;
+//Load the Antivirus counter image (image in the bottom right) to be used later
 for(i = 0; i < 6; i ++){
 	var av_count_image = new Image();
 	av_count_image.src = 'assets/img/av_count_' + i + '.png';
 	av_arr.push(av_count_image);
 }
 
-
+//Load all sounds for this game, called after the onclick event on the Play button
 function loadAudio() {
 	hit_sound = new Audio('assets/audio/hit.mp3');
 	hit_sound.load();
@@ -150,6 +152,7 @@ function loadAudio() {
 }
 
 var spriteArr = [];
+//Play button in the main splash screen
 function playButton(){
     
 	document.body.removeChild(document.getElementById("introContainer"));
@@ -158,12 +161,13 @@ function playButton(){
    requestAnimationFrame(main);
     
 }
-
+//Back button in hte main splash screen
 function back(){
     window.location.href = 'main.html' + location.search
     
     
 }
+//Function for animations
 function sprite(options){
     
     var self = this;
@@ -216,6 +220,7 @@ function sprite(options){
 
 
 var virus_arr = [];
+//This if ro Both green and Red objects, Type=1 is datachips, Type=2 is viruses
 function virus(x,y,dx,dy,id,type,mod){
 	this.x = x;
 	this.y=y;
@@ -230,6 +235,7 @@ function virus(x,y,dx,dy,id,type,mod){
 	this.dx = dx * (Math.pow(1+av_speed_mod,mod))
 	this.dy = dy * (Math.pow(1+av_speed_mod,mod))
 }
+//This is for the animation where the image goes into the vortex
 function score_blob() {	
 	this.baseX = canvas.width - canvas.height * .2;
 	this.baseY = 0;
@@ -243,12 +249,14 @@ function score_blob() {
 
 
 }
+//download folder
 function bucket(){
 	this.x = canvas.width - canvas.height * .2;
 	this.y = 0;
 	this.size = canvas.height * .2;
 
 }
+//AV update button in the bottom right
 function av_button(){
 	this.x = canvas.width*.8;
 	this.y = canvas.height*.89;
@@ -256,6 +264,7 @@ function av_button(){
 
 }
 var lastTime = Date.now();
+//main game loop
 function main (){
 	if (!stop_game)
 		requestAnimationFrame(main);
@@ -271,24 +280,6 @@ function update(){
     for(var i = 0;i < spriteArr.length;i++){
         spriteArr[i].update();
     }
-}
-function playMedia(src) {
-    
-    // Android needs the search path explicitly specified
-    if (navigator.userAgent.match(/Android/i) == "Android") {
-        src = '/android_asset/www/' + src;
-    }
-    
-    var mediaRes = new Media(src,
-                             function onSuccess() {
-                             // release the media resource once finished playing
-                             mediaRes.release();
-                             },
-                             function onError(e){
-                             console.log("error playing sound: " + JSON.stringify(e));
-                             });
-    mediaRes.play();
-    
 }
 
 function render(){
@@ -339,13 +330,16 @@ var millisecondsPerUpdate = 15000;
 var av_open = false;
 var av_update = false;
 var av_update_counter = 0;
+//For logicically moving objects in the game, also used for ending the game and bringing up the popup, called in update()
 function editObjects(dt){
 	timeRemaining = timeRemaining - dt;
     timePercentage = timeRemaining/startTime;
+	//end the game if time is up
     if (timeRemaining <= 0){
 	  stop_game = true;
 	  endingPopup()
     }
+	//Flashing Red background
     if (virusEscapeTimer){
         virusEscapeTimer = virusEscapeTimer - dt;
         if (virusEscapeTimer <= 0){
@@ -353,6 +347,7 @@ function editObjects(dt){
             virusEscapeTimer = null;
         }
     }
+	//See if any Datchips or Virsues have reached the edge of the screen
 	for(var i = 0; i < virus_arr.length; i++){
 		var current = virus_arr[i];
 		current.x = current.x + current.dx * dt;
@@ -370,6 +365,7 @@ function editObjects(dt){
 		}
 		
 	}
+	//Moving image into the vortex
 	for(var i = 0; i < score_arr2.length; i++){
 		score_arr2[i].currX = score_arr2[i].currX + score_arr2[i].dx * dt;
 		score_arr2[i].currY = score_arr2[i].currY + score_arr2[i].dy * dt;
@@ -400,6 +396,7 @@ function editObjects(dt){
 	{
 		millisecondsPerUpdate = millisecondsPerUpdate - dt;
 	}
+	//If you are updating your antivirus
 	if (av_update){
 		av_update_counter = av_update_counter - dt;
 		if (av_update_counter <= 0){		
@@ -413,6 +410,7 @@ function editObjects(dt){
 			}			
 		} 
 	}
+	//Randomly add a object be in green or red
 	if (Math.random() * (virus_arr.length/4 + 1) < (1/millisecondsPerVirus)*dt){
 		var rnd = getRandomInt(0,3);
 		
@@ -479,10 +477,12 @@ function touchStart(e){
 			for(j=0;j<virus_arr.length;j++){
 				if(e.touches[0].pageX >= virus_arr[j].x - virus_arr[j].width /2 && e.touches[0].pageX <= virus_arr[j].x + virus_arr[j].width *1.5 && e.touches[0].pageY >= virus_arr[j].y - virus_arr[j].height /2 && e.touches[0].pageY <= virus_arr[j].y + virus_arr[j].height *1.5){
 					if (virus_arr[j].type == 1){
+					//picking up a green
 						held = virus_arr[j];
 						virus_arr.splice(j,1);
 						}
 					else{
+					//splating a red
 						splat_sound_list[splat_sound_index%5].play();
 						splat_sound_index++;
                         var virusSplatSprite = new sprite({
@@ -504,6 +504,7 @@ function touchStart(e){
 					return true;
 				}
 			}
+			//clicked the av_update button
 			if (e.touches[0].pageX >= av_button.x && e.touches[0].pageX <= av_button.x +av_button.size && e.touches[0].pageY >= av_button.y && e.touches[0].pageY <= av_button.y + av_button.size){
 				if (!av_open && av_counter > 0)
 					antiVirusPopup();
@@ -536,7 +537,7 @@ function touchEnd(e,kill){
 				hit_sound_list[hit_sound_index%5].play();
 				hit_sound_index++;
 		}
-		else
+		else //just remove the object all together if it was called from the kill area in touchMove, don't put it back into the game
 			if (!kill)
 				virus_arr.push(held);
 		held = null;
@@ -547,7 +548,7 @@ function touchMove(e){
 	if (held){
 		held.x = e.touches[0].pageX - held.width/2;
 		held.y = e.touches[0].pageY - held.height/2;
-		
+		//if it is near the edge,kill the object
 		if ( e.touches[0].pageX / canvas.width >.98)
 			touchEnd(e,true);
 	} else {
@@ -562,6 +563,7 @@ function touchMove(e){
 			}
 	}
 }
+//for finding a vius in the array by id
 function virusIndex(id){
 	for(var i = 0; i < virus_arr.length; i++){
 		if (virus_arr[i].id == id)
