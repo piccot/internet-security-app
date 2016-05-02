@@ -19,21 +19,11 @@ var app = {
         					jsonObject = JSON.parse('[{"id":1,"To":"you@email.com","From":"me@email.com","Subject":"Grades","Attachments":"test.exe","Type":0,"Body":"This is professor X, I must speak with you about your most recent exam.  Please come to my next office hours session."},{"id":2,"To":"you@email.com","From":"me@email.com","Subject":"Job Opportunity","Attachments":"test.exe","Type":1,"Body":"Hello, I am writing to inform you about a job opportunity.  Please respond if you are interested"},{"id":3,"To":"you@email.com","From":"me@email.com","Subject":" Visit","Attachments":"test.exe","Type":2,"Body":"This is your grandmother, your uncle Barry said to send you an electronic mail, so that is what I am doing.  I need help fixing my VCR, please call soon"},{"id":4,"To":"you@email.com","From":"me@email.com","Subject":"Account Security","Attachments":"test.exe","Type":3,"Body":"Due to some changes in account security settings, we are asking all of our valued customers to log into their online accounts and update certain settings.  Thank you"},{"id":5,"To":"you@email.com","From":"me@email.com","Subject":"CA$H","Attachments":"test.exe","Type":4,"Body":"hello I am the prince of azerbaijan, in the power struggle of the royal family I have been temporarily compromised.  If you send your bank account information you will be rewarded generously in 1 years time thank you"},{"id":6,"To":"you@email.com","From":"me@email.com","Subject":"SECURITY ALERT","Attachments":"test.exe","Type":5,"Body":"Dear valued customer, your account may have been compromised, please respond with your password and your account will be secured"},{"id":7,"To":"you@email.com","From":"me@email.com","Subject":"New App!","Attachments":"test.exe","Type":6,"Body":"We are excited to share our new, FREE app with you! Please download the attached file to join in on the fun!"},{"id":8,"To":"you@email.com","From":"me@email.com","Subject":"BOATS BOATS BOATS","Attachments":"test.exe","Type":7,"Body":"COME ON DOWN TO BOATSVILLE FOR THE BET DEALS ON ALL THE NEW 2016 BOATS, YOU CAN NOT BEAT THESE DEALS"}]');
         
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
-		dir.getFile("info.json", {create:true}, function(update_file) {
-				update_file.file(function(file) {
-				var reader = new FileReader();
-				reader.onload = function(e) {
-					filedata=this.result;
-					var jsonObject = JSON.parse(filedata);
-					pid = filedata.PID;
-					
-				};
-				reader.readAsText(file);
-			}, fail);
-				
-		});
+		
         dir.getFile("mail_results.json", {create:true}, function(file) {
-            results_file = file;
+             results_file = file;
+            dir.getFile("info.json", {create:true}, function(file) {
+                        update_file = file;
 			dir.getFile("mail_questions.json", {create:true}, function(file) {
 				questions_file = file;
 				questions_file.file(function(file) {
@@ -41,13 +31,27 @@ var app = {
 				reader.onload = function(e) {
 					filedata=this.result;
                     jsonObject = JSON.parse(filedata);
-                                    document.addEventListener("touchstart",touchStart);
+					update_file.file(function(file) {
+                                        var reader = new FileReader();
+                                        reader.onload = function(e) {
+                                            
+                                            filedata=this.result;
+                                                 
+                                                     filedata = JSON.parse(filedata);
+                                                     
+                                            pid = filedata.PID;
+                                                     document.addEventListener("touchstart",touchStart);
                                     document.getElementsByClassName('back')[0].onclick = back;
 									document.getElementsByClassName('play')[0].onclick = play;
+                                                     };
+                                    reader.readAsText(file);
+                                    }, fail);
+                                    
 
 				};
 				reader.readAsText(file);
 			}, fail);
+			});
 			});
         });
 	});
@@ -69,6 +73,7 @@ var mailOpen = false;
 var score = 0;
 var game_id = 1;
 var spamBase = 0;
+var update_file
 var pid;
 var spamFilter = 0;
 var stop_game = false;

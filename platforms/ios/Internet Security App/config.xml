@@ -68,6 +68,7 @@
        Daniel Piccot and Matt Hill
     </author>
     <content src="main_initial.html" />
+    <icon platform="ios" src="www/assets/img/icon_iphone.png" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />

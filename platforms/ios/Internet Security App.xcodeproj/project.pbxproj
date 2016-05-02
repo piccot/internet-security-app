@@ -17,9 +17,6 @@
 		301BF552109A68D80062928A /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF535109A57CC0062928A /* libCordova.a */; };
 		302D95F114D2391D003F00A1 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302D95EF14D2391D003F00A1 /* MainViewController.m */; };
 		302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302D95F014D2391D003F00A1 /* MainViewController.xib */; };
-		3047A5121AB8059700498E2A /* build-debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3047A50F1AB8059700498E2A /* build-debug.xcconfig */; };
-		3047A5131AB8059700498E2A /* build-release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3047A5101AB8059700498E2A /* build-release.xcconfig */; };
-		3047A5141AB8059700498E2A /* build.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3047A5111AB8059700498E2A /* build.xcconfig */; };
 		384EEC6222964D42B77F9CD3 /* CDVWKWebViewEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E037574776741939789C3E8 /* CDVWKWebViewEngine.m */; };
 		52ACBE67EAA24E339AF35DCA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE72A1BB960A4D4EBFB8F9EF /* AudioToolbox.framework */; };
 		541E4C0F7D294B6CBBBC1644 /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = FA350461F5814EC8A03DF0F6 /* CDVFile.m */; };
@@ -28,11 +25,8 @@
 		7E1176920BF345629BA762C7 /* CDVFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 06291B4B24664CD583AB02B7 /* CDVFileTransfer.m */; };
 		84724CDADD244C15BC929A0D /* CDVViewController+SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C0EFD46D3F4C3CAFCD488E /* CDVViewController+SplashScreen.m */; };
 		868F6434A15143A7BC1B4911 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9A8547A6EFE4733933BC33F /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		8E809395F62A4B8880A8A1A7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2021CB8561CA4FF0A6A47DB7 /* AVFoundation.framework */; };
-		9046BF4C42864255870910C8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B312427745E4949BC9AA56F /* AudioToolbox.framework */; };
 		92409D72CFAB4229AD797F4D /* NativeAudioAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C5FC34042142EDAF5D7502 /* NativeAudioAsset.m */; };
 		92C2D40E3DCE4DAA9202CB6A /* CDVLocalFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F2909DC2C44772B36C503A /* CDVLocalFilesystem.m */; };
-		A05A074684A04FC8B5C2C9D0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A31A37D937DA43AA80EE5D0D /* Foundation.framework */; };
 		B69AEA9A1FF14AC3A031A05C /* CDVSound.m in Sources */ = {isa = PBXBuildFile; fileRef = 53F7CB2A3199481E8D7F0D6D /* CDVSound.m */; };
 		B77084CEC9D846D4BB461AF1 /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 712282E12703429BBD419A3E /* CDVAssetLibraryFilesystem.m */; };
 		BF49F894F5A84F4C8E87B400 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1675353AB2674A7889B01327 /* Foundation.framework */; };
@@ -120,9 +114,6 @@
 				BF49F894F5A84F4C8E87B400 /* Foundation.framework in Frameworks */,
 				62333D3779764336BF6A1A75 /* AVFoundation.framework in Frameworks */,
 				52ACBE67EAA24E339AF35DCA /* AudioToolbox.framework in Frameworks */,
-				A05A074684A04FC8B5C2C9D0 /* Foundation.framework in Frameworks */,
-				8E809395F62A4B8880A8A1A7 /* AVFoundation.framework in Frameworks */,
-				9046BF4C42864255870910C8 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,7 +283,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 510;
+				LastUpgradeCheck = 0730;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = MQU735U688;
@@ -337,10 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
-				3047A5131AB8059700498E2A /* build-release.xcconfig in Resources */,
-				3047A5141AB8059700498E2A /* build.xcconfig in Resources */,
 				0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */,
-				3047A5121AB8059700498E2A /* build-debug.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,6 +407,7 @@
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "Internet Security App/Internet Security App-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = io.internetsecurityapp;
 				PRODUCT_NAME = "Internet Security App";
 				PROVISIONING_PROFILE = "";
 			};
@@ -441,6 +430,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "Internet Security App/Internet Security App-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = io.internetsecurityapp;
 				PRODUCT_NAME = "Internet Security App";
 				PROVISIONING_PROFILE = "";
 			};
@@ -458,6 +448,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";

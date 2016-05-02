@@ -8,6 +8,7 @@
        Daniel Piccot and Matt Hill
     </author>
     <content src="main_initial.html" />
+    <icon src="www/assets/img/icon_iphone.png" platform="ios"/>
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
