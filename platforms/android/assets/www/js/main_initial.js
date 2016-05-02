@@ -177,12 +177,10 @@ function writeWhackQuestionsToFile(){
 
 function writeMailQuestionsToFile(){
 	var filedata
-    alert("test");
     mail_questions_file.file(function(file) {
         var reader = new FileReader();
         reader.onload = function(e) {			
 			filedata=this.result;
-                             alert("test2");
 			mail_questions_file.createWriter(function(fileWriter) {
 				fileWriter.truncate(0);
                 

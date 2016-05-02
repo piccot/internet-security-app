@@ -1,7 +1,7 @@
-//window.onerror = function(msg, url, linenumber) {
-//    alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
-//    return true;
-//}
+// window.onerror = function(msg, url, linenumber) {
+   // alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+   // return true;
+// }
 var app = {
 
   
@@ -26,6 +26,19 @@ var app = {
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
         
         dir.getFile("whack_results.json", {create:true}, function(file) {
+		dir.getFile("info.json", {create:true}, function(update_file) {
+				update_file.file(function(file) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					filedata=this.result;
+					var jsonObject = JSON.parse(filedata);
+					pid = filedata.PID;
+					
+				};
+				reader.readAsText(file);
+			}, fail);
+				
+		});
             results_file = file;
 			dir.getFile("whack_questions.json", {create:true}, function(file) {
 				questions_file = file;
@@ -54,12 +67,14 @@ var finger_x;
 var finger_y;
 var questions_file
 var results_arr = []
+var game_id = 1;
 var baseDelay = 5000
 var hitMissDelay = 2000
 var score = 0;
 var stopGame = false;
 var startTimer = 30000;
 var timer = startTimer;
+var pid;
 var bgImage = new Image();
 bgImage.src = 'assets/img/passBG.png';
 var timeBarImage = new Image();
@@ -81,10 +96,12 @@ var hit_sound_list = [];
 var hit_sound_index = 0;
 var hit_sound;
 var miss_sound;
+var results_arr2 = [];
 var miss_sound_list = [];
 var miss_sound_index = 0;
 var hit_sound2;
 var miss_sound2;
+var disableClick = false;
 function loadAudio() {
 	hit_sound = new Audio('assets/audio/hit.mp3');
 	hit_sound.load();
@@ -218,6 +235,7 @@ function resultsPopup(number){
 	popup.appendChild(reason)
 	popup.appendChild(next)
 	document.body.appendChild(popup)
+	results_arr2.push({"id":results_arr[number].id,"selected":results_arr[number].selected,"game_id":results_arr[number].game_id});
 }
 function endingPopup(number){
 	var oldPopup = document.getElementsByClassName("finalPopup")[0]
@@ -258,8 +276,24 @@ function endingPopup(number){
 	mainMenu.addEventListener('touchend', function(event){
 							event.preventDefault();
 							event.stopPropagation();
-							window.location.href = 'main.html'
-							return true;
+							
+							if (!disableClick){
+							disableClick=true;
+								var xhttp = new XMLHttpRequest();
+								
+								xhttp.onreadystatechange = function() {
+
+								if (xhttp.readyState == 4 && xhttp.status == 200) {
+									window.location.href = 'main.html'
+									
+								}
+								};
+							
+								xhttp.open("GET", "http://cybersafegames.unc.edu/whack_results_add.php?pid=" + pid + "&json_data=" + encodeURIComponent(JSON.stringify(results_arr2)), true);
+								
+								xhttp.send();
+
+							}
 							});
 	popup.appendChild(missedContainer)
 	popup.appendChild(next)
@@ -273,6 +307,7 @@ function restartGame(){
 		document.body.removeChild(oldPopup);
 		document.body.removeChild(oldDimmer);
 		}
+	game_id = game_id +1;
 	timer = 30000;
 	score = 0;
 	for(j=0;j<6;j++)
@@ -355,11 +390,11 @@ function touchEnd(e){
                     moleArr[start.attachedTo].mole.password = '';
                     moleArr[start.attachedTo].mole.delay = hitMissDelay;
 				}else{
-					results_arr.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"reason":moleArr[start.attachedTo].mole.reason})
+					results_arr.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"reason":moleArr[start.attachedTo].mole.reason,"game_id":game_id})
 				
-						timer = timer - 2000
+					timer = timer - 2000
                      
-						miss_sound_list[miss_sound_index%5].play();
+					miss_sound_list[miss_sound_index%5].play();
 				miss_sound_index++;
 						moleArr[start.attachedTo].mole.img = missImage;
                         moleArr[start.attachedTo].mole.password = '';
