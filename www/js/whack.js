@@ -27,9 +27,9 @@ var app = {
     
         //requestAnimationFrame(main)
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
-        dir.getFile("whack_results.json", {create:true}, function(file) {
+       
 		
-            results_file = file;
+           
             dir.getFile("info.json", {create:true}, function(file) {
                         update_file = file;
                         dir.getFile("whack_questions.json", {create:true}, function(file) {
@@ -62,7 +62,7 @@ var app = {
 					
 			});
                         })
-        });
+        
 	});
     },
 
@@ -190,7 +190,7 @@ function update(){
 		
 		stopGame = true;
         if (results_arr.length > 0){
-			writeResultsToFile()	
+				
 			resultsPopup(0)
         } else {
             
@@ -475,38 +475,10 @@ function editObjects(dt){
 			
 	}
 
-//}
-
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function writeResultsToFile(){
-	var filedata
-    results_file.file(function(file) {
-        var reader = new FileReader();
-
-        reader.onload = function(e) {
-			
-			filedata=this.result;
-
-			var datalog = JSON.stringify(results_arr);
-			if (filedata.length > 0){
-				datalog = "," + datalog;
-			}
-			results_file.createWriter(function(fileWriter) {
-				fileWriter.seek(fileWriter.length);
-				
-				fileWriter.write(datalog);
-				// window.location.href = 'whack_final.html?score=' + score
-
-			}, fail);
-        };
-
-        reader.readAsText(file);
-    }, fail);
-
-}
 function fail(err){
 	alert(err)
 }

@@ -20,8 +20,7 @@ var app = {
         
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
 		
-        dir.getFile("mail_results.json", {create:true}, function(file) {
-             results_file = file;
+        
             dir.getFile("info.json", {create:true}, function(file) {
                         update_file = file;
 			dir.getFile("mail_questions.json", {create:true}, function(file) {
@@ -53,7 +52,7 @@ var app = {
 			}, fail);
 			});
 			});
-        });
+        
 	});
     },
 
