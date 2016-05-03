@@ -94,6 +94,9 @@ timeImage.src = 'assets/img/time.png'
 var stop_game = false;
 var timePercentage = 1;
 var av_arr  = [];
+var greenCollected = 0;
+var redMissed = 0;
+var maxAV = 0;
 var hit_sound_list = [];
 var hit_sound_index = 0;
 var hit_sound;
@@ -337,7 +340,7 @@ function editObjects(dt){
 	//end the game if time is up
     if (timeRemaining <= 0){
 	  stop_game = true;
-	  endingPopup()
+	  resultsPopup(0)
     }
 	//Flashing Red background
     if (virusEscapeTimer){
@@ -355,6 +358,7 @@ function editObjects(dt){
 		if (current.x > window.innerWidth || current.x + current.width < 0 || current.y > window.innerHeight || current.y + current.height < 0){
 			if (current.type == 2){
                 virusEscapeTimer = 200;
+				redMissed = redMissed +1;
                 background_image = background_image_red;
 				miss_sound_list[miss_sound_index%5].play();
 				miss_sound_index++;
@@ -385,7 +389,8 @@ function editObjects(dt){
                                           height: av_button.size * 1.5});
         spriteArr.push(notificationSprite);
 		av_counter++;
-		
+		if (av_counter > maxAV)
+			maxAv = av_counter;
         notification_sound.play();
 		
 				
@@ -516,6 +521,7 @@ function touchEnd(e,kill){
 		
 		if (held.x + held.width/2 >= bucket.x && held.x + held.width/2 <= bucket.x + bucket.size && held.y >= bucket.y && held.y <= bucket.y + bucket.size){
 			score ++;
+			greenCollected = greenCollected +1;
 			score_arr.push(new score_blob());
 			if(score == 16){
 				score=0;
@@ -606,6 +612,58 @@ function antiVirusUpdate(){
 	button.onclick = null;
 
 }
+
+function resultsPopup(number){
+	var oldPopup = document.getElementsByClassName("finalPopup")[0]
+	var oldDimmer = document.getElementsByClassName("dimmer")[0]
+	if(oldPopup){
+		document.body.removeChild(oldPopup);
+		document.body.removeChild(oldDimmer);
+		}
+	var dimmer = document.createElement("div");
+	dimmer.className = "dimmer";
+	document.body.appendChild(dimmer);
+	var popup = document.createElement("div");
+	popup.className = "finalPopup";
+	var gameOver = document.createElement("div");
+	gameOver.className = "gameOver";
+	gameOver.innerHTML = "GAME OVER";
+	popup.appendChild(gameOver);
+	var missed = document.createElement("div");
+	missed.className = "missed";
+	if (number == 0)
+	missed.innerHTML = "You Collected:";   
+	else if (number ==1)
+	missed.innerHTML = "You Missed:";
+	else
+	missed.innerHTML = "Your AntiVirus Updates"
+	var reason = document.createElement("div");
+	reason.className = "reason";
+	if (number ==0)
+	reason.innerHTML = greenCollected + " DataChips"; 
+	else if(number == 1)
+	reason.innerHTML = redMissed + " Viruses"; 
+	else
+	reason.innerHTML = "You let your AntiVirus counter get to " + maxAV + ". Remember to keep your AntiVirus updated!"
+	var next = document.createElement("button");
+	next.className = "nextButton";
+	next.innerHTML = "NEXT"
+	next.addEventListener('touchend', function(event){
+							event.preventDefault();
+							event.stopPropagation();
+							if (number < 2){
+								resultsPopup(number +1)
+							} else{
+								endingPopup();							
+							}
+							return true;
+
+							});
+	popup.appendChild(missed)
+	popup.appendChild(reason)
+	popup.appendChild(next)
+	document.body.appendChild(popup)
+}
 function endingPopup(){
 	var oldPopup = document.getElementsByClassName("finalPopup")[0]
 	var oldDimmer = document.getElementsByClassName("dimmer")[0]
@@ -648,8 +706,8 @@ function endingPopup(){
 							window.location.href = 'main.html'
 							return true;
 							});
-	popup.appendChild(missedContainer)
-	popup.appendChild(next)
+	popup.appendChild(missedContainer);
+	popup.appendChild(next);
 	popup.appendChild(mainMenu);
 	document.body.appendChild(popup)
 }
@@ -664,6 +722,9 @@ var oldPopup = document.getElementsByClassName("finalPopup")[0]
 	score_arr = [];
 	score_arr2 = [];
 	held = null;
+	greenCollected = 0;
+	redMissed = 0;
+	maxAV = 0;
 	score = 0;
 	imagesCollected = 0;
 	timeRemaining = startTime;
