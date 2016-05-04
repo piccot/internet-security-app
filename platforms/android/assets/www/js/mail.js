@@ -28,10 +28,11 @@ var app = {
                                         reader.onload = function(e) {
                                             
                                             filedata=this.result;
-                                                 
+                                                 alert(filedata);
                                                      filedata = JSON.parse(filedata);
                                                      
                                             pid = filedata.PID;
+											alert(pid);
                                                      document.addEventListener("touchstart",touchStart);
                                     document.getElementsByClassName('back')[0].onclick = back;
 									document.getElementsByClassName('play')[0].onclick = play;
@@ -65,7 +66,7 @@ var mailOpen = false;
 var score = 0;
 var game_id = 1;
 var spamBase = 0;
-var update_file
+var update_file;
 var pid;
 var spamFilter = 0;
 var stop_game = false;

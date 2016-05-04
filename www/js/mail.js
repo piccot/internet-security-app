@@ -214,7 +214,12 @@ document.body.appendChild(canvas)
 
 function gameOver(){
     stop_game = true;
+	if (results_arr.length > 0){
     resultsPopup(0);
+	}
+	else{
+		endingPopup();
+	}
 }
 function playMedia(src) {
     
