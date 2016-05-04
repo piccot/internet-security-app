@@ -128,9 +128,11 @@ function mailTypeByInt(type){
 	else if (type == 4)
 		return "Phishing Email";
 	else if (type == 5)
-		return "Fake Account Security Email";
+		return "Fake Acc. Security Email";
 	else if (type == 6)
 		return "Virus Email";
+	else if (type == 7)
+		return "Spam";
 }
 // For sprite animations
 function sprite(options){
