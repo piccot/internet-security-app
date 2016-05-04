@@ -28,12 +28,10 @@ var app = {
                                         reader.onload = function(e) {
                                             
                                             filedata=this.result;
-                                                 alert(filedata);
                                                      filedata = JSON.parse(filedata);
                                                      
                                             pid = filedata.PID;
-											alert(pid);
-                                                     document.addEventListener("touchstart",touchStart);
+                                                     canvas.addEventListener("touchstart",touchStart);
                                     document.getElementsByClassName('back')[0].onclick = back;
 									document.getElementsByClassName('play')[0].onclick = play;
                                                      };
@@ -216,7 +214,12 @@ document.body.appendChild(canvas)
 
 function gameOver(){
     stop_game = true;
+	if (results_arr.length > 0){
     resultsPopup(0);
+	}
+	else{
+		endingPopup();
+	}
 }
 function playMedia(src) {
     
