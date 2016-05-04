@@ -41,6 +41,7 @@ var app = {
 		bodyContainer.appendChild(body);
 		popup.appendChild(bodyContainer);
 		document.body.appendChild(popup);
+		//load all the files we are going to need
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
 		dir.getFile("info.json", {create:true}, function(file) {
 				update_file = file;
@@ -72,13 +73,11 @@ function checkForUpdates(){
 	xhttp.onreadystatechange = function() {
       
 	if (xhttp.readyState == 4 && xhttp.status == 200) {
-        
+        //connected to the update page and seeing if we need to run a download
 		var updateData = JSON.parse(xhttp.responseText);
         
 		var mail_date
 		var whack_date
-        console.log(updateData[0].date);
-        console.log(updateData[1].date);
 		if (updateData[0].type == "MAIL"){
             
 			mail_date = new Date(updateData[0].date)
@@ -93,7 +92,7 @@ function checkForUpdates(){
 			reader.onload = function(e) {
 				filedata=this.result;
 				update_file.createWriter(function(fileWriter) {
-					
+					//if the PID has been written before
 					if (filedata.length > 0){
 						var jsonObject = JSON.parse(filedata);
 						var last_update = new Date(jsonObject.updated);
@@ -116,7 +115,7 @@ function checkForUpdates(){
                                          checkDone();
                                          }
 						
-					} else {
+					} else { //If we need a new PID
 						
 						var PID = ""
 						while (PID.length < 5){
@@ -204,6 +203,7 @@ function writeMailQuestionsToFile(){
     }, fail);
 
 }
+//see if both write whack and write mail has been run
 function checkDone(){
 	if (whack_done && mail_done){
 		document.body.removeChild(popup);

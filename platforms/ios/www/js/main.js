@@ -1,9 +1,9 @@
 var questions_file
 var mail_questions_file
-window.onerror = function(msg, url, linenumber) {
-    alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
-    return true;
-}
+// window.onerror = function(msg, url, linenumber) {
+    // alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+    // return true;
+// }
 var app = {
 
   
@@ -18,6 +18,8 @@ var app = {
     },
 
     onDeviceReady: function() {
+	
+	//first parameter is the 4x3 splash screen, next is the page the card should link to, next is the order in which it should appear
 					createCard('whack_splash.png','whack.html',0);
 					createCard('virus_splash.png','virus.html',1);
 					createCard('mail_splash.png','mail.html',2);
@@ -113,77 +115,8 @@ function playAudio(src) {
                                  );
     mediaRes.play();
 
-    
-}
-function writeWhackQuestionsToFile(){
-	var filedata
-	
-    questions_file.file(function(file) {
-                        
-        var reader = new FileReader();
-        reader.onload = function(e) {
-                       
-			filedata=this.result;
-			questions_file.createWriter(function(fileWriter) {
-                                       
-				fileWriter.truncate(0);
-				
-					var xhttp = new XMLHttpRequest();
-					xhttp.onreadystatechange = function() {
-					if (xhttp.readyState == 4 && xhttp.status == 200) {
-						fileWriter.write(xhttp.responseText);
-						
-                                        }
-					};
-					xhttp.open("GET", "http://cybersafegames.unc.edu/whack_data.php", true);
-					xhttp.send();
-					
-				
-			}, fail);
-        };
-        reader.readAsText(file);
-    }, fail);
-
-}
-function writeMailQuestionsToFile(){
-	var filedata
-    mail_questions_file.file(function(file) {
-        var reader = new FileReader();
-        reader.onload = function(e) {			
-			filedata=this.result;
-			mail_questions_file.createWriter(function(fileWriter) {
-				fileWriter.seek(fileWriter.length);
-				if (fileWriter.length <= 0){
-					var xhttp = new XMLHttpRequest();
-					xhttp.onreadystatechange = function() {
-					if (xhttp.readyState == 4 && xhttp.status == 200) {
-						fileWriter.write(xhttp.responseText);
-						
-					}
-					};
-					xhttp.open("GET", "http://cybersafegames.unc.edu/mail_data.php", true);
-					xhttp.send();
-					
-				}
-			}, fail);
-        };
-        reader.readAsText(file);
-    }, fail);
-
-}
-
-function loadWhackData() {
-	
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (xhttp.readyState == 4 && xhttp.status == 200) {
-		
-      return xhttp.responseText;
     }
-  };
-  xhttp.open("GET", "http://cybersafegames.unc.edu/whack_data.php", true);
-  xhttp.send();
-}
+
 
 
 app.initialize();

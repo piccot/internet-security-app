@@ -1,7 +1,3 @@
-// window.onerror = function(msg, url, linenumber) {
-   // alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
-   // return true;
-// }
 var app = {
 
   
@@ -16,12 +12,8 @@ var app = {
     },
 
     onDeviceReady: function() {
-        					jsonObject = JSON.parse('[{"id":1,"To":"you@email.com","From":"me@email.com","Subject":"Grades","Attachments":"test.exe","Type":0,"Body":"This is professor X, I must speak with you about your most recent exam.  Please come to my next office hours session."},{"id":2,"To":"you@email.com","From":"me@email.com","Subject":"Job Opportunity","Attachments":"test.exe","Type":1,"Body":"Hello, I am writing to inform you about a job opportunity.  Please respond if you are interested"},{"id":3,"To":"you@email.com","From":"me@email.com","Subject":" Visit","Attachments":"test.exe","Type":2,"Body":"This is your grandmother, your uncle Barry said to send you an electronic mail, so that is what I am doing.  I need help fixing my VCR, please call soon"},{"id":4,"To":"you@email.com","From":"me@email.com","Subject":"Account Security","Attachments":"test.exe","Type":3,"Body":"Due to some changes in account security settings, we are asking all of our valued customers to log into their online accounts and update certain settings.  Thank you"},{"id":5,"To":"you@email.com","From":"me@email.com","Subject":"CA$H","Attachments":"test.exe","Type":4,"Body":"hello I am the prince of azerbaijan, in the power struggle of the royal family I have been temporarily compromised.  If you send your bank account information you will be rewarded generously in 1 years time thank you"},{"id":6,"To":"you@email.com","From":"me@email.com","Subject":"SECURITY ALERT","Attachments":"test.exe","Type":5,"Body":"Dear valued customer, your account may have been compromised, please respond with your password and your account will be secured"},{"id":7,"To":"you@email.com","From":"me@email.com","Subject":"New App!","Attachments":"test.exe","Type":6,"Body":"We are excited to share our new, FREE app with you! Please download the attached file to join in on the fun!"},{"id":8,"To":"you@email.com","From":"me@email.com","Subject":"BOATS BOATS BOATS","Attachments":"test.exe","Type":7,"Body":"COME ON DOWN TO BOATSVILLE FOR THE BET DEALS ON ALL THE NEW 2016 BOATS, YOU CAN NOT BEAT THESE DEALS"}]');
         
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
-		
-        dir.getFile("mail_results.json", {create:true}, function(file) {
-             results_file = file;
             dir.getFile("info.json", {create:true}, function(file) {
                         update_file = file;
 			dir.getFile("mail_questions.json", {create:true}, function(file) {
@@ -53,7 +45,7 @@ var app = {
 			}, fail);
 			});
 			});
-        });
+        
 	});
     },
 
@@ -103,6 +95,7 @@ spamUpImage.src = 'assets/img/spam_up.png';
 var scoreUpImage = new Image();
 scoreUpImage.src = 'assets/img/score_up.png';
 
+// Initiate mail array
 var mailArr = []
 for(i=0;i<3;i++){
     mailArr[i] = [];
@@ -124,6 +117,8 @@ function back(){
     
     
 }
+
+// For sprite animations
 function sprite(options){
     
     var self = this;
@@ -179,7 +174,7 @@ function sprite(options){
     };
 }
 
-
+// Mail object
 function mail(pos, text, type, sub,to,from,attach,id){
 	this.x = pos * window.innerWidth/3;
 	this.y = 0;
@@ -197,6 +192,7 @@ function mail(pos, text, type, sub,to,from,attach,id){
 	this.id = id
 }
 
+// Keeps track of spam filter
 function changeSpam(diff){
     if (spamBase + diff <= 0){
         spamBase = 0;
@@ -215,21 +211,6 @@ canvas.height = window.innerHeight;
 canvas.position = "absolute";
 document.body.appendChild(canvas)
 
-function update(){
-    
-    // Update all the things
-	editObjects(Date.now() - lastTime)
-    // Call the update function for all existing sprites
-    for(var i = 0;i < spriteArr.length;i++){
-        spriteArr[i].update();
-    }
-    // If there is a row with 8 mails, end game
-    for(i=0;i<mailArr.length;i++){
-        if(mailArr[i].length > 7){
-            gameOver();
-        }
-    }
-}
 
 function gameOver(){
     stop_game = true;
@@ -408,6 +389,8 @@ var trackingClick = false;
 var targetElement = null;
 var touchStartX = 0;
 var touchStartY = 0;
+
+// Create the open mail popup
 function touchStart(e){
 
         if (mailOpen == false){
@@ -520,27 +503,6 @@ function touchStart(e){
 		
         }
 }
-function render(){
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(bgImage,0,0,window.innerWidth,window.innerHeight)
-
-	for(i=0; i < mailArr.length; i++){
-                for(j=0; j<mailArr[i].length;j++){
-                        ctx.drawImage(mailArr[i][j].img,mailArr[i][j].x,mailArr[i][j].y,mailArr[i][j].width, mailArr[i][j].height)
-                }
-        }
-    ctx.font = "24pt Ariel"
-    ctx.textAlign="left";
-    ctx.strokeText("Score: " + score,10,45);
-    ctx.fillText("Score: " + score,10,45);
-    //ctx.strokeText("Spam Filter: " + spamFilter,40,90);
-    //ctx.fillText("Spam Filter: " + spamFilter,40,90);
-    
-    for(var i = 0;i < spriteArr.length;i++){
-        spriteArr[i].render();
-    }
-	
-}
 
 function main (){
     if (!stop_game){
@@ -550,11 +512,41 @@ function main (){
 	lastTime = Date.now()
 	render()
 }
-if (!Array.prototype.last){
-      Array.prototype.last = function(){
-                return this[this.length - 1];
-                    };
-};
+
+function update(){
+    // Update all the things
+    editObjects(Date.now() - lastTime)
+    // Call the update function for all existing sprites
+    for(var i = 0;i < spriteArr.length;i++){
+        spriteArr[i].update();
+    }
+    // If there is a row with 8 mails, end game
+    for(i=0;i<mailArr.length;i++){
+        if(mailArr[i].length > 7){
+            gameOver();
+        }
+    }
+}
+
+function render(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(bgImage,0,0,window.innerWidth,window.innerHeight)
+    
+    for(i=0; i < mailArr.length; i++){
+        for(j=0; j<mailArr[i].length;j++){
+            ctx.drawImage(mailArr[i][j].img,mailArr[i][j].x,mailArr[i][j].y,mailArr[i][j].width, mailArr[i][j].height)
+        }
+    }
+    ctx.font = "24pt Ariel"
+    ctx.textAlign="left";
+    ctx.strokeText("Score: " + score,10,45);
+    ctx.fillText("Score: " + score,10,45);
+    
+    for(var i = 0;i < spriteArr.length;i++){
+        spriteArr[i].render();
+    }
+    
+}
 
 function editObjects(dt){
     time = time + dt
@@ -573,7 +565,7 @@ function editObjects(dt){
         mailCounter = 0;
         secondsPerMail = secondsPerMail - 0.5;
     }
-	for (i=0;i<3;i++){
+    for (i=0;i<3;i++){
         
         // Spam filter action
         for (j=0;j<mailArr[i].length;j++){
@@ -600,14 +592,22 @@ function editObjects(dt){
             // Move all existing mails down, unless they are touching another mail
             // Falling Speed based on delta and baseSpeed
             if(mailArr[i][j].y <= window.innerHeight - (j+1)*window.innerHeight/8){
-                    mailArr[i][j].y = Math.min(mailArr[i][j].y + delta*dt, window.innerHeight - (j+1)*window.innerHeight/8);
+                mailArr[i][j].y = Math.min(mailArr[i][j].y + delta*dt, window.innerHeight - (j+1)*window.innerHeight/8);
             }
-
+            
         }
     }
-				
-			
 }
+
+// I don't think we use this but at this point I'm afraid to delete anything
+if (!Array.prototype.last){
+      Array.prototype.last = function(){
+                return this[this.length - 1];
+                    };
+};
+
+// The end game popup that appears after the results popup
+// If MainMenu is pressed, then the results are pushed to the database
 function endingPopup(){
     var oldPopup = document.getElementsByClassName("finalPopup")[0]
     var oldDimmer = document.getElementsByClassName("dimmer")[0]
@@ -674,6 +674,9 @@ function endingPopup(){
     popup.appendChild(mainMenu);
     document.body.appendChild(popup)
 }
+
+// Resets all of the variables in the game in preparation for a new start
+// Removes any popups
 function restartGame(){
     var oldPopup = document.getElementsByClassName("finalPopup")[0]
     var oldDimmer = document.getElementsByClassName("dimmer")[0]
