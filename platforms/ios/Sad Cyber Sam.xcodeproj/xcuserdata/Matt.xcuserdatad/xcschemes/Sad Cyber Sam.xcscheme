@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-               BuildableName = "Internet Security App.app"
-               BlueprintName = "Internet Security App"
-               ReferencedContainer = "container:Internet Security App.xcodeproj">
+               BuildableName = "Sad Cyber Sam.app"
+               BlueprintName = "Sad Cyber Sam"
+               ReferencedContainer = "container:Sad Cyber Sam.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,16 +33,16 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "Internet Security App.app"
-            BlueprintName = "Internet Security App"
-            ReferencedContainer = "container:Internet Security App.xcodeproj">
+            BuildableName = "Sad Cyber Sam.app"
+            BlueprintName = "Sad Cyber Sam"
+            ReferencedContainer = "container:Sad Cyber Sam.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "Internet Security App.app"
-            BlueprintName = "Internet Security App"
-            ReferencedContainer = "container:Internet Security App.xcodeproj">
+            BuildableName = "Sad Cyber Sam.app"
+            BlueprintName = "Sad Cyber Sam"
+            ReferencedContainer = "container:Sad Cyber Sam.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -75,9 +75,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "Internet Security App.app"
-            BlueprintName = "Internet Security App"
-            ReferencedContainer = "container:Internet Security App.xcodeproj">
+            BuildableName = "Sad Cyber Sam.app"
+            BlueprintName = "Sad Cyber Sam"
+            ReferencedContainer = "container:Sad Cyber Sam.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

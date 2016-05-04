@@ -11,16 +11,8 @@ var app = {
     },
 
     onDeviceReady: function() {
-        document.addEventListener('touchmove', touchMove);
-        document.addEventListener("touchstart",touchStart);
-        document.addEventListener("touchend",touchEnd);
-        
-        
-                    
         // Load passwords from file
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
-       
-		
            
             dir.getFile("info.json", {create:true}, function(file) {
                         update_file = file;
@@ -41,8 +33,19 @@ var app = {
                                                      filedata = JSON.parse(filedata);
                                                      console.log(filedata);
                                             pid = filedata.PID;
+                                                     
+                                                     canvas = document.createElement("canvas");
+                                                     ctx = canvas.getContext("2d");
+                                                     canvas.width = window.innerWidth;
+                                                     canvas.height = window.innerHeight;
+                                                     document.body.appendChild(canvas)
                                                      document.getElementsByClassName('back')[0].onclick = back;
                                                      document.getElementsByClassName('play')[0].onclick = play;
+                                                     document.addEventListener('touchmove', touchMove);
+                                                     document.addEventListener("touchstart",touchStart);
+                                                     document.addEventListener("touchend",touchEnd);
+                                                     
+                                                     
                                                      };
                                     reader.readAsText(file);
                                     }, fail);
@@ -59,6 +62,8 @@ var app = {
     },
 
 };
+var canvas;
+var ctx;
 var lastTime;
 var results_file
 var finger_x;
@@ -169,13 +174,6 @@ function startPoint(x,y,mole){
     this.y = y;
     this.attachedTo = mole;
 }
-
-
-var canvas = document.createElement("canvas");
-var ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-document.body.appendChild(canvas)
 
 // Intiate mole array, populate it with moleHoles
 var moleArr = []

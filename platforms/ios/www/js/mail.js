@@ -116,7 +116,22 @@ function back(){
     
     
 }
-
+function mailTypeByInt(type){
+	if (type ==0)
+		return "Teacher Email";
+	else if (type == 1)
+		return "Job Email";
+	else if (type == 2)
+		return "Family Email";
+	else if (type == 3)
+		return "Account Security Email";
+	else if (type == 4)
+		return "Phishing Email";
+	else if (type == 5)
+		return "Fake Account Security Email";
+	else if (type == 6)
+		return "Virus Email";
+}
 // For sprite animations
 function sprite(options){
     
@@ -214,7 +229,12 @@ document.body.appendChild(canvas)
 
 function gameOver(){
     stop_game = true;
+	if (results_arr.length > 0){
     resultsPopup(0);
+	}
+	else{
+		endingPopup();
+	}
 }
 function playMedia(src) {
     
@@ -441,7 +461,7 @@ function touchStart(e){
                             if (openMail.attach != ""){
                                 var attach = document.createElement("div");
                                 attach.className = "attach";
-                                attach.innerHTML = "<b>Attachment:&nbsp;</b>" + openMail.attach;
+                                attach.innerHTML = "<b>Attachments:&nbsp;</b>" + openMail.attach;
                                 scrollingBody.appendChild(attach);
                             }
                             scrollingBody.appendChild(body);
@@ -639,7 +659,7 @@ function resultsPopup(number){
 	popup.appendChild(gameOver);
 	var missed = document.createElement("div");
 	missed.className = "missed";
-	missed.innerHTML = "You Missed a " + results_arr[number].type + " email ";   
+	missed.innerHTML = "You Missed a " + mailTypeByInt(results_arr[number].type);  
 	var reason = document.createElement("div");
 	reason.className = "reason";			 
 	reason.innerHTML = results_arr[number].wrong_message; 

@@ -102,13 +102,11 @@ h1 {
 .missed{
 	font-size:4.5vw;
 	text-align:center;
-	margin-bottom:4%;
-	margin-top:4%;
 	border-bottom:1px solid black;
 
 }
 .reason{
-	font-size:2vh;
+	font-size:2.5vh;
 	text-align:center;
 
 }
