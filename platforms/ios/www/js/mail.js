@@ -28,12 +28,10 @@ var app = {
                                         reader.onload = function(e) {
                                             
                                             filedata=this.result;
-                                                 alert(filedata);
                                                      filedata = JSON.parse(filedata);
                                                      
                                             pid = filedata.PID;
-											alert(pid);
-                                                     document.addEventListener("touchstart",touchStart);
+                                                     canvas.addEventListener("touchstart",touchStart);
                                     document.getElementsByClassName('back')[0].onclick = back;
 									document.getElementsByClassName('play')[0].onclick = play;
                                                      };
@@ -432,13 +430,6 @@ function touchStart(e){
                             subject.className = "subject";
                             subject.innerHTML = "<b>Subject:&nbsp;</b>" + openMail.subject;
                             
-                            var attach = document.createElement("div");
-                            attach.className = "attach";
-                            if (openMail.attach == ""){
-                                openMail.attach = "None"
-                            }
-                            attach.innerHTML = "<b>Attachment:&nbsp;</b>" + openMail.attach;
-                            
                             var body = document.createElement("div");
                             body.className = "mailBody";
                             body.innerHTML = mailArr[j][k].text;
@@ -447,7 +438,12 @@ function touchStart(e){
                             scrollingBody.appendChild(to);
                             scrollingBody.appendChild(from);
                             scrollingBody.appendChild(subject);
-                            scrollingBody.appendChild(attach);
+                            if (openMail.attach != ""){
+                                var attach = document.createElement("div");
+                                attach.className = "attach";
+                                attach.innerHTML = "<b>Attachment:&nbsp;</b>" + openMail.attach;
+                                scrollingBody.appendChild(attach);
+                            }
                             scrollingBody.appendChild(body);
                       
                             var buttonRow = document.createElement("div");

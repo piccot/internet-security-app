@@ -430,13 +430,6 @@ function touchStart(e){
                             subject.className = "subject";
                             subject.innerHTML = "<b>Subject:&nbsp;</b>" + openMail.subject;
                             
-                            var attach = document.createElement("div");
-                            attach.className = "attach";
-                            if (openMail.attach == ""){
-                                openMail.attach = "None"
-                            }
-                            attach.innerHTML = "<b>Attachment:&nbsp;</b>" + openMail.attach;
-                            
                             var body = document.createElement("div");
                             body.className = "mailBody";
                             body.innerHTML = mailArr[j][k].text;
@@ -445,7 +438,12 @@ function touchStart(e){
                             scrollingBody.appendChild(to);
                             scrollingBody.appendChild(from);
                             scrollingBody.appendChild(subject);
-                            scrollingBody.appendChild(attach);
+                            if (openMail.attach != ""){
+                                var attach = document.createElement("div");
+                                attach.className = "attach";
+                                attach.innerHTML = "<b>Attachments:&nbsp;</b>" + openMail.attach;
+                                scrollingBody.appendChild(attach);
+                            }
                             scrollingBody.appendChild(body);
                       
                             var buttonRow = document.createElement("div");
