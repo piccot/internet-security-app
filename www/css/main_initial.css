@@ -74,7 +74,7 @@ to {
 	-o-animation: pulseText .75s infinite alternate;
 	animation: pulseText .75s infinite alternate;
 	display:none;
-	
+	pointer-events:none;
 	
 
 }
