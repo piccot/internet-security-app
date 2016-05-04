@@ -362,7 +362,7 @@ function touchEnd(e){
 				}
 				if(moleArr[start.attachedTo].mole.targetType == colorSelect){
 					score = score + Math.floor(moleArr[start.attachedTo].mole.delay/1000 + 1)*5
-                   results_arr2.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"reason":moleArr[start.attachedTo].mole.reason,"game_id":game_id,"score":score})
+                   results_arr2.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"game_id":game_id,"score":score})
 					hit_sound_list[hit_sound_index%5].play();
 				hit_sound_index++;
 					moleArr[start.attachedTo].mole.img = hitImage;
@@ -371,7 +371,7 @@ function touchEnd(e){
 				}else{
 					// Record incorrect selections for final screen
                     results_arr.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"reason":moleArr[start.attachedTo].mole.reason,"game_id":game_id,"score":score})
-                    results_arr2.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"reason":moleArr[start.attachedTo].mole.reason,"game_id":game_id,"score":score})
+                    results_arr2.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"game_id":game_id,"score":score})
                     // Lose time for incorrect moles
 					timer = timer - 2000
                      
