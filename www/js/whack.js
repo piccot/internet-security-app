@@ -113,12 +113,12 @@ function loadImages(){
 	timeImage.src = 'assets/img/time.png'
 	moleImage = new Image();
 	moleImage.src = 'assets/img/mole.png';
-	 hitImage = new Image();
+    hitImage = new Image();
 	hitImage.src = 'assets/img/hit.png';
 	moleMissImage = new Image();
 	moleMissImage.src = 'assets/img/mole_miss.png';
 	moleHitImage = new Image();
-	moleMissImage.src = 'assets/img/mole_hit.png';
+	moleHitImage.src = 'assets/img/mole_hit.png';
 	missImage = new Image();
 	missImage.src = 'assets/img/miss.png';
 }
