@@ -139,7 +139,7 @@ h1 {
     height: 13%;
     font-size: 3.2vh;
     margin-bottom: 4%;
-	display:none;
+	
 
 }
 .finalScoreContainer{
@@ -309,5 +309,5 @@ center {
     height: 8%;
     font-size: 24pt;
     margin-bottom: 4%;
-    
+    display:none;
 }
