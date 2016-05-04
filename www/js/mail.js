@@ -28,12 +28,10 @@ var app = {
                                         reader.onload = function(e) {
                                             
                                             filedata=this.result;
-                                                 alert(filedata);
                                                      filedata = JSON.parse(filedata);
                                                      
                                             pid = filedata.PID;
-											alert(pid);
-                                                     document.addEventListener("touchstart",touchStart);
+                                                     canvas.addEventListener("touchstart",touchStart);
                                     document.getElementsByClassName('back')[0].onclick = back;
 									document.getElementsByClassName('play')[0].onclick = play;
                                                      };
