@@ -35,6 +35,10 @@ render
 
 After each game ends it will bring up an ending popup. Hitting Play again will reset all parameters and start the game over. Hitting Main Menu will captured data to the database the go back to main.html
 
+#Known Bugs
+
+Very rarely the app will freeze with 100% CPU usage. This seems to be a limitation of Cordova when accessing files.
+
 # Credits
 
 Sad Cyber Sad was developed by [Daniel Piccot][dp1] and [Matt Hill][mh1] in coordination with Kenan-Flagler Business School and The University of North Carolina at Chapel Hill.
