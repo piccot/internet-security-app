@@ -11,8 +11,50 @@ var app = {
     },
 
     onDeviceReady: function() {
-        // Load passwords from file
-		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
+       setTimeout(loadEverything,1000);
+		
+    },
+
+};
+var canvas;
+var ctx;
+var lastTime;
+var results_file
+var finger_x;
+var finger_y;
+var questions_file
+var results_arr = []
+var game_id = 1;
+var baseDelay = 5000
+var hitMissDelay = 2000
+var score = 0;
+var stopGame = false;
+var startTimer = 30000;
+var timer = startTimer;
+var pid;
+var update_file;
+var bgImage;
+var timeBarImage;
+var timeImage;
+var timePercentage = 1;
+var moleImage;
+var hitImage;
+var missImage;
+var moleHitImage;
+var moleMissImage;
+var hit_sound_list = [];
+var hit_sound_index = 0;
+var hit_sound;
+var miss_sound;
+var results_arr2 = [];
+var miss_sound_list = [];
+var miss_sound_index = 0;
+var hit_sound2;
+var miss_sound2;
+var disableClick = false;
+ // Load passwords from file
+function loadEverything(){
+	window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
            
             dir.getFile("info.json", {create:true}, function(file) {
                         update_file = file;
@@ -60,45 +102,8 @@ var app = {
                         })
         
 	});
-    },
 
-};
-var canvas;
-var ctx;
-var lastTime;
-var results_file
-var finger_x;
-var finger_y;
-var questions_file
-var results_arr = []
-var game_id = 1;
-var baseDelay = 5000
-var hitMissDelay = 2000
-var score = 0;
-var stopGame = false;
-var startTimer = 30000;
-var timer = startTimer;
-var pid;
-var update_file;
-var bgImage;
-var timeBarImage;
-var timeImage;
-var timePercentage = 1;
-var moleImage;
-var hitImage;
-var missImage;
-var moleHitImage;
-var moleMissImage;
-var hit_sound_list = [];
-var hit_sound_index = 0;
-var hit_sound;
-var miss_sound;
-var results_arr2 = [];
-var miss_sound_list = [];
-var miss_sound_index = 0;
-var hit_sound2;
-var miss_sound2;
-var disableClick = false;
+}
 function loadImages(){
 	bgImage = new Image();
 	bgImage.src = 'assets/img/passBG.png';
