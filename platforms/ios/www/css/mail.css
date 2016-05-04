@@ -253,6 +253,7 @@ body{
     border-radius: 28px;
     height: 8%;
     font-size: 31pt;
+	display:none;
 }
 .instructionHeader{
     
@@ -327,6 +328,7 @@ width: 70%;
     height: 8%;
     font-size: 24pt;
     margin-bottom: 4%;
+	display:none;
     
 }
 center {

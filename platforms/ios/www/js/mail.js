@@ -12,40 +12,8 @@ var app = {
     },
 
     onDeviceReady: function() {
-        
-		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
-            dir.getFile("info.json", {create:true}, function(file) {
-                        update_file = file;
-			dir.getFile("mail_questions.json", {create:true}, function(file) {
-				questions_file = file;
-				questions_file.file(function(file) {
-				var reader = new FileReader();
-				reader.onload = function(e) {
-					filedata=this.result;
-                    jsonObject = JSON.parse(filedata);
-					update_file.file(function(file) {
-                                        var reader = new FileReader();
-                                        reader.onload = function(e) {
-                                            
-                                            filedata=this.result;
-                                                     filedata = JSON.parse(filedata);
-                                                     
-                                            pid = filedata.PID;
-                                                     canvas.addEventListener("touchstart",touchStart);
-                                    document.getElementsByClassName('back')[0].onclick = back;
-									document.getElementsByClassName('play')[0].onclick = play;
-                                                     };
-                                    reader.readAsText(file);
-                                    }, fail);
-                                    
-
-				};
-				reader.readAsText(file);
-			}, fail);
-			});
-			});
-        
-	});
+        setTimeout(loadEverything,1000);
+		
     },
 
 };
@@ -100,6 +68,45 @@ for(i=0;i<3;i++){
     mailArr[i] = [];
 }
 var spriteArr = [];
+
+function loadEverything(){
+window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
+            dir.getFile("info.json", {create:true}, function(file) {
+                        update_file = file;
+			dir.getFile("mail_questions.json", {create:true}, function(file) {
+				questions_file = file;
+				questions_file.file(function(file) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					filedata=this.result;
+                    jsonObject = JSON.parse(filedata);
+					update_file.file(function(file) {
+                                        var reader = new FileReader();
+                                        reader.onload = function(e) {
+                                            
+                                            filedata=this.result;
+                                                     filedata = JSON.parse(filedata);
+                                                     
+                                            pid = filedata.PID;
+                                                     canvas.addEventListener("touchstart",touchStart);
+													 document.getElementsByClassName('back')[0].style.display = "block";
+													 document.getElementsByClassName('play')[0].style.display = "block";
+                                    document.getElementsByClassName('back')[0].onclick = back;
+									document.getElementsByClassName('play')[0].onclick = play;
+                                                     };
+                                    reader.readAsText(file);
+                                    }, fail);
+                                    
+
+				};
+				reader.readAsText(file);
+			}, fail);
+			});
+			});
+        
+	});
+
+}
 function play(){
 	
     document.body.removeChild(document.getElementById("introContainer"));
@@ -128,9 +135,11 @@ function mailTypeByInt(type){
 	else if (type == 4)
 		return "Phishing Email";
 	else if (type == 5)
-		return "Fake Account Security Email";
+		return "Fake Acc. Security Email";
 	else if (type == 6)
 		return "Virus Email";
+	else if (type == 7)
+		return "Spam";
 }
 // For sprite animations
 function sprite(options){
@@ -265,7 +274,6 @@ function scoreUp(){
 }
 function closeMail(choice){
 	results_arr2.push({"id":openMail.id,"selected":choice,"game_id":game_id});
-    console.log(openMail.type);
     switch (choice){
         case 0: //accept
             if (openMail.type >= 0 && openMail.type <= 3){ //good mails
@@ -409,10 +417,8 @@ function closeMail(choice){
             
             break;
     }
-    console.log(openMail.type);
     openMail.delay = 400;
     //destroy mail
-    
     var popup = document.getElementsByClassName("popup")[0];
     popup.parentNode.removeChild(popup);
     mailOpen = false;

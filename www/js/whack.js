@@ -86,9 +86,9 @@ function loadEverything(){
 													 document.getElementsByClassName('play')[0].style.display = "block";
                                                      document.getElementsByClassName('back')[0].onclick = back;
                                                      document.getElementsByClassName('play')[0].onclick = play;
-                                                     document.addEventListener('touchmove', touchMove);
-                                                     document.addEventListener("touchstart",touchStart);
-                                                     document.addEventListener("touchend",touchEnd);
+                                                     canvas.addEventListener('touchmove', touchMove);
+                                                     canvas.addEventListener("touchstart",touchStart);
+                                                     canvas.addEventListener("touchend",touchEnd);
                                                      
                                                      
                                                      };
