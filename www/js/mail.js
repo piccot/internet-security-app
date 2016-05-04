@@ -175,7 +175,7 @@ function sprite(options){
 }
 
 // Mail object
-function mail(pos, text, type, sub,to,from,attach,id){
+function mail(pos, text, type, sub,to,from,attach,id,message){
 	this.x = pos * window.innerWidth/3;
 	this.y = 0;
     this.width = window.innerWidth/3;
@@ -184,6 +184,7 @@ function mail(pos, text, type, sub,to,from,attach,id){
     this.text = text;
     this.type = type;
     this.subject = sub;
+	this.message=message; //wrong message showed in results
     this.delay = null;
     this.spamCheck = false;
 	this.to = to;
@@ -214,7 +215,7 @@ document.body.appendChild(canvas)
 
 function gameOver(){
     stop_game = true;
-    endingPopup()
+    resultsPopup(0);
 }
 function playMedia(src) {
     
@@ -244,7 +245,7 @@ function scoreUp(){
     playMedia("assets/audio/hit.mp3");
 }
 function closeMail(choice){
-	results_arr.push({"id":openMail.id,"selected":choice,"game_id":game_id});
+	results_arr2.push({"id":openMail.id,"selected":choice,"game_id":game_id});
     switch (choice){
         case 0: //accept
             if (openMail.type >= 0 && openMail.type <= 3){ //good mails
@@ -261,6 +262,10 @@ function closeMail(choice){
                 spriteArr.push(scoreUpSprite);
                 openMail.img = explosionImage;
             }
+			else
+			{
+				results_arr.push({"type":openMail.type,"wrong_message":openmail.message});
+			}
             if (openMail.type == 4){ //bad mail phish
                 scoreDown();
                 changeSpam(-2);
@@ -328,6 +333,9 @@ function closeMail(choice){
                 spriteArr.push(scoreUpSprite);
                 openMail.img = explosionImage;
             }
+			else{
+				results_arr.push({"type":openMail.type,"wrong_message":openmail.message});
+			}
             if (openMail.type == 7){ //spam mail
                 // Technically correct, but no points awarded
                 playMedia("assets/audio/hit.mp3");
@@ -363,6 +371,7 @@ function closeMail(choice){
             if (openMail.type == 7){ //spam mail
                 scoreUp();
                 changeSpam(1);
+				
                 var spamUpSprite = new sprite({
                                             context: canvas.getContext("2d"),
                                             image: spamUpImage,
@@ -375,6 +384,8 @@ function closeMail(choice){
                 spriteArr.push(spamUpSprite);
                 openMail.img = explosionImage;
             }
+			else
+				results_arr.push({"type":openMail.type,"wrong_message":openmail.message});
             
             break;
     }
@@ -558,7 +569,7 @@ function editObjects(dt){
         // Create new mail and push it to mailArr in a random column
         var randomMail = getRandomInt(0,jsonObject.length -1)
         var randomColumn = Math.floor(Math.random() * 3)
-        mailArr[randomColumn].push(new mail(randomColumn, jsonObject[randomMail].mail_body,jsonObject[randomMail].mail_type,jsonObject[randomMail].mail_subject,jsonObject[randomMail].mail_to,jsonObject[randomMail].mail_from,jsonObject[randomMail].mail_attachments,jsonObject[randomMail].id))
+        mailArr[randomColumn].push(new mail(randomColumn, jsonObject[randomMail].mail_body,jsonObject[randomMail].mail_type,jsonObject[randomMail].mail_subject,jsonObject[randomMail].mail_to,jsonObject[randomMail].mail_from,jsonObject[randomMail].mail_attachments,jsonObject[randomMail].id,jsonObject[randomMail].wrong_message))
         
     }
     if (mailCounter == 5 && secondsPerMail > 1){
@@ -605,7 +616,48 @@ if (!Array.prototype.last){
                 return this[this.length - 1];
                     };
 };
+function resultsPopup(number){
+	var oldPopup = document.getElementsByClassName("finalPopup")[0]
+	var oldDimmer = document.getElementsByClassName("dimmer")[0]
+	if(oldPopup){
+		document.body.removeChild(oldPopup);
+		document.body.removeChild(oldDimmer);
+		}
+	var dimmer = document.createElement("div");
+	dimmer.className = "dimmer";
+	document.body.appendChild(dimmer);
+	var popup = document.createElement("div");
+	popup.className = "finalPopup";
+	var gameOver = document.createElement("div");
+	gameOver.className = "gameOver";
+	gameOver.innerHTML = "GAME OVER";
+	popup.appendChild(gameOver);
+	var missed = document.createElement("div");
+	missed.className = "missed";
+	missed.innerHTML = "You Missed a " + results_arr[number].type + " email ";   
+	var reason = document.createElement("div");
+	reason.className = "reason";			 
+	reason.innerHTML = results_arr[number].message; 
+	var next = document.createElement("button");
+	next.className = "nextButton";
+	next.innerHTML = "NEXT"
+	next.addEventListener('touchend', function(event){
+							event.preventDefault();
+							event.stopPropagation();
+							if (number < results_arr.length - 1){
+								resultsPopup(number +1)
+							} else{
+								endingPopup();							
+							}
+							return true;
 
+							});
+	popup.appendChild(missed)
+	popup.appendChild(reason)
+	popup.appendChild(next)
+	document.body.appendChild(popup)
+	
+}
 // The end game popup that appears after the results popup
 // If MainMenu is pressed, then the results are pushed to the database
 function endingPopup(){
@@ -661,7 +713,7 @@ function endingPopup(){
 								}
 								};
 							
-								xhttp.open("GET", "http://cybersafegames.unc.edu/mail_results_add.php?pid=" + pid + "&json_data=" + encodeURIComponent(JSON.stringify(results_arr)), true);
+								xhttp.open("GET", "http://cybersafegames.unc.edu/mail_results_add.php?pid=" + pid + "&json_data=" + encodeURIComponent(JSON.stringify(results_arr2)), true);
 								
 								xhttp.send();
 
@@ -692,6 +744,7 @@ function restartGame(){
     mailCounter = 0;
 	game_id = game_id +1;
     secondsPerMail = 4;
+	results_arr = [];
     time = (secondsPerMail - 1) * 1000;
     if (mailOpen){
         var popup = document.getElementsByClassName("popup")[0];
