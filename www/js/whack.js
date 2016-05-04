@@ -6,7 +6,7 @@ var app = {
         },
 
     bindEvents: function() {
-        document.addEventListener('deviceready', function (){setTimeout(function(){this.onDeviceReady},2000)}, false);
+        document.addEventListener('deviceready', this.onDeviceReady, false);
 		
     },
 
@@ -107,11 +107,11 @@ function loadEverything(){
 function loadImages(){
 	bgImage = new Image();
 	bgImage.src = 'assets/img/passBG.png';
-	timeBarImage new Image();
+	timeBarImage = new Image();
 	timeBarImage.src = 'assets/img/time_bar.png'
 	timeImage = new Image();
 	timeImage.src = 'assets/img/time.png'
-	moleImage new Image();
+	moleImage = new Image();
 	moleImage.src = 'assets/img/mole.png';
 	 hitImage = new Image();
 	hitImage.src = 'assets/img/hit.png';
@@ -143,8 +143,6 @@ function loadAudio() {
 		miss_sound_list.push(miss_sound2);
 	
 	}
-	alert("audio loaded");
-  
 }
 
 // Remove Instruction Screen popup, continue to game
