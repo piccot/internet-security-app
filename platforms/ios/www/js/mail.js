@@ -264,7 +264,7 @@ function closeMail(choice){
             }
 			else
 			{
-				results_arr.push({"type":openMail.type,"wrong_message":openmail.message});
+				results_arr.push({"type":openMail.type,"wrong_message":openMail.message});
 			}
             if (openMail.type == 4){ //bad mail phish
                 scoreDown();
@@ -334,7 +334,7 @@ function closeMail(choice){
                 openMail.img = explosionImage;
             }
 			else{
-				results_arr.push({"type":openMail.type,"wrong_message":openmail.message});
+				results_arr.push({"type":openMail.type,"wrong_message":openMail.message});
 			}
             if (openMail.type == 7){ //spam mail
                 // Technically correct, but no points awarded
@@ -385,7 +385,7 @@ function closeMail(choice){
                 openMail.img = explosionImage;
             }
 			else
-				results_arr.push({"type":openMail.type,"wrong_message":openmail.message});
+				results_arr.push({"type":openMail.type,"wrong_message":openMail.message});
             
             break;
     }
@@ -431,6 +431,13 @@ function touchStart(e){
                             subject.className = "subject";
                             subject.innerHTML = "<b>Subject:&nbsp;</b>" + openMail.subject;
                             
+                            var attach = document.createElement("div");
+                            attach.className = "attach";
+                            if (openMail.attach == ""){
+                                openMail.attach = "None"
+                            }
+                            attach.innerHTML = "<b>Attachment:&nbsp;</b>" + openMail.attach;
+                            
                             var body = document.createElement("div");
                             body.className = "mailBody";
                             body.innerHTML = mailArr[j][k].text;
@@ -439,6 +446,7 @@ function touchStart(e){
                             scrollingBody.appendChild(to);
                             scrollingBody.appendChild(from);
                             scrollingBody.appendChild(subject);
+                            scrollingBody.appendChild(attach);
                             scrollingBody.appendChild(body);
                       
                             var buttonRow = document.createElement("div");

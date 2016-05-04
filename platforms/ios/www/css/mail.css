@@ -118,7 +118,7 @@ h1 {
     overflow:scroll;
     font-size:5vw;
 }
-.to, .from, .subject{
+.to, .from, .subject, .attach{
     height:7%;
     font-size:4vw;
 }
