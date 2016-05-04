@@ -39,6 +39,7 @@ var app = {
                                                      canvas.width = window.innerWidth;
                                                      canvas.height = window.innerHeight;
                                                      document.body.appendChild(canvas)
+													 loadImages();
                                                      document.getElementsByClassName('back')[0].onclick = back;
                                                      document.getElementsByClassName('play')[0].onclick = play;
                                                      document.addEventListener('touchmove', touchMove);
@@ -79,23 +80,15 @@ var startTimer = 30000;
 var timer = startTimer;
 var pid;
 var update_file;
-var bgImage = new Image();
-bgImage.src = 'assets/img/passBG.png';
-var timeBarImage = new Image();
-timeBarImage.src = 'assets/img/time_bar.png'
-var timeImage = new Image();
-timeImage.src = 'assets/img/time.png'
+var bgImage;
+var timeBarImage;
+var timeImage;
 var timePercentage = 1;
-var moleImage = new Image();
-moleImage.src = 'assets/img/mole.png';
-var hitImage = new Image();
-hitImage.src = 'assets/img/hit.png';
-var missImage = new Image();
-missImage.src = 'assets/img/miss.png';
-var moleHitImage = new Image();
-moleHitImage.src = 'assets/img/mole_hit.png';
-var moleMissImage = new Image();
-moleMissImage.src = 'assets/img/mole_miss.png';
+var moleImage;
+var hitImage;
+var missImage;
+var moleHitImage;
+var moleMissImage;
 var hit_sound_list = [];
 var hit_sound_index = 0;
 var hit_sound;
@@ -106,7 +99,20 @@ var miss_sound_index = 0;
 var hit_sound2;
 var miss_sound2;
 var disableClick = false;
-
+function loadImages(){
+	bgImage = new Image();
+	bgImage.src = 'assets/img/passBG.png';
+	timeBarImage new Image();
+	timeBarImage.src = 'assets/img/time_bar.png'
+	timeImage = new Image();
+	timeImage.src = 'assets/img/time.png'
+	moleImage new Image();
+	moleImage.src = 'assets/img/mole.png';
+	 hitImage = new Image();
+	hitImage.src = 'assets/img/hit.png';
+	moleMissImage = new Image();
+	moleMissImage.src = 'assets/img/mole_miss.png';
+}
 // Preload all audio assets, allows them to be played in a round-robin fashion
 function loadAudio() {
 	hit_sound = new Audio('assets/audio/hit.mp3');
