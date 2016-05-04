@@ -139,6 +139,7 @@ h1 {
     height: 13%;
     font-size: 3.2vh;
     margin-bottom: 4%;
+	display:none;
 
 }
 .finalScoreContainer{
@@ -249,6 +250,7 @@ canvas{
     border-radius: 28px;
     height: 8%;
     font-size: 31pt;
+	display:none;
 }
 .instructionHeader{
     
