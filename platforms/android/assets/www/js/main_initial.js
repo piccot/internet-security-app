@@ -14,7 +14,7 @@ var app = {
 	},
 
     bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
+        document.addEventListener('filePluginIsReady', this.onDeviceReady, false);
 		
     },
 
