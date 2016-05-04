@@ -128,6 +128,7 @@ function loadAudio() {
 		miss_sound_list.push(miss_sound2);
 	
 	}
+	alert("audio loaded");
   
 }
 
