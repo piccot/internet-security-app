@@ -645,7 +645,7 @@ function resultsPopup(number){
 	missed.innerHTML = "You Missed a " + results_arr[number].type + " email ";   
 	var reason = document.createElement("div");
 	reason.className = "reason";			 
-	reason.innerHTML = results_arr[number].message; 
+	reason.innerHTML = results_arr[number].wrong_message; 
 	var next = document.createElement("button");
 	next.className = "nextButton";
 	next.innerHTML = "NEXT"
