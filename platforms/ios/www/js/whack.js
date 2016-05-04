@@ -82,6 +82,8 @@ function loadEverything(){
                                                      canvas.height = window.innerHeight;
                                                      document.body.appendChild(canvas)
 													 loadImages();
+													 document.getElementsByClassName('back')[0].style.display = "block";
+													 document.getElementsByClassName('play')[0].style.display = "block";
                                                      document.getElementsByClassName('back')[0].onclick = back;
                                                      document.getElementsByClassName('play')[0].onclick = play;
                                                      document.addEventListener('touchmove', touchMove);

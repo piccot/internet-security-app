@@ -265,6 +265,7 @@ function scoreUp(){
 }
 function closeMail(choice){
 	results_arr2.push({"id":openMail.id,"selected":choice,"game_id":game_id});
+    console.log(openMail.type);
     switch (choice){
         case 0: //accept
             if (openMail.type >= 0 && openMail.type <= 3){ //good mails
@@ -408,8 +409,10 @@ function closeMail(choice){
             
             break;
     }
+    console.log(openMail.type);
     openMail.delay = 400;
     //destroy mail
+    
     var popup = document.getElementsByClassName("popup")[0];
     popup.parentNode.removeChild(popup);
     mailOpen = false;
