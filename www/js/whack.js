@@ -6,7 +6,7 @@ var app = {
         },
 
     bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
+        document.addEventListener('deviceready', function (){setTimeout(function(){this.onDeviceReady},2000)}, false);
 		
     },
 
