@@ -112,6 +112,10 @@ function loadImages(){
 	hitImage.src = 'assets/img/hit.png';
 	moleMissImage = new Image();
 	moleMissImage.src = 'assets/img/mole_miss.png';
+	moleHitImage = new Image();
+	moleMissImage.src = 'assets/img/mole_hit.png';
+	missImage = new Image();
+	missImage.src = 'assets/img/miss.png';
 }
 // Preload all audio assets, allows them to be played in a round-robin fashion
 function loadAudio() {
