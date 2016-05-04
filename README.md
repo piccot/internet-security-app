@@ -37,9 +37,9 @@ After each game ends it will bring up an ending popup. Hitting Play again will r
 
 #Known Bugs
 
-*Very rarely the app will crash with a BAD_READ_EXCEPTION. This may just be a Cordova issue.
+* Very rarely the app will crash with a BAD_READ_EXCEPTION. This may just be a Cordova issue.
 
-*If you are not connected to the internet, the Main Menu Button may not work.
+* If you are not connected to the internet, the Main Menu Button may not work.
 
 # Credits
 
