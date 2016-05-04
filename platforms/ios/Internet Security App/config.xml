@@ -51,10 +51,6 @@
     <feature name="NativeAudio">
         <param name="ios-package" value="NativeAudio" />
     </feature>
-    <feature name="SplashScreen">
-        <param name="ios-package" value="CDVSplashScreen" />
-        <param name="onload" value="true" />
-    </feature>
     <preference name="DisallowOverscroll" value="true" />
     <preference name="Orientation" value="portrait" />
     <allow-intent href="itms:*" />

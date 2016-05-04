@@ -1,15 +1,9 @@
-// window.onerror = function(msg, url, linenumber) {
-   // alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
-   // return true;
-// }
 var app = {
 
   
     initialize: function() {
         this.bindEvents();
-			
-		//loadJSONData()
-	},
+        },
 
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
@@ -17,19 +11,17 @@ var app = {
     },
 
     onDeviceReady: function() {
-        					jsonObject = JSON.parse('[{"id":1,"Password":"password123","Type": 2},{"id":2,"Password":"I<3Horses","Type": 2},{"id":3,"Password":"JknsD3@anmAiLfknsma!","Type": 2},{"id":4,"Password":"HappyDays","Type": 2},{"id":5,"Password":"TheBestPassword","Type": 2},{"id":6,"Password":"TheWorstPassword","Type": 2},{"id":7,"Password":"2@Atak","Type": 2},{"id":8,"Password":"24pples2D4y","Type": 2},{"id":9,"Password":"IWasBornIn1919191995","Type": 2},{"id":10,"Password":"2BorNot2B_ThatIsThe?","Type":1},{"id":10,"Password":"4Score&7yrsAgo","Type":1}]');
         document.addEventListener('touchmove', touchMove);
         document.addEventListener("touchstart",touchStart);
         document.addEventListener("touchend",touchEnd);
         
         
                     
-    
-        //requestAnimationFrame(main)
+        // Load passwords from file
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
-        dir.getFile("whack_results.json", {create:true}, function(file) {
+       
 		
-            results_file = file;
+           
             dir.getFile("info.json", {create:true}, function(file) {
                         update_file = file;
                         dir.getFile("whack_questions.json", {create:true}, function(file) {
@@ -62,11 +54,12 @@ var app = {
 					
 			});
                         })
-        });
+        
 	});
     },
 
 };
+var lastTime;
 var results_file
 var finger_x;
 var finger_y;
@@ -108,6 +101,8 @@ var miss_sound_index = 0;
 var hit_sound2;
 var miss_sound2;
 var disableClick = false;
+
+// Preload all audio assets, allows them to be played in a round-robin fashion
 function loadAudio() {
 	hit_sound = new Audio('assets/audio/hit.mp3');
 	hit_sound.load();
@@ -130,6 +125,8 @@ function loadAudio() {
 	}
   
 }
+
+// Remove Instruction Screen popup, continue to game
 function play(){
     document.body.removeChild(document.getElementById("introContainer"));
 	loadAudio();
@@ -137,11 +134,11 @@ function play(){
 	main();
     
 }
-
+// Change window location back to main
 function back(){
     window.location.href = 'main.html' + location.search
     
-    
+// Each moleHole has a mole associated with it
 }
 function moleHole(x,y){
 	this.x = x;
@@ -154,6 +151,7 @@ function moleHole(x,y){
 	this.mole = null;
 }
 
+// Moles, and all their attributes
 function mole(password,type,password_id,reason){
     this.img = moleImage;
 	this.password = password;
@@ -164,43 +162,30 @@ function mole(password,type,password_id,reason){
 
 }
 
-
+// Keep track of which mole the user touches
 var start = null;
 function startPoint(x,y,mole){
 	this.x = x;
     this.y = y;
     this.attachedTo = mole;
 }
+
+
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 document.body.appendChild(canvas)
 
+// Intiate mole array, populate it with moleHoles
 var moleArr = []
-
 for (i = 0; i < 2; i++)
 	for(j=0;j <3;j++)
                 moleArr.push(new moleHole(i*(window.innerWidth/2),(j*3+1)*(window.innerHeight/10)))
-var lastTime;
-function update(){
-	timer = timer - (Date.now() - lastTime)
-    timePercentage = timer/startTimer
-	if(timer <= 0){
-		
-		stopGame = true;
-        if (results_arr.length > 0){
-			writeResultsToFile()	
-			resultsPopup(0)
-        } else {
-            
-                endingPopup();	
-        
-        }
 
-	}
-	editObjects(Date.now() - lastTime)
-}
+
+// The series of popups following the game, displaying all passwords the player got wrong
+// Creates a new new HTML element and appends it to the document body
 function resultsPopup(number){
 	var oldPopup = document.getElementsByClassName("finalPopup")[0]
 	var oldDimmer = document.getElementsByClassName("dimmer")[0]
@@ -241,8 +226,11 @@ function resultsPopup(number){
 	popup.appendChild(reason)
 	popup.appendChild(next)
 	document.body.appendChild(popup)
-	results_arr2.push({"id":results_arr[number].id,"selected":results_arr[number].selected,"game_id":results_arr[number].game_id});
+	
 }
+
+// The end game popup that appears after the results popup
+// If MainMenu is pressed, then the results are pushed to the database
 function endingPopup(number){
 	var oldPopup = document.getElementsByClassName("finalPopup")[0]
 	var oldDimmer = document.getElementsByClassName("dimmer")[0]
@@ -306,6 +294,9 @@ function endingPopup(number){
 	popup.appendChild(mainMenu);
 	document.body.appendChild(popup)
 }
+
+// Resets all of the variables in the game in preparation for a new start
+// Removes any popups
 function restartGame(){
 	var oldPopup = document.getElementsByClassName("finalPopup")[0]
 	var oldDimmer = document.getElementsByClassName("dimmer")[0]
@@ -325,30 +316,8 @@ function restartGame(){
 	main();
 }
 
-function playMedia(src) {
-    
-    // Android needs the search path explicitly specified
-    if (navigator.userAgent.match(/Android/i) == "Android") {
-        src = '/android_asset/www/' + src;
-    }
-    
-    var mediaRes = new Media(src,
-                             function onSuccess() {
-                             // release the media resource once finished playing
-                             mediaRes.release();
-                             },
-                             function onError(e){
-                             console.log("error playing sound: " + JSON.stringify(e));
-                             });
-    mediaRes.play();
-    
-}
-
-
+// Stores the location of the touch to keep track of what mole is currently being worked
 function touchStart(e){
-
-	
-	
 		for(i=0;i<e.touches.length;i++){
 			for(j=0;j<6;j++){
 				if(e.touches[i].pageX >= moleArr[j].x && e.touches[i].pageX <= moleArr[j].x +moleArr[j].width && e.touches[i].pageY >= moleArr[j].y && e.touches[i].pageY <= moleArr[j].y + moleArr[j].height && moleArr[j].mole && moleArr[j].mole.img == moleImage){
@@ -361,22 +330,26 @@ function touchStart(e){
 	
 
 }
+
+// Ends the touch if user touches too close to right edge
+// Reason for this is that there is a strange occurence where the touch event freezes on the right edge of the canvas
 function touchMove(e){
-	
 		finger_x = e.touches[0].pageX;
 		finger_y = e.touches[0].pageY;
 		if ( e.touches[0].pageX / canvas.width >.98)
 			touchEnd(e);
 	
 }
+
 function touchEnd(e){
-//        console.log(e.changedTouches[0].pageX, e.changedTouches[0].pageY)
         if(start === null){return}
+    
+        //  If the mole disappears while user is still holding, reset the touch events
         if(moleArr[start.attachedTo].mole === null){
           start = null;
           return;
         }
-
+    // Record user's selection
         var colorSelect;
 	for(i=0;i<e.changedTouches.length;i++){
 			var xDistance = e.changedTouches[i].pageX - start.x
@@ -389,15 +362,17 @@ function touchEnd(e){
 				}
 				if(moleArr[start.attachedTo].mole.targetType == colorSelect){
 					score = score + Math.floor(moleArr[start.attachedTo].mole.delay/1000 + 1)*5
-                   
+                   results_arr2.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"reason":moleArr[start.attachedTo].mole.reason,"game_id":game_id,"score":score})
 					hit_sound_list[hit_sound_index%5].play();
 				hit_sound_index++;
 					moleArr[start.attachedTo].mole.img = hitImage;
                     moleArr[start.attachedTo].mole.password = '';
                     moleArr[start.attachedTo].mole.delay = hitMissDelay;
 				}else{
-					results_arr.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"reason":moleArr[start.attachedTo].mole.reason,"game_id":game_id})
-				
+					// Record incorrect selections for final screen
+                    results_arr.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"reason":moleArr[start.attachedTo].mole.reason,"game_id":game_id,"score":score})
+                    results_arr2.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"reason":moleArr[start.attachedTo].mole.reason,"game_id":game_id,"score":score})
+                    // Lose time for incorrect moles
 					timer = timer - 2000
                      
 					miss_sound_list[miss_sound_index%5].play();
@@ -410,20 +385,57 @@ function touchEnd(e){
         }
        start = null;
 }
-function render(){	
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.font = "24pt Ariel"
-        ctx.textAlign="center";
-        ctx.drawImage(bgImage,0,0,window.innerWidth,window.innerHeight)
-        ctx.strokeText(score,canvas.width*.09,canvas.height*.055);
-        ctx.fillText(score,canvas.width*.09,canvas.height*.055);
-    
-        ctx.drawImage(timeImage, canvas.width *.25, canvas.height*.01, (canvas.width - canvas.width *.3) * timePercentage, canvas.height*.05)
-        ctx.drawImage(timeBarImage, canvas.width*.25, canvas.height*.01, canvas.width - canvas.width *.3, canvas.height*.05)
 
+// Main game loop
+function main (){
+	if(!stopGame)
+		requestAnimationFrame(main)
+    update()
+	lastTime = Date.now()
+	render()
+	
+}
 
-        ctx.font = "5vw sans-serif";
+function update(){
+    timer = timer - (Date.now() - lastTime)
+    timePercentage = timer/startTimer
+    if(timer <= 0){
+        
+        stopGame = true;
+        if (results_arr.length > 0){
+            writeResultsToFile()
+            resultsPopup(0)
+        } else {
+            
+            endingPopup();
+            
+        }
+        
+    }
+    editObjects(Date.now() - lastTime)
+}
+
+function render(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = "24pt Ariel"
+    ctx.textAlign="center";
     
+    // Draw background first
+    ctx.drawImage(bgImage,0,0,window.innerWidth,window.innerHeight)
+    
+    // Draw score
+    ctx.strokeText(score,canvas.width*.09,canvas.height*.055);
+    ctx.fillText(score,canvas.width*.09,canvas.height*.055);
+    
+    // Draw time bar
+    ctx.drawImage(timeImage, canvas.width *.25, canvas.height*.01, (canvas.width - canvas.width *.3) * timePercentage, canvas.height*.05)
+    ctx.drawImage(timeBarImage, canvas.width*.25, canvas.height*.01, canvas.width - canvas.width *.3, canvas.height*.05)
+    
+    
+    ctx.font = "5vw sans-serif";
+    
+    // Only register a selection if user move's finger a certain distance
+    // Then, draw the appropriate mole selection image
     if (start && moleArr[start.attachedTo].mole) {
         var xDistance = finger_x - start.x
         if(xDistance > 15){
@@ -433,33 +445,28 @@ function render(){
         }
     }
     
-	for(i=0; i < 6; i++){
-                ctx.drawImage(moleArr[i].img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
-                if (moleArr[i].mole){
-                    ctx.drawImage(moleArr[i].mole.img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
-                    ctx.strokeText(moleArr[i].mole.password.substr(0,12),moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/2.5)
-                    ctx.fillText(moleArr[i].mole.password.substr(0,12),moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/2.5)
-
-                }
-	}
-	
-}
-
-function main (){
-	if(!stopGame)
-		requestAnimationFrame(main)
-    update()
-	lastTime = Date.now()
-	render()
-	
+    // Draw moles
+    for(i=0; i < 6; i++){
+        ctx.drawImage(moleArr[i].img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
+        if (moleArr[i].mole){
+            ctx.drawImage(moleArr[i].mole.img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
+            ctx.strokeText(moleArr[i].mole.password.substr(0,12),moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/2.5)
+            ctx.fillText(moleArr[i].mole.password.substr(0,12),moleArr[i].x + moleArr[i].width/2,moleArr[i].y + moleArr[i].height/2.5)
+            
+        }
+    }
+    
 }
 var millisecondsPerMole = 4500;
 function editObjects(dt){
 	for (i=0;i<6;i++){
+        // Randomly generates new moles in holes which have none
 		if (Math.random() < (1/millisecondsPerMole)*dt && moleArr[i].mole == null){
 			var random = getRandomInt(0,jsonObject.length -1)
 			moleArr[i].mole = new mole(jsonObject[random].password,jsonObject[random].password_type,jsonObject[random].id,jsonObject[random].wrong_message)
 		}
+        
+        // Update the timer until moles disappear
 		if(moleArr[i].mole != null){
 			moleArr[i].mole.delay = moleArr[i].mole.delay - dt
 			
@@ -469,44 +476,17 @@ function editObjects(dt){
                     start = null;
                 }
 			}
-		}
-		}
+        }
+    }
 				
-			
-	}
+}
 
-//}
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function writeResultsToFile(){
-	var filedata
-    results_file.file(function(file) {
-        var reader = new FileReader();
-
-        reader.onload = function(e) {
-			
-			filedata=this.result;
-
-			var datalog = JSON.stringify(results_arr);
-			if (filedata.length > 0){
-				datalog = "," + datalog;
-			}
-			results_file.createWriter(function(fileWriter) {
-				fileWriter.seek(fileWriter.length);
-				
-				fileWriter.write(datalog);
-				// window.location.href = 'whack_final.html?score=' + score
-
-			}, fail);
-        };
-
-        reader.readAsText(file);
-    }, fail);
-
-}
+        
 function fail(err){
 	alert(err)
 }

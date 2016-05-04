@@ -30,9 +30,6 @@
         },
         "cordova-plugin-nativeaudio": {
             "PACKAGE_NAME": "io.internetsecurityapp"
-        },
-        "cordova-plugin-splashscreen": {
-            "PACKAGE_NAME": "io.internetsecurityapp"
         }
     },
     "dependent_plugins": {}
