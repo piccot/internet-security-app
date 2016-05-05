@@ -102,13 +102,11 @@ h1 {
 .missed{
 	font-size:4.5vw;
 	text-align:center;
-	margin-bottom:4%;
-	margin-top:4%;
 	border-bottom:1px solid black;
 
 }
 .reason{
-	font-size:2vh;
+	font-size:2.5vh;
 	text-align:center;
 
 }
@@ -141,6 +139,7 @@ h1 {
     height: 13%;
     font-size: 3.2vh;
     margin-bottom: 4%;
+	
 
 }
 .finalScoreContainer{
@@ -251,6 +250,7 @@ canvas{
     border-radius: 28px;
     height: 8%;
     font-size: 31pt;
+	display:none;
 }
 .instructionHeader{
     
@@ -309,5 +309,5 @@ center {
     height: 8%;
     font-size: 24pt;
     margin-bottom: 4%;
-    
+    display:none;
 }

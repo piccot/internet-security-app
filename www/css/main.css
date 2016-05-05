@@ -27,7 +27,14 @@ html,body{
 	-webkit-overflow-scrolling: touch;
 	overflow:scroll;
 }
+.imageContainer{
+width:100%;
 
+}
+.imageContainer img{
+	background-color:lightgray;
+
+}
 .gameCard{
 	display: inline-block;
 	background-color: black;

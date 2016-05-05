@@ -12,40 +12,8 @@ var app = {
     },
 
     onDeviceReady: function() {
-        
-		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
-            dir.getFile("info.json", {create:true}, function(file) {
-                        update_file = file;
-			dir.getFile("mail_questions.json", {create:true}, function(file) {
-				questions_file = file;
-				questions_file.file(function(file) {
-				var reader = new FileReader();
-				reader.onload = function(e) {
-					filedata=this.result;
-                    jsonObject = JSON.parse(filedata);
-					update_file.file(function(file) {
-                                        var reader = new FileReader();
-                                        reader.onload = function(e) {
-                                            
-                                            filedata=this.result;
-                                                     filedata = JSON.parse(filedata);
-                                                     
-                                            pid = filedata.PID;
-                                                     canvas.addEventListener("touchstart",touchStart);
-                                    document.getElementsByClassName('back')[0].onclick = back;
-									document.getElementsByClassName('play')[0].onclick = play;
-                                                     };
-                                    reader.readAsText(file);
-                                    }, fail);
-                                    
-
-				};
-				reader.readAsText(file);
-			}, fail);
-			});
-			});
-        
-	});
+        setTimeout(loadEverything,1000);
+		
     },
 
 };
@@ -100,6 +68,45 @@ for(i=0;i<3;i++){
     mailArr[i] = [];
 }
 var spriteArr = [];
+
+function loadEverything(){
+window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
+            dir.getFile("info.json", {create:true}, function(file) {
+                        update_file = file;
+			dir.getFile("mail_questions.json", {create:true}, function(file) {
+				questions_file = file;
+				questions_file.file(function(file) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					filedata=this.result;
+                    jsonObject = JSON.parse(filedata);
+					update_file.file(function(file) {
+                                        var reader = new FileReader();
+                                        reader.onload = function(e) {
+                                            
+                                            filedata=this.result;
+                                                     filedata = JSON.parse(filedata);
+                                                     
+                                            pid = filedata.PID;
+                                                     canvas.addEventListener("touchstart",touchStart);
+													 document.getElementsByClassName('back')[0].style.display = "block";
+													 document.getElementsByClassName('play')[0].style.display = "block";
+                                    document.getElementsByClassName('back')[0].onclick = back;
+									document.getElementsByClassName('play')[0].onclick = play;
+                                                     };
+                                    reader.readAsText(file);
+                                    }, fail);
+                                    
+
+				};
+				reader.readAsText(file);
+			}, fail);
+			});
+			});
+        
+	});
+
+}
 function play(){
 	
     document.body.removeChild(document.getElementById("introContainer"));
@@ -116,7 +123,24 @@ function back(){
     
     
 }
-
+function mailTypeByInt(type){
+	if (type ==0)
+		return "Teacher Email";
+	else if (type == 1)
+		return "Job Email";
+	else if (type == 2)
+		return "Family Email";
+	else if (type == 3)
+		return "Account Security Email";
+	else if (type == 4)
+		return "Phishing Email";
+	else if (type == 5)
+		return "Fake Acc. Security Email";
+	else if (type == 6)
+		return "Virus Email";
+	else if (type == 7)
+		return "Spam";
+}
 // For sprite animations
 function sprite(options){
     
@@ -644,7 +668,7 @@ function resultsPopup(number){
 	popup.appendChild(gameOver);
 	var missed = document.createElement("div");
 	missed.className = "missed";
-	missed.innerHTML = "You Missed a " + results_arr[number].type + " email ";   
+	missed.innerHTML = "You Missed a " + mailTypeByInt(results_arr[number].type);  
 	var reason = document.createElement("div");
 	reason.className = "reason";			 
 	reason.innerHTML = results_arr[number].wrong_message; 

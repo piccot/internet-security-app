@@ -14,34 +14,12 @@ var app = {
 	},
 
     bindEvents: function() {
-        document.addEventListener('filePluginIsReady', this.onDeviceReady, false);
+        document.addEventListener('deviceready', this.onDeviceReady, false);
 		
     },
 
     onDeviceReady: function() {
-	
-		window.onerror = function(msg, url, linenumber) {
-			alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
-			return true;
-		}
-		popup = document.createElement("div");
-		popup.className = "popup";
-		var headerContainer= document.createElement("div");
-		headerContainer.className = "popupHeader";
-		var header = document.createElement("span");
-		header.innerHTML = "Checking For Updates";
-		
-		headerContainer.appendChild(header);
-		popup.appendChild(headerContainer);
-		
-		bodyContainer = document.createElement("div");
-		bodyContainer.className = "popupBody";
-		body = document.createElement("span")
-		body.innerHTML = "Checking...";
-		bodyContainer.appendChild(body);
-		popup.appendChild(bodyContainer);
-		document.body.appendChild(popup);
-		//load all the files we are going to need
+        //load all the files we are going to need
 		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
 		dir.getFile("info.json", {create:true}, function(file) {
 				update_file = file;
@@ -49,12 +27,35 @@ var app = {
 				questions_file = file;
 				dir.getFile("mail_questions.json", {create:true}, function(file) {
 					mail_questions_file = file;
+                            
+                            window.onerror = function(msg, url, linenumber) {
+                            alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+                            return true;
+                            }
+                            popup = document.createElement("div");
+                            popup.className = "popup";
+                            var headerContainer= document.createElement("div");
+                            headerContainer.className = "popupHeader";
+                            var header = document.createElement("span");
+                            header.innerHTML = "Checking For Updates";
+                            
+                            headerContainer.appendChild(header);
+                            popup.appendChild(headerContainer);
+                            
+                            bodyContainer = document.createElement("div");
+                            bodyContainer.className = "popupBody";
+                            body = document.createElement("span")
+                            body.innerHTML = "Checking...";
+                            bodyContainer.appendChild(body);
+                            popup.appendChild(bodyContainer);
+                            document.body.appendChild(popup);
+                            
 					checkForUpdates();
 					
 				});
 			});
 		});
-	});
+                                         },function (error) {alert("failed");});
     }
 
 };

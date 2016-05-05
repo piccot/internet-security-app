@@ -11,16 +11,50 @@ var app = {
     },
 
     onDeviceReady: function() {
-        document.addEventListener('touchmove', touchMove);
-        document.addEventListener("touchstart",touchStart);
-        document.addEventListener("touchend",touchEnd);
-        
-        
-                    
-        // Load passwords from file
-		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
-       
+       setTimeout(loadEverything,1000);
 		
+    },
+
+};
+var canvas;
+var ctx;
+var lastTime;
+var results_file
+var finger_x;
+var finger_y;
+var questions_file
+var results_arr = []
+var game_id = 1;
+var baseDelay = 5000
+var hitMissDelay = 2000
+var score = 0;
+var stopGame = false;
+var startTimer = 30000;
+var timer = startTimer;
+var pid;
+var update_file;
+var bgImage;
+var timeBarImage;
+var timeImage;
+var timePercentage = 1;
+var moleImage;
+var hitImage;
+var missImage;
+var moleHitImage;
+var moleMissImage;
+var hit_sound_list = [];
+var hit_sound_index = 0;
+var hit_sound;
+var miss_sound;
+var results_arr2 = [];
+var miss_sound_list = [];
+var miss_sound_index = 0;
+var hit_sound2;
+var miss_sound2;
+var disableClick = false;
+ // Load passwords from file
+function loadEverything(){
+	window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
            
             dir.getFile("info.json", {create:true}, function(file) {
                         update_file = file;
@@ -41,8 +75,22 @@ var app = {
                                                      filedata = JSON.parse(filedata);
                                                      console.log(filedata);
                                             pid = filedata.PID;
+                                                     
+                                                     canvas = document.createElement("canvas");
+                                                     ctx = canvas.getContext("2d");
+                                                     canvas.width = window.innerWidth;
+                                                     canvas.height = window.innerHeight;
+                                                     document.body.appendChild(canvas)
+													 loadImages();
+													 document.getElementsByClassName('back')[0].style.display = "block";
+													 document.getElementsByClassName('play')[0].style.display = "block";
                                                      document.getElementsByClassName('back')[0].onclick = back;
                                                      document.getElementsByClassName('play')[0].onclick = play;
+                                                     canvas.addEventListener('touchmove', touchMove);
+                                                     canvas.addEventListener("touchstart",touchStart);
+                                                     canvas.addEventListener("touchend",touchEnd);
+                                                     
+                                                     
                                                      };
                                     reader.readAsText(file);
                                     }, fail);
@@ -56,52 +104,26 @@ var app = {
                         })
         
 	});
-    },
 
-};
-var lastTime;
-var results_file
-var finger_x;
-var finger_y;
-var questions_file
-var results_arr = []
-var game_id = 1;
-var baseDelay = 5000
-var hitMissDelay = 2000
-var score = 0;
-var stopGame = false;
-var startTimer = 30000;
-var timer = startTimer;
-var pid;
-var update_file;
-var bgImage = new Image();
-bgImage.src = 'assets/img/passBG.png';
-var timeBarImage = new Image();
-timeBarImage.src = 'assets/img/time_bar.png'
-var timeImage = new Image();
-timeImage.src = 'assets/img/time.png'
-var timePercentage = 1;
-var moleImage = new Image();
-moleImage.src = 'assets/img/mole.png';
-var hitImage = new Image();
-hitImage.src = 'assets/img/hit.png';
-var missImage = new Image();
-missImage.src = 'assets/img/miss.png';
-var moleHitImage = new Image();
-moleHitImage.src = 'assets/img/mole_hit.png';
-var moleMissImage = new Image();
-moleMissImage.src = 'assets/img/mole_miss.png';
-var hit_sound_list = [];
-var hit_sound_index = 0;
-var hit_sound;
-var miss_sound;
-var results_arr2 = [];
-var miss_sound_list = [];
-var miss_sound_index = 0;
-var hit_sound2;
-var miss_sound2;
-var disableClick = false;
-
+}
+function loadImages(){
+	bgImage = new Image();
+	bgImage.src = 'assets/img/passBG.png';
+	timeBarImage = new Image();
+	timeBarImage.src = 'assets/img/time_bar.png'
+	timeImage = new Image();
+	timeImage.src = 'assets/img/time.png'
+	moleImage = new Image();
+	moleImage.src = 'assets/img/mole.png';
+    hitImage = new Image();
+	hitImage.src = 'assets/img/hit.png';
+	moleMissImage = new Image();
+	moleMissImage.src = 'assets/img/mole_miss.png';
+	moleHitImage = new Image();
+	moleHitImage.src = 'assets/img/mole_hit.png';
+	missImage = new Image();
+	missImage.src = 'assets/img/miss.png';
+}
 // Preload all audio assets, allows them to be played in a round-robin fashion
 function loadAudio() {
 	hit_sound = new Audio('assets/audio/hit.mp3');
@@ -123,7 +145,6 @@ function loadAudio() {
 		miss_sound_list.push(miss_sound2);
 	
 	}
-  
 }
 
 // Remove Instruction Screen popup, continue to game
@@ -169,13 +190,6 @@ function startPoint(x,y,mole){
     this.y = y;
     this.attachedTo = mole;
 }
-
-
-var canvas = document.createElement("canvas");
-var ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-document.body.appendChild(canvas)
 
 // Intiate mole array, populate it with moleHoles
 var moleArr = []
@@ -362,7 +376,7 @@ function touchEnd(e){
 				}
 				if(moleArr[start.attachedTo].mole.targetType == colorSelect){
 					score = score + Math.floor(moleArr[start.attachedTo].mole.delay/1000 + 1)*5
-                   results_arr2.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"reason":moleArr[start.attachedTo].mole.reason,"game_id":game_id,"score":score})
+                   results_arr2.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"game_id":game_id,"score":score})
 					hit_sound_list[hit_sound_index%5].play();
 				hit_sound_index++;
 					moleArr[start.attachedTo].mole.img = hitImage;
@@ -371,7 +385,7 @@ function touchEnd(e){
 				}else{
 					// Record incorrect selections for final screen
                     results_arr.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"reason":moleArr[start.attachedTo].mole.reason,"game_id":game_id,"score":score})
-                    results_arr2.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"reason":moleArr[start.attachedTo].mole.reason,"game_id":game_id,"score":score})
+                    results_arr2.push({"id":moleArr[start.attachedTo].mole.password_id,"selected":colorSelect,"password":moleArr[start.attachedTo].mole.password,"game_id":game_id,"score":score})
                     // Lose time for incorrect moles
 					timer = timer - 2000
                      
